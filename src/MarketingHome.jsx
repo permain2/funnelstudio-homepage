@@ -750,13 +750,14 @@ const reducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const REVEAL_MS = 700; // must match the [data-reveal] transition in the CSS
+
 // Groups that reveal on scroll. Stagger runs within a group, so a row of cards
 // arrives as a row rather than four unrelated elements.
 const revealGroups = [
   ".fsw-section-heading",
   ".fsw-intro-steps > div",
   ".fsw-performance-card",
-  ".fsw-angle-card",
   ".fsw-benefit",
   ".fsw-integration-grid > article",
   ".fsw-comparison-scroll",
@@ -772,8 +773,13 @@ const revealGroups = [
 function useReveal(rescanKey) {
   useEffect(() => {
     revealGroups.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el, index) => {
+      // Stagger counts per parent, so five section headings in five different
+      // sections each start at 0 rather than the last one waiting 320ms.
+      const seen = new Map();
+      document.querySelectorAll(selector).forEach((el) => {
         if (el.hasAttribute("data-reveal")) return;
+        const index = seen.get(el.parentElement) ?? 0;
+        seen.set(el.parentElement, index + 1);
         el.setAttribute("data-reveal", "out");
         if (index) el.style.setProperty("--d", `${Math.min(index, 5) * 80}ms`);
       });
@@ -784,18 +790,32 @@ function useReveal(rescanKey) {
       nodes.forEach((el) => el.setAttribute("data-reveal", "in"));
       return undefined;
     }
+    const timers = [];
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.setAttribute("data-reveal", "in");
           io.unobserve(entry.target);
+          // The stagger is for arrival only; leaving it set would delay the
+          // element's hover transition by the same amount.
+          const delay = parseFloat(entry.target.style.getPropertyValue("--d"));
+          if (delay)
+            timers.push(
+              setTimeout(
+                () => entry.target.style.setProperty("--d", "0ms"),
+                REVEAL_MS + delay,
+              ),
+            );
         });
       },
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
     );
     nodes.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      timers.forEach(clearTimeout);
+    };
   }, [rescanKey]);
 }
 
@@ -833,20 +853,23 @@ const TYPE_MS = 17;
 const STEP_MS = 520;
 const SETTLE_MS = 420;
 const HOLD_MS = 2600;
+const BUILD_START = { typed: 0, step: -1 };
+const BUILD_END = { typed: heroPrompt.length, step: heroSteps.length };
 
 // One rAF loop drives the whole hero. State only updates when a derived value
 // actually changes, so the sequence costs ~2 renders per second, not 60.
-function useBuildTimeline(enabled) {
-  const finished = { typed: heroPrompt.length, step: heroSteps.length };
-  const [state, setState] = useState(() =>
-    enabled ? { typed: 0, step: -1 } : finished,
-  );
+// `showEnd` is the static path (reduced motion, no IntersectionObserver);
+// `running` false just freezes wherever the sequence got to.
+function useBuildTimeline(running, showEnd) {
+  const [state, setState] = useState(showEnd ? BUILD_END : BUILD_START);
   const last = useRef(state);
   useEffect(() => {
-    if (!enabled) {
-      setState(finished);
+    if (showEnd) {
+      last.current = BUILD_END;
+      setState(BUILD_END);
       return undefined;
     }
+    if (!running) return undefined;
     const typeEnd = heroPrompt.length * TYPE_MS;
     const stepStart = typeEnd + SETTLE_MS;
     const loop = stepStart + (heroSteps.length + 1) * STEP_MS + HOLD_MS;
@@ -869,27 +892,31 @@ function useBuildTimeline(enabled) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled]);
+  }, [running, showEnd]);
   return state;
 }
 
 function HeroBuild() {
   const stage = useRef(null);
-  const [live, setLive] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  // Decided during the first render, not in an effect, so the static path
+  // paints its finished state instead of flashing an empty terminal first.
+  const [showEnd] = useState(
+    () => reducedMotion() || !("IntersectionObserver" in window),
+  );
   useEffect(() => {
-    if (reducedMotion() || !("IntersectionObserver" in window))
-      return undefined;
+    if (showEnd) return undefined;
     const node = stage.current;
     if (!node) return undefined;
     const io = new IntersectionObserver(
-      ([entry]) => setLive(entry.isIntersecting),
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.15 },
     );
     io.observe(node);
     return () => io.disconnect();
-  }, []);
-  const { typed, step } = useBuildTimeline(live);
+  }, [showEnd]);
+  const { typed, step } = useBuildTimeline(inView && !paused, showEnd);
   const built = step >= heroSteps.length;
   return (
     <div className="fsh-stage" ref={stage}>
@@ -899,17 +926,37 @@ function HeroBuild() {
           <i />
           <i />
           <span>your terminal</span>
+          {!showEnd && (
+            <button
+              type="button"
+              className="fsh-pause"
+              onClick={() => setPaused(!paused)}
+              aria-label={
+                paused
+                  ? "Play the funnel build animation"
+                  : "Pause the funnel build animation"
+              }
+            >
+              <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
+            </button>
+          )}
         </div>
         {/* The visible line retypes on a loop, so assistive tech reads the
-            static copy below it rather than a stream of partial words. */}
+            static copy below it rather than a stream of partial words. The
+            untyped remainder stays in flow but hidden, so the box never
+            changes height mid-sequence and shifts the funnel card below it. */}
         <p className="fsh-terminal-body" aria-hidden="true">
           <span className="fsh-prompt-mark">›</span>
           <span>{heroPrompt.slice(0, typed)}</span>
           <span
             className={`fsh-caret${typed >= heroPrompt.length ? " is-idle" : ""}`}
           />
+          <span className="fsh-untyped">{heroPrompt.slice(typed)}</span>
         </p>
-        <p className="fsh-sr">Example prompt: {heroPrompt}</p>
+        <p className="fsh-sr">
+          Example prompt: {heroPrompt} FunnelStudio builds these steps:{" "}
+          {heroSteps.map((item) => item.name).join(", ")}.
+        </p>
       </div>
       <div className="fsh-funnel" aria-hidden="true">
         <span className="fsh-funnel-label">
@@ -988,9 +1035,13 @@ export default function MarketingHome() {
   useEffect(() => {
     const node = heroRef.current;
     if (!node || !("IntersectionObserver" in window)) return undefined;
+    // Measured, not hardcoded: the header is 88px on desktop and 72px at ≤800px,
+    // and a fixed inset flips the colour with hero still behind the bar.
+    const headerHeight =
+      document.querySelector(".fsw-header")?.offsetHeight || 88;
     const io = new IntersectionObserver(
-      ([entry]) => setOverHero(entry.intersectionRatio > 0),
-      { rootMargin: "-88px 0px 0px 0px", threshold: 0 },
+      ([entry]) => setOverHero(entry.isIntersecting),
+      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 },
     );
     io.observe(node);
     return () => io.disconnect();
@@ -1032,7 +1083,9 @@ export default function MarketingHome() {
     else return;
     event.preventDefault();
     selectExample(next);
-    exampleTabs.current?.children[next]?.focus();
+    // Query the tabs rather than indexing children: the tablist also contains
+    // the sliding indicator, which is not a tab.
+    exampleTabs.current?.querySelectorAll('[role="tab"]')[next]?.focus();
   }
   return (
     <div className="fsw-home">
