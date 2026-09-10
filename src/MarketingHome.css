@@ -53,3 +53,130 @@
 @media(max-width:540px){.fsw-performance-card{grid-template-columns:1fr;padding:26px 23px;gap:25px}.fsw-performance-copy h3{font-size:29px}.fsw-performance-copy>p{font-size:13px}.fsw-performance-copy>button{font-size:12px;width:100%}.fsw-performance-art{justify-self:center;max-width:240px}.fsw-performance-art-label{font-size:10px}.fsw-performance-art>div{padding:22px 18px}.fsw-mini-checkout footer,.fsw-mini-offer footer,.fsw-mini-offer>div,.fsw-mini-offer .fsw-mini-downsell{font-size:11px}.fsw-mini-offer-branches{font-size:10px}.fsw-mini-payments>strong{font-size:12px}.fsw-mini-payments>small{font-size:10px}.fsw-mini-payments>div{font-size:17px}.fsw-mini-cart footer{font-size:10px}.fsw-mini-cart-addon{font-size:10px}.fsw-mini-cart-item>i{width:36px;height:45px}.fsw-mini-cart-item small{font-size:10px}}
 .fsw-performance-note{font-size:11px;color:#8393aa;line-height:1.8;margin-top:20px;max-width:880px}
 .fsw-mini-offer-branches{flex-direction:column;gap:7px;text-align:left}
+
+/* ── v2: console hero, motion system, micro-interactions ──────────────── */
+.fsw-home{--fsh-console:#0b1120;--fsh-console-2:#131c30;--fsh-slate:#8da2c0;--fsh-line:rgba(255,255,255,.09);--fsh-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* Reveal-on-scroll. Opt in per element with data-reveal="out". */
+[data-reveal]{transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);transition-delay:var(--d,0ms)}
+[data-reveal="out"]{opacity:0;transform:translateY(22px)}
+[data-reveal="in"]{opacity:1;transform:none}
+
+/* Hero — the one dark band on the page. */
+.fsh-hero{background:var(--fsh-console);color:#fff;border-radius:26px;margin:14px 16px 0;padding:0;overflow:hidden;position:relative;isolation:isolate}
+.fsh-hero::before{content:"";position:absolute;inset:-40% -10% auto;height:150%;z-index:-1;background:radial-gradient(60% 55% at 22% 0%,rgba(18,96,235,.42),transparent 62%),radial-gradient(45% 45% at 88% 18%,rgba(18,96,235,.2),transparent 65%)}
+.fsh-hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:linear-gradient(var(--fsh-line) 1px,transparent 1px),linear-gradient(90deg,var(--fsh-line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(72% 60% at 50% 12%,#000,transparent 78%)}
+.fsh-hero-inner{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(32px,4vw,72px);align-items:center;padding:clamp(56px,6vw,96px) clamp(28px,4.5vw,76px) clamp(40px,4vw,64px)}
+.fsh-hero-copy{max-width:620px}
+.fsh-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--fsh-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fsh-slate);border:1px solid var(--fsh-line);background:rgba(255,255,255,.04);padding:7px 14px;border-radius:999px}
+.fsh-eyebrow i{width:7px;height:7px;border-radius:50%;background:#4d8dff;box-shadow:0 0 0 4px rgba(77,141,255,.18)}
+.fsh-hero h1{margin:26px 0 0;font-size:clamp(40px,5.1vw,74px);letter-spacing:-.045em;line-height:1.02;color:#fff}
+.fsh-hero h1 span{color:#7fa9ff}
+.fsh-hero-copy>p{margin-top:22px;max-width:53ch;font-size:clamp(15px,1.15vw,18px);color:#b9c7dc;line-height:1.6}
+.fsh-hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.fsh-hero-note{margin-top:20px;font-family:var(--fsh-mono);font-size:12.5px;color:var(--fsh-slate)}
+.fsw-home .fsh-button-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:14px 26px}
+.fsw-home .fsh-button-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
+
+/* Hero stage: the terminal drives the funnel graph beside it. */
+.fsh-stage{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.fsh-terminal{background:rgba(9,14,26,.82);border:1px solid var(--fsh-line);border-radius:15px;overflow:hidden;backdrop-filter:blur(8px)}
+.fsh-terminal-bar{display:flex;align-items:center;gap:7px;padding:11px 15px;border-bottom:1px solid var(--fsh-line)}
+.fsh-terminal-bar i{width:9px;height:9px;border-radius:50%;background:#2c3a52}
+.fsh-terminal-bar span{margin-left:8px;font-family:var(--fsh-mono);font-size:11.5px;color:#657f9e}
+.fsh-terminal-body{padding:17px 18px 20px;font-family:var(--fsh-mono);font-size:13px;line-height:1.72;color:#dfe8f6;min-height:104px;word-break:break-word}
+.fsh-prompt-mark{color:#4d8dff;margin-right:9px}
+.fsh-caret{display:inline-block;width:8px;height:15px;margin-left:2px;vertical-align:-2px;background:#4d8dff;animation:fsh-blink 1s steps(2) infinite}
+.fsh-caret.is-idle{opacity:.35}
+@keyframes fsh-blink{50%{opacity:0}}
+.fsh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fsh-funnel{background:rgba(255,255,255,.045);border:1px solid var(--fsh-line);border-radius:15px;padding:16px}
+.fsh-funnel-label{display:flex;align-items:center;justify-content:space-between;font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--fsh-slate)}
+.fsh-funnel-label b{font-weight:500;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:#93a7c4;transition:background .4s,color .4s}
+.fsh-funnel-label b.is-live{background:rgba(18,96,235,.24);color:#8fb6ff}
+.fsh-steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
+.fsh-steps li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;padding:11px 13px;border-radius:10px;border:1px solid transparent;background:rgba(255,255,255,.03);opacity:.42;transform:translateX(-6px);transition:opacity .45s,transform .45s,background .45s,border-color .45s}
+.fsh-steps li.is-active,.fsh-steps li.is-done{opacity:1;transform:none}
+.fsh-steps li.is-active{background:rgba(18,96,235,.16);border-color:rgba(77,141,255,.42)}
+.fsh-step-dot{width:8px;height:8px;border-radius:50%;background:#3a4a66;transition:background .4s,box-shadow .4s}
+.fsh-steps li.is-active .fsh-step-dot{background:#4d8dff;box-shadow:0 0 0 4px rgba(77,141,255,.2)}
+.fsh-steps li.is-done .fsh-step-dot{background:#5ad6a0}
+.fsh-step-name{font-size:13.5px;color:#e6edf9}
+.fsh-step-meta{font-family:var(--fsh-mono);font-size:11px;color:var(--fsh-slate)}
+.fsh-render{margin-top:13px;border-radius:11px;overflow:hidden;border:1px solid var(--fsh-line);background:#0e1626;height:168px;opacity:.2;filter:blur(7px) saturate(.5);transition:opacity .7s ease,filter .7s ease}
+.fsh-render.is-built{opacity:1;filter:none}
+.fsh-render img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.fsh-stack{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;padding:20px clamp(28px,4.5vw,76px) 26px;border-top:1px solid var(--fsh-line)}
+.fsh-stack>span{font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#6b7f9c}
+.fsh-stack ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px 24px;margin:0;padding:0}
+.fsh-stack li{font-size:14.5px;font-weight:500;color:#93a7c4;letter-spacing:-.01em}
+
+@media(max-width:980px){.fsh-hero-inner{grid-template-columns:1fr;padding-top:clamp(44px,7vw,64px)}.fsh-hero-copy{max-width:none}}
+@media(max-width:540px){.fsh-hero{margin:10px 10px 0;border-radius:20px}.fsh-hero-inner{padding:38px 20px 30px;gap:26px}.fsh-hero h1{font-size:clamp(32px,9vw,42px)}.fsh-hero-actions{gap:10px}.fsh-hero-actions>a{flex:1 1 100%;justify-content:center}.fsh-terminal-body{font-size:12px;min-height:120px}.fsh-stack{padding:18px 20px 22px}.fsh-render{height:132px}}
+@media(prefers-reduced-motion:reduce){[data-reveal]{transition:none}[data-reveal="out"]{opacity:1;transform:none}.fsh-caret{animation:none}.fsh-render{opacity:1;filter:none}.fsh-steps li{opacity:1;transform:none}}
+
+/* Header adapts to the band it is sitting on. */
+.fsw-home .fsh-header-dark{background:var(--fsh-console);border-bottom-color:transparent;color:#fff}
+.fsw-home .fsh-header-dark .fsw-logo-mark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16);box-shadow:none;color:#fff}
+.fsw-home .fsh-header-dark .fsw-navigation>a,.fsw-home .fsh-header-dark .fsw-nav-auth>a{color:#c3d0e4}
+.fsw-home .fsh-header-dark .fsw-navigation>a:hover,.fsw-home .fsh-header-dark .fsw-nav-auth>a:hover{color:#fff}
+.fsw-home .fsw-header{transition:background .35s ease,color .35s ease,border-color .35s ease}
+
+/* Hero primary CTA carries the accent; the page's only bright surface here. */
+.fsh-hero .fsw-button-start{background:var(--fsw-blue);color:#fff;border:none;box-shadow:0 8px 26px rgba(18,96,235,.4)}
+.fsh-hero .fsw-button-start:hover{background:#0f4dc7;box-shadow:0 12px 32px rgba(18,96,235,.5)}
+.fsw-home .fsw-button-start,.fsw-home .fsh-button-ghost{transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s,box-shadow .22s}
+.fsw-home .fsw-button-start:hover,.fsw-home .fsh-button-ghost:hover{transform:translateY(-2px)}
+
+/* Give the headline room so it breaks on the written line, not mid-phrase. */
+.fsh-hero-inner{grid-template-columns:minmax(0,1.04fr) minmax(0,1fr)}
+.fsh-hero h1{font-size:clamp(38px,4.35vw,64px)}
+.fsh-hero-copy{max-width:660px}
+@media(max-width:980px){.fsh-hero-inner{grid-template-columns:1fr}}
+
+/* The terminal body sits directly under the chrome bar, not centred in it. */
+.fsh-terminal{display:flex;flex-direction:column}
+.fsh-terminal-body{flex:1 1 auto;margin:0}
+
+/* Pointer spotlight for [data-spot] cards. */
+[data-spot]{position:relative;isolation:isolate;transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
+[data-spot]::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;opacity:0;transition:opacity .3s;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(18,96,235,.09),transparent 70%)}
+[data-spot]:hover{transform:translateY(-3px);border-color:rgba(18,96,235,.28);box-shadow:0 14px 40px rgba(17,24,28,.09)}
+[data-spot]:hover::before{opacity:1}
+@media(hover:none){[data-spot]:hover{transform:none;box-shadow:none}[data-spot]::before{display:none}}
+@media(prefers-reduced-motion:reduce){[data-spot]{transition:none}[data-spot]:hover{transform:none}}
+
+/* Terminal-style surfaces use a real mono, not the body face. */
+.fsw-terminal-example p,.fsw-build-prompt,.fsw-terminal-example>div>span{font-family:var(--fsh-mono)}
+.fsw-build-prompt{font-size:12.5px;line-height:1.7}
+
+/* On the dark header the solid-dark CTA disappears; invert it. */
+.fsw-home .fsh-header-dark .fsw-nav-start{background:#fff;color:#0b1120!important}
+.fsw-home .fsh-header-dark .fsw-nav-start:hover{background:#e7ecf5}
+.fsw-home .fsh-header-dark .fsw-menu-toggle{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+/* The hero is its own card now, so the section under it closes its own shape. */
+.fsw-intro{border-radius:24px;margin-top:14px}
+
+/* .fsw-hero p (0,1,1) outranks a lone class, and it carries `margin:26px auto`,
+   max-width, colour and size meant for the old centred hero. Scope past it. */
+.fsh-hero .fsh-terminal-body{margin:0;max-width:none;font-size:13px;color:#dfe8f6;text-align:left}
+.fsh-hero .fsh-hero-note{margin:20px 0 0;max-width:none;font-size:12.5px;color:var(--fsh-slate)}
+.fsh-hero .fsh-stack>span{color:#6b7f9c}
+@media(max-width:540px){.fsh-hero .fsh-terminal-body{font-size:12px}}
+.fsh-hero .fsh-sr{position:absolute;width:1px;height:1px;margin:0;max-width:none;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Sliding pill behind the selected build tab; the button keeps the text colour
+   but hands its filled background to the indicator so the fill can travel. */
+.fsw-build-tabs{position:relative}
+.fsw-tab-indicator{position:absolute;top:0;left:0;border-radius:999px;background:var(--fsw-blue);pointer-events:none;transition:transform .38s cubic-bezier(.22,1,.36,1),width .38s cubic-bezier(.22,1,.36,1),height .38s,opacity .2s}
+.fsw-build-tabs button{position:relative;z-index:1;transition:color .25s,border-color .25s}
+.fsw-build-tabs button[aria-selected=true]{background:transparent;border-color:transparent;color:#fff}
+.fsw-build-tabs button[aria-selected=false]:hover{color:var(--fsw-blue);border-color:#b9cdf0}
+@media(prefers-reduced-motion:reduce){.fsw-tab-indicator{transition:none}}
+
+/* FAQ rows open with the disclosure, and the marker states which way it goes. */
+.fsw-faq details summary span{display:inline-block;transition:transform .28s cubic-bezier(.22,1,.36,1)}
+.fsw-faq details[open] summary span{transform:rotate(45deg)}
+.fsw-faq details p{animation:fsh-open .32s cubic-bezier(.22,1,.36,1) both}
+@keyframes fsh-open{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.fsw-faq details summary span,.fsw-faq details p{transition:none;animation:none}}

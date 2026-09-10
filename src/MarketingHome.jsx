@@ -746,6 +746,210 @@ function StoreDemo({ view, onNavigate }) {
   );
 }
 
+const reducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Groups that reveal on scroll. Stagger runs within a group, so a row of cards
+// arrives as a row rather than four unrelated elements.
+const revealGroups = [
+  ".fsw-section-heading",
+  ".fsw-intro-steps > div",
+  ".fsw-performance-card",
+  ".fsw-angle-card",
+  ".fsw-benefit",
+  ".fsw-integration-grid > article",
+  ".fsw-comparison-scroll",
+  ".fsw-capabilities",
+  ".fsw-demo > div",
+  ".fsw-feature-banner > div",
+  ".fsw-faq details",
+  ".fsw-final > *",
+];
+
+// Reveal-on-scroll. Marked from JS rather than in the markup so a 1,800-line
+// page opts in by selector instead of by threading a prop through every node.
+function useReveal(rescanKey) {
+  useEffect(() => {
+    revealGroups.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((el, index) => {
+        if (el.hasAttribute("data-reveal")) return;
+        el.setAttribute("data-reveal", "out");
+        if (index) el.style.setProperty("--d", `${Math.min(index, 5) * 80}ms`);
+      });
+    });
+    const nodes = document.querySelectorAll('[data-reveal="out"]');
+    if (!nodes.length) return undefined;
+    if (reducedMotion() || !("IntersectionObserver" in window)) {
+      nodes.forEach((el) => el.setAttribute("data-reveal", "in"));
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.setAttribute("data-reveal", "in");
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+    );
+    nodes.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [rescanKey]);
+}
+
+// Pointer-tracked highlight for [data-spot] cards, via one passive listener.
+function useSpotlight() {
+  useEffect(() => {
+    document
+      .querySelectorAll(
+        ".fsw-performance-card,.fsw-benefit,.fsw-integration-grid > article,.fsw-faq details",
+      )
+      .forEach((el) => el.setAttribute("data-spot", ""));
+    if (window.matchMedia("(hover: none)").matches || reducedMotion())
+      return undefined;
+    const onMove = (event) => {
+      const card = event.target.closest?.("[data-spot]");
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => document.removeEventListener("pointermove", onMove);
+  }, []);
+}
+
+const heroPrompt =
+  "Clone our best product page, rebuild it for the travel angle, connect Stripe checkout and a berberine upsell, then send me a preview link.";
+const heroSteps = [
+  { name: "Landing page", meta: "travel angle" },
+  { name: "Checkout", meta: "Stripe" },
+  { name: "Upsell", meta: "Berberine · 1-click" },
+  { name: "Thank you", meta: "order details" },
+];
+const TYPE_MS = 17;
+const STEP_MS = 520;
+const SETTLE_MS = 420;
+const HOLD_MS = 2600;
+
+// One rAF loop drives the whole hero. State only updates when a derived value
+// actually changes, so the sequence costs ~2 renders per second, not 60.
+function useBuildTimeline(enabled) {
+  const finished = { typed: heroPrompt.length, step: heroSteps.length };
+  const [state, setState] = useState(() =>
+    enabled ? { typed: 0, step: -1 } : finished,
+  );
+  const last = useRef(state);
+  useEffect(() => {
+    if (!enabled) {
+      setState(finished);
+      return undefined;
+    }
+    const typeEnd = heroPrompt.length * TYPE_MS;
+    const stepStart = typeEnd + SETTLE_MS;
+    const loop = stepStart + (heroSteps.length + 1) * STEP_MS + HOLD_MS;
+    let raf = 0;
+    let start;
+    last.current = { typed: -1, step: -2 };
+    const tick = (now) => {
+      if (start === undefined) start = now;
+      const t = (now - start) % loop;
+      const typed = Math.min(heroPrompt.length, Math.floor(t / TYPE_MS));
+      const step =
+        t < stepStart
+          ? -1
+          : Math.min(heroSteps.length, Math.floor((t - stepStart) / STEP_MS));
+      if (typed !== last.current.typed || step !== last.current.step) {
+        last.current = { typed, step };
+        setState(last.current);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled]);
+  return state;
+}
+
+function HeroBuild() {
+  const stage = useRef(null);
+  const [live, setLive] = useState(false);
+  useEffect(() => {
+    if (reducedMotion() || !("IntersectionObserver" in window))
+      return undefined;
+    const node = stage.current;
+    if (!node) return undefined;
+    const io = new IntersectionObserver(
+      ([entry]) => setLive(entry.isIntersecting),
+      { threshold: 0.15 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+  const { typed, step } = useBuildTimeline(live);
+  const built = step >= heroSteps.length;
+  return (
+    <div className="fsh-stage" ref={stage}>
+      <div className="fsh-terminal">
+        <div className="fsh-terminal-bar">
+          <i />
+          <i />
+          <i />
+          <span>your terminal</span>
+        </div>
+        {/* The visible line retypes on a loop, so assistive tech reads the
+            static copy below it rather than a stream of partial words. */}
+        <p className="fsh-terminal-body" aria-hidden="true">
+          <span className="fsh-prompt-mark">›</span>
+          <span>{heroPrompt.slice(0, typed)}</span>
+          <span
+            className={`fsh-caret${typed >= heroPrompt.length ? " is-idle" : ""}`}
+          />
+        </p>
+        <p className="fsh-sr">Example prompt: {heroPrompt}</p>
+      </div>
+      <div className="fsh-funnel" aria-hidden="true">
+        <span className="fsh-funnel-label">
+          Your funnel
+          <b className={built ? "is-live" : ""}>
+            {built ? "Live" : "Building"}
+          </b>
+        </span>
+        <ol className="fsh-steps">
+          {heroSteps.map((item, index) => (
+            <li
+              key={item.name}
+              className={
+                step > index ? "is-done" : step === index ? "is-active" : ""
+              }
+            >
+              <span className="fsh-step-dot" />
+              <span className="fsh-step-name">{item.name}</span>
+              <span className="fsh-step-meta">{item.meta}</span>
+            </li>
+          ))}
+        </ol>
+        <div className={`fsh-render${built ? " is-built" : ""}`}>
+          <Preview image="framer-01.webp" eager priority alt="" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const stackLogos = [
+  "Stripe",
+  "PayPal",
+  "NMI",
+  "Shopify",
+  "Klaviyo",
+  "Zamp",
+  "Claude Code",
+];
+
 export default function MarketingHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [exampleIndex, setExampleIndex] = useState(0);
@@ -754,6 +958,43 @@ export default function MarketingHome() {
   const [playing, setPlaying] = useState(false);
   const exampleTabs = useRef(null);
   const menuButton = useRef(null);
+  const heroRef = useRef(null);
+  const [overHero, setOverHero] = useState(true);
+  const [indicator, setIndicator] = useState({ opacity: 0 });
+  // The selected tab's pill is measured rather than styled per-tab, so it slides
+  // between tabs and still lands correctly on the 2x2 mobile grid.
+  useEffect(() => {
+    const move = () => {
+      const tab = exampleTabs.current?.querySelector(
+        '[role="tab"][aria-selected="true"]',
+      );
+      if (!tab) return;
+      setIndicator({
+        opacity: 1,
+        transform: `translate(${tab.offsetLeft}px, ${tab.offsetTop}px)`,
+        width: tab.offsetWidth,
+        height: tab.offsetHeight,
+      });
+    };
+    move();
+    window.addEventListener("resize", move);
+    // Tab widths change when the webfont swaps in, which fires no resize event.
+    document.fonts?.ready.then(move).catch(() => {});
+    return () => window.removeEventListener("resize", move);
+  }, [exampleIndex]);
+  useReveal(exampleIndex);
+  useSpotlight();
+  // The header sits on the dark hero at rest and on paper once past it.
+  useEffect(() => {
+    const node = heroRef.current;
+    if (!node || !("IntersectionObserver" in window)) return undefined;
+    const io = new IntersectionObserver(
+      ([entry]) => setOverHero(entry.intersectionRatio > 0),
+      { rootMargin: "-88px 0px 0px 0px", threshold: 0 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
   useEffect(() => {
     if (!menuOpen) return undefined;
     const close = (event) => {
@@ -803,13 +1044,13 @@ export default function MarketingHome() {
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Wix+Madefor+Text:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Wix+Madefor+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         />
       </Helmet>
       <a className="fsw-skip" href="#main-content">
         Skip to content
       </a>
-      <header className="fsw-header">
+      <header className={`fsw-header${overHero ? " fsh-header-dark" : ""}`}>
         <Logo />
         <button
           className="fsw-menu-toggle"
@@ -829,7 +1070,7 @@ export default function MarketingHome() {
           onClick={() => setMenuOpen(false)}
         >
           <a href="#canvas">Product</a>
-          <a href="#use-cases">Use cases</a>
+          <a href="#templates">Use cases</a>
           <Link to="/top-funnels">Templates</Link>
           <Link to="/pricing">Pricing</Link>
           <div className="fsw-nav-auth">
@@ -837,6 +1078,8 @@ export default function MarketingHome() {
             <Link
               className="fsw-nav-demo"
               to="https://calendly.com/markusa/markus-call-ecom"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Schedule a demo
             </Link>
@@ -847,81 +1090,46 @@ export default function MarketingHome() {
         </nav>
       </header>
       <main id="main-content">
-        <section className="fsw-hero">
-          <div className="fsw-hero-copy">
-            <span className="fsw-eyebrow fsw-hero-eyebrow">
-              <span aria-hidden="true" /> FOR ECOMMERCE TEAMS THAT TEST TO GROW
-            </span>
-            <h1>
-              Your ecommerce store.
-              <br />
-              <span>Built with AI.</span>
-            </h1>
-            <p>
-              Create custom checkout pages, upsell flows, and thank-you pages{" "}
-              <span style={{ whiteSpace: "nowrap" }}>
-                through your terminal.
+        <section className="fsw-hero fsh-hero" ref={heroRef}>
+          <div className="fsh-hero-inner">
+            <div className="fsh-hero-copy">
+              <span className="fsh-eyebrow">
+                <i aria-hidden="true" /> Ecommerce funnels, built by prompt
               </span>
-              <br className="fsw-desktop-break" /> Test new ideas to improve
-              average order value and conversion.
-            </p>
-            <div className="fsw-hero-actions">
-              <Link
-                className="fsw-button fsw-button-demo"
-                to="https://calendly.com/markusa/markus-call-ecom"
-              >
-                Schedule a demo
-              </Link>
-              <StartLink />
+              <h1>
+                Ship the next variation
+                <br />
+                <span>before the ad fatigues.</span>
+              </h1>
+              <p>
+                Describe the page you want. FunnelStudio builds the landing
+                page, checkout, upsell and thank-you step, connects them, and
+                hands back a preview link you approve before it goes live.
+              </p>
+              <div className="fsh-hero-actions">
+                <StartLink />
+                <Link
+                  className="fsw-button fsh-button-ghost"
+                  to="https://calendly.com/markusa/markus-call-ecom"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Schedule a demo
+                </Link>
+              </div>
+              <p className="fsh-hero-note">
+                Free to start · Bring your own Stripe, PayPal or NMI account
+              </p>
             </div>
-            <div className="fsw-hero-note">
-              <span>Prompt to build</span>
-              <i />
-              <span>Shopify connected</span>
-              <i />
-              <span>Your own domain</span>
-            </div>
+            <HeroBuild />
           </div>
-          <div
-            className="fsw-showcase"
-            aria-label="Ecommerce page designs created with FunnelStudio"
-          >
-            <div className="fsw-glow" />
-            <div className="fsw-floating-page fsw-floating-left">
-              <Preview
-                image="framer-03.webp"
-                eager
-                alt="Long-form ecommerce product story"
-              />
-            </div>
-            <div className="fsw-editor-preview">
-              <div className="fsw-editor-top">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d={logoPath} fill="currentColor" fillRule="evenodd" />
-                </svg>
-                <span>Summer product launch</span>
-                <span className="fsw-editor-state">Page preview</span>
-              </div>
-              <div className="fsw-editor-body">
-                <Preview
-                  image="framer-01.webp"
-                  eager
-                  priority
-                  alt="Product page with product imagery, purchase options, and customer reviews"
-                />
-              </div>
-            </div>
-            <div className="fsw-floating-page fsw-floating-right">
-              <Preview
-                image="framer-02.webp"
-                eager
-                alt="Campaign landing page example"
-              />
-            </div>
-            <div className="fsw-showcase-caption">
-              <span className="fsw-caption-dot" /> YOUR PRODUCT. YOUR BRAND.
-              YOUR NEXT LAUNCH.
-            </div>
+          <div className="fsh-stack">
+            <span>Connects to the stack you already run</span>
+            <ul>
+              {stackLogos.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
           </div>
         </section>
         <section className="fsw-intro fsw-section" id="how">
@@ -1164,6 +1372,11 @@ export default function MarketingHome() {
             ref={exampleTabs}
             onKeyDown={navigateExamples}
           >
+            <span
+              className="fsw-tab-indicator"
+              style={indicator}
+              aria-hidden="true"
+            />
             {buildExamples.map((item, index) => (
               <button
                 key={item.key}
@@ -1225,108 +1438,6 @@ export default function MarketingHome() {
             <StoreDemo view={example.key} onNavigate={selectExample} />
           </div>
         </section>
-        <section className="fsw-ad-angles fsw-section" id="use-cases">
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">
-                ONE PRODUCT. THREE REASONS TO CLICK.
-              </span>
-              <h2>
-                Give every winning ad a page
-                <br />
-                that follows through.
-              </h2>
-            </div>
-            <p>
-              Keep the product. Change the angle, headline, and offer. Build a
-              focused variation for the audience you’re reaching.
-            </p>
-          </div>
-          <div className="fsw-angle-grid">
-            {[
-              {
-                tag: "THE TRAVEL ANGLE",
-                title: "Your routine. Ready to go.",
-                detail:
-                  "A product story built around packing your everyday essentials.",
-                label: "Travel routine",
-                count: 1,
-              },
-              {
-                tag: "THE EVERYDAY ANGLE",
-                title: "Make room for your daily routine.",
-                detail:
-                  "An editorial introduction with space for the product details.",
-                label: "Daily routine",
-                count: 1,
-              },
-              {
-                tag: "THE BUNDLE ANGLE",
-                title: "Your next two bottles. One set.",
-                detail:
-                  "A clear two-bottle offer, with the price at the heart of the page.",
-                label: "Bundle offer",
-                count: 2,
-              },
-            ].map((angle) => (
-              <article className="fsw-angle-card" key={angle.tag}>
-                <div className="fsw-angle-browser">
-                  <span aria-hidden="true">● ● ●</span>
-                  <small>Illustrative page variation</small>
-                </div>
-                <div className="fsw-angle-content">
-                  <span>{angle.tag}</span>
-                  <h3>{angle.title}</h3>
-                  <div
-                    className={`fsw-angle-photos fsw-angle-photos-${angle.count}`}
-                  >
-                    {Array.from({ length: angle.count }, (_, index) => (
-                      <img
-                        key={index}
-                        src={demoMagnesium}
-                        width="2000"
-                        height="2000"
-                        alt="Meo Nutrition Magnesium Glycinate sample product"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ))}
-                  </div>
-                  <p>{angle.detail}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      selectExample(0);
-                      document.getElementById("templates")?.scrollIntoView({
-                        behavior: window.matchMedia(
-                          "(prefers-reduced-motion: reduce)",
-                        ).matches
-                          ? "instant"
-                          : "smooth",
-                        block: "start",
-                      });
-                    }}
-                  >
-                    Explore the product demo <span aria-hidden="true">↗</span>
-                  </button>
-                </div>
-                <div className="fsw-angle-caption">
-                  {angle.label}
-                  <span>Same product. A different brief.</span>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="fsw-angle-action">
-            <p>
-              Pick the next hypothesis. Preview your variation. Launch an A/B
-              test.
-            </p>
-            <Link className="fsw-button fsw-button-start" to="/register">
-              Build your next test <Arrow />
-            </Link>
-          </div>
-        </section>
         <section className="fsw-benefits fsw-section" id="canvas">
           <div className="fsw-section-heading">
             <div>
@@ -1348,7 +1459,7 @@ export default function MarketingHome() {
             {[
               {
                 kind: "variation",
-                tag: "01 / CAMPAIGN VARIATIONS",
+                tag: "CAMPAIGN VARIATIONS",
                 title: "A new angle. A new page.",
                 copy: "Describe the change in your terminal. Preview a page that picks up exactly where your ad left off.",
                 prompt:
@@ -1360,7 +1471,7 @@ export default function MarketingHome() {
               },
               {
                 kind: "translation",
-                tag: "02 / TRANSLATION",
+                tag: "TRANSLATION",
                 title: "New markets. One prompt.",
                 copy: "Ask AI to translate your page content. Review the language and local offer before you publish.",
                 prompt:
@@ -1371,7 +1482,7 @@ export default function MarketingHome() {
               },
               {
                 kind: "journey",
-                tag: "03 / CHECKOUT & OFFERS",
+                tag: "CHECKOUT & OFFERS",
                 title: "Prompt the next step.",
                 copy: "Describe your checkout layout and post-purchase offer flow. Preview the journey before connecting and testing payments.",
                 prompt:
@@ -1381,7 +1492,7 @@ export default function MarketingHome() {
               },
               {
                 kind: "brand",
-                tag: "04 / BRAND & MOBILE",
+                tag: "BRAND & MOBILE",
                 title: "Your brand. Every screen.",
                 copy: "Ask for your colors, typography, and mobile layout in one brief. Review the details at every size.",
                 prompt:
@@ -1619,7 +1730,7 @@ export default function MarketingHome() {
           </div>
           <div className="fsw-integration-grid">
             <article>
-              <span className="fsw-integration-number">01 / PAYMENTS</span>
+              <span className="fsw-integration-number">PAYMENTS</span>
               <h3>Keep your payment connections.</h3>
               <p>
                 Connect supported processors to your checkout. Configure your
@@ -1633,7 +1744,7 @@ export default function MarketingHome() {
               </div>
             </article>
             <article>
-              <span className="fsw-integration-number">02 / TAX</span>
+              <span className="fsw-integration-number">TAX</span>
               <h3>Make tax part of the checkout.</h3>
               <p>
                 Connect Zamp for tax calculation. Set up the service and review
@@ -1644,7 +1755,7 @@ export default function MarketingHome() {
               </div>
             </article>
             <article>
-              <span className="fsw-integration-number">03 / COMMERCE</span>
+              <span className="fsw-integration-number">COMMERCE</span>
               <h3>Bring the rest of your stack.</h3>
               <p>
                 Connect your Shopify catalog and Klaviyo customer marketing to
@@ -1663,6 +1774,8 @@ export default function MarketingHome() {
             <Link
               className="fsw-text-link"
               to="https://calendly.com/markusa/markus-call-ecom"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Talk through your integrations <Arrow />
             </Link>
@@ -1791,6 +1904,8 @@ export default function MarketingHome() {
             <Link
               className="fsw-button fsw-button-demo"
               to="https://calendly.com/markusa/markus-call-ecom"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Schedule a demo
             </Link>
