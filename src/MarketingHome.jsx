@@ -969,14 +969,14 @@ export default function MarketingHome() {
             <div>
               <span className="fsw-eyebrow">EVERY STEP HAS A JOB TO DO</span>
               <h2 id="fsw-trust-title">
-                Your store.
+                The Performance
                 <br />
-                Built for performance.
+                E-commerce Platform
               </h2>
             </div>
             <p>
-              Custom checkouts. Branded carts. Relevant offers. Connect your
-              payment setup and shape the experience after every ad click.
+              Revolutionize your online sales with custom checkouts, full
+              customization, and flexible payment options.
             </p>
           </div>
           <div className="fsw-performance-grid">
@@ -984,45 +984,49 @@ export default function MarketingHome() {
               {
                 key: "checkout",
                 index: 1,
-                title: "A clearer path to checkout.",
-                copy: "Bring the buying decision into focus with a clear, considered checkout layout.",
+                title: "Increase Sales with a Focused Checkout",
+                copy: "Online sales are more competitive than ever, and many companies struggle to advance. A clear checkout helps shoppers move from choosing a product to completing an order.",
                 benefits: [
-                  "Single-page layouts and clear order summaries",
-                  "Mobile-first design, previewed before launch",
+                  "Single-Step Checkouts",
+                  "Clear Order Summaries",
+                  "Mobile-First Layouts",
                 ],
                 action: "Explore the checkout",
               },
               {
                 key: "cart",
                 index: 3,
-                title: "Full control of the buying experience.",
-                copy: "Carry your brand from the page into your cart, bundle offers, and the variations you want to test.",
+                title: "Full Control & Customization",
+                copy: "Customize your checkout and optimize every detail of the buyer’s experience with FunnelStudio. Create your site structure and design, manage content, and test variations to improve the experience at every step.",
                 benefits: [
-                  "Page branding, bundle offers, and variations",
-                  "Connected API tools to shape your workflow",
+                  "Custom Cart Design",
+                  "Influence Purchases",
+                  "Increase Upsells",
+                  "Pricing Tests",
+                  "Explore Revenue Opportunities",
                 ],
                 action: "Explore the shopping bag",
               },
               {
                 key: "offer",
                 index: 2,
-                title: "Build the next offer into every order.",
-                copy: "Use optional cart add-ons, one-click upsells, and downsells to build a relevant next step around what your customer chose.",
+                title:
+                  "Boost Average Order Value with One-Click Upsells & Order Bumps",
+                copy: "Pre-purchase order bumps and one-click upsells are powerful tools to increase your average order value. FunnelStudio lets you build and review these offers as part of your funnel.",
                 benefits: [
-                  "Optional cart add-ons and custom offer pages",
-                  "Upsell and downsell paths you can preview",
+                  "Cart add-ons",
+                  "One-Click Upsells",
+                  "Custom upsell designs",
+                  "Upsell and downsell flows",
                 ],
                 action: "Explore the offer flow",
               },
               {
                 key: "payments",
                 index: 1,
-                title: "Your payment providers. Connected.",
-                copy: "Bring Stripe, PayPal, or NMI into your funnel and keep your merchant connections in your control.",
-                benefits: [
-                  "Stripe, PayPal, and NMI connections",
-                  "Provider and merchant settings stay in your control",
-                ],
+                title: "Flexible Payment Options for Your Business",
+                copy: "High-volume e-commerce stores need flexibility in payment processing. Connect your payment providers in FunnelStudio and configure the checkout experience around your merchant setup.",
+                benefits: ["Stripe", "PayPal", "NMI"],
                 action: "Explore the payment preview",
               },
             ].map((pillar, index) => (
