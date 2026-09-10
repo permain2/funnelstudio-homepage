@@ -791,8 +791,10 @@ function useReveal(rescanKey) {
       return undefined;
     }
     const timers = [];
+    let observerFired = false;
     const io = new IntersectionObserver(
       (entries) => {
+        observerFired = true;
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.setAttribute("data-reveal", "in");
@@ -812,6 +814,19 @@ function useReveal(rescanKey) {
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
     );
     nodes.forEach((el) => io.observe(el));
+    // A working observer delivers an initial batch as soon as it observes, even
+    // when nothing intersects. If none arrives, it is not running here — some
+    // in-app webviews and screenshot renderers — and copy hidden behind it
+    // would never come back. Reveal everything rather than lose the page.
+    timers.push(
+      setTimeout(() => {
+        if (observerFired) return;
+        io.disconnect();
+        document
+          .querySelectorAll('[data-reveal="out"]')
+          .forEach((el) => el.setAttribute("data-reveal", "in"));
+      }, 2000),
+    );
     return () => {
       io.disconnect();
       timers.forEach(clearTimeout);
