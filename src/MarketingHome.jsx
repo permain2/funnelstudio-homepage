@@ -967,72 +967,170 @@ export default function MarketingHome() {
         >
           <div className="fsw-section-heading">
             <div>
-              <span className="fsw-eyebrow">THE EXPERIENCE AFTER THE AD</span>
+              <span className="fsw-eyebrow">EVERY STEP HAS A JOB TO DO</span>
               <h2 id="fsw-trust-title">
-                Your next growth test
+                Your store.
                 <br />
-                starts after the click.
+                Built for performance.
               </h2>
             </div>
             <p>
-              Match the page to your ad. Shape the cart, checkout, and next
-              offer around what your customer came to buy.
+              Custom checkouts. Branded carts. Relevant offers. Connect your
+              payment setup and shape the experience after every ad click.
             </p>
           </div>
-          <div className="fsw-growth-steps">
+          <div className="fsw-performance-grid">
             {[
               {
-                index: 0,
-                name: "The product page",
-                detail: "Make the promise tangible.",
-                icon: "↗",
-              },
-              {
-                index: 3,
-                name: "The shopping bag",
-                detail: "Keep the choice clear.",
-                icon: "+",
-              },
-              {
+                key: "checkout",
                 index: 1,
-                name: "The checkout",
-                detail: "Give the offer a focused finish.",
-                icon: "→",
+                title: "A clearer path to checkout.",
+                copy: "Bring the buying decision into focus with a clear, considered checkout layout.",
+                benefits: [
+                  "Single-page layouts and clear order summaries",
+                  "Mobile-first design, previewed before launch",
+                ],
+                action: "Explore the checkout",
               },
               {
-                index: 2,
-                name: "The next offer",
-                detail: "Make the next step relevant.",
-                icon: "↳",
+                key: "cart",
+                index: 3,
+                title: "Full control of the buying experience.",
+                copy: "Carry your brand from the page into your cart, bundle offers, and the variations you want to test.",
+                benefits: [
+                  "Page branding, bundle offers, and variations",
+                  "Connected API tools to shape your workflow",
+                ],
+                action: "Explore the shopping bag",
               },
-            ].map((step, index) => (
-              <button
-                type="button"
-                key={step.name}
-                onClick={() => {
-                  selectExample(step.index);
-                  document.getElementById("templates")?.scrollIntoView({
-                    behavior: window.matchMedia(
-                      "(prefers-reduced-motion: reduce)",
-                    ).matches
-                      ? "instant"
-                      : "smooth",
-                    block: "start",
-                  });
-                }}
-              >
-                <span className="fsw-growth-step-top">
-                  <span>0{index + 1}</span>
-                  <i aria-hidden="true">{step.icon}</i>
-                </span>
-                <strong>{step.name}</strong>
-                <span>{step.detail}</span>
-                <small>
-                  Explore this step <span aria-hidden="true">↗</span>
-                </small>
-              </button>
+              {
+                key: "offer",
+                index: 2,
+                title: "Build the next offer into every order.",
+                copy: "Use optional cart add-ons, one-click upsells, and downsells to build a relevant next step around what your customer chose.",
+                benefits: [
+                  "Optional cart add-ons and custom offer pages",
+                  "Upsell and downsell paths you can preview",
+                ],
+                action: "Explore the offer flow",
+              },
+              {
+                key: "payments",
+                index: 1,
+                title: "Your payment providers. Connected.",
+                copy: "Bring Stripe, PayPal, or NMI into your funnel and keep your merchant connections in your control.",
+                benefits: [
+                  "Stripe, PayPal, and NMI connections",
+                  "Provider and merchant settings stay in your control",
+                ],
+                action: "Explore the payment preview",
+              },
+            ].map((pillar, index) => (
+              <article className="fsw-performance-card" key={pillar.key}>
+                <div className="fsw-performance-copy">
+                  <span className="fsw-performance-number">0{index + 1}</span>
+                  <h3>{pillar.title}</h3>
+                  <p>{pillar.copy}</p>
+                  <ul>
+                    {pillar.benefits.map((benefit) => (
+                      <li key={benefit}>{benefit}</li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      selectExample(pillar.index);
+                      document.getElementById("templates")?.scrollIntoView({
+                        behavior: window.matchMedia(
+                          "(prefers-reduced-motion: reduce)",
+                        ).matches
+                          ? "instant"
+                          : "smooth",
+                        block: "start",
+                      });
+                    }}
+                  >
+                    {pillar.action} <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+                <div
+                  className={`fsw-performance-art fsw-performance-${pillar.key}`}
+                  aria-label={`${pillar.key} layout illustration`}
+                >
+                  <span className="fsw-performance-art-label">
+                    LAYOUT EXAMPLE
+                  </span>
+                  {pillar.key === "checkout" && (
+                    <div className="fsw-mini-checkout">
+                      <strong>Your checkout</strong>
+                      <span>Contact</span>
+                      <div>name@example.com</div>
+                      <span>Delivery</span>
+                      <div>Shipping address</div>
+                      <footer>
+                        <span>Order summary</span>
+                        <b>→</b>
+                      </footer>
+                    </div>
+                  )}
+                  {pillar.key === "cart" && (
+                    <div className="fsw-mini-cart">
+                      <header>
+                        <strong>Your bag</strong>
+                        <span>2</span>
+                      </header>
+                      <div className="fsw-mini-cart-item">
+                        <i aria-hidden="true">01</i>
+                        <span>
+                          Product bundle<small>Two-bottle set</small>
+                        </span>
+                      </div>
+                      <div className="fsw-mini-quantity">
+                        <span>−</span>
+                        <b>1</b>
+                        <span>+</span>
+                      </div>
+                      <div className="fsw-mini-cart-addon">
+                        <span>Optional add-on</span>
+                        <b>+</b>
+                      </div>
+                      <footer>
+                        Review checkout <span>→</span>
+                      </footer>
+                    </div>
+                  )}
+                  {pillar.key === "offer" && (
+                    <div className="fsw-mini-offer">
+                      <strong>After checkout</strong>
+                      <div>Relevant upsell</div>
+                      <span className="fsw-mini-offer-branches">
+                        <span>Accept → Thank you</span>
+                        <span>Decline → Alternative</span>
+                      </span>
+                      <div className="fsw-mini-downsell">Alternative offer</div>
+                      <footer>Thank-you page</footer>
+                    </div>
+                  )}
+                  {pillar.key === "payments" && (
+                    <div className="fsw-mini-payments">
+                      <strong>Your connections</strong>
+                      {["Stripe", "PayPal", "NMI"].map((provider) => (
+                        <div key={provider}>
+                          <span>{provider}</span>
+                          <i aria-hidden="true">↗</i>
+                        </div>
+                      ))}
+                      <small>Configure for your funnel</small>
+                    </div>
+                  )}
+                </div>
+              </article>
             ))}
           </div>
+          <p className="fsw-performance-note">
+            Payment and one-click offer availability depend on your provider and
+            merchant setup. Custom cart behavior may require API integration.
+          </p>
         </section>
         <section
           className="fsw-build-showcase fsw-section"
@@ -1520,7 +1618,9 @@ export default function MarketingHome() {
               <span className="fsw-integration-number">01 / PAYMENTS</span>
               <h3>Keep your payment connections.</h3>
               <p>
-                Connect supported processors to your checkout. Configure your merchant account and choose the payment options that fit your funnel.
+                Connect supported processors to your checkout. Configure your
+                merchant account and choose the payment options that fit your
+                funnel.
               </p>
               <div className="fsw-integration-names">
                 <span>Stripe</span>

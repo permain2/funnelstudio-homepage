@@ -17,11 +17,11 @@ The build writes `docs/` for GitHub Pages at `/funnelstudio-homepage/`. Local se
 
 ## Deploy the production homepage
 
-Download `homepage-public.tgz` and `manifest.json` from the [v1.1.1 release](https://github.com/permain2/funnelstudio-homepage/releases/tag/v1.1.1). This is a separate production-root package; do not deploy the GitHub Pages `docs/` build at your domain root.
+Download `homepage-public.tgz` and `manifest.json` from the [v1.1.2 release](https://github.com/permain2/funnelstudio-homepage/releases/tag/v1.1.2). This is a separate production-root package; do not deploy the GitHub Pages `docs/` build at your domain root.
 
 1. Identify the active website origin and its homepage web root. Back up its current index and record the existing application route responses.
 2. Extract the package into a staging directory. Verify every file against `manifest.json` using SHA-256 before copying.
-3. Copy only the versioned `gal/fsw-20260910-live/` assets into the homepage web root. Verify their public URLs before switching the index.
+3. Copy only the versioned `gal/fsw-v1.1.2/` assets into the homepage web root. Verify their public URLs before switching the index.
 4. Atomically replace only the homepage `index.html`. Preserve all existing application routes, backend files, environment variables, and server configuration.
 5. Verify the homepage, images, local demo controls, and application links. If needed, atomically restore the previous index to roll back.
 
