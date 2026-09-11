@@ -998,6 +998,11 @@ function HeroBuild() {
         <div className={`fsh-render${built ? " is-built" : ""}`}>
           <Preview image="framer-01.webp" eager priority alt="" />
         </div>
+        {!built && (
+          <span className="fsh-sweep" aria-hidden="true">
+            <i />
+          </span>
+        )}
       </div>
     </div>
   );

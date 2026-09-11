@@ -228,3 +228,44 @@
 /* The card's own CTA belongs under the copy, not stranded below the image. */
 .fsw-home .fsw-performance-copy button{margin-top:20px}
 @media(max-width:800px){.fsw-home .fsw-performance-copy{padding:25px 20px 20px}.fsw-home .fsw-performance-art{padding:0 20px 20px}}
+
+/* ── Motion vocabulary borrowed from BabyLoveGrowth ──────────────────────
+   They run Tailwind + tailwindcss-animate with a handful of hand-written
+   keyframes and one easing (expo-out, cubic-bezier(.16,1,.3,1)). The moves
+   worth taking: a card that breathes, a nudging CTA arrow, a drifting
+   gradient on the headline accent, a pop-in for product shots, and a
+   sweeping bar while something is working. */
+
+/* Their `meta-preview-float`: translate + a fraction of a degree, 4 stops. */
+@keyframes fsh-float{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-5px) rotate(.7deg)}50%{transform:translate(0,-9px) rotate(0deg)}75%{transform:translate(-5px,-5px) rotate(-.7deg)}}
+.fsh-funnel{animation:fsh-float 12s ease-in-out infinite;will-change:transform}
+.fsh-stage:hover .fsh-funnel{animation-play-state:paused}
+
+/* Their `arrow-nudge`: 4px, 50% keyframe, infinite. */
+@keyframes fsh-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.fsw-button-start>span[aria-hidden],.fsw-final .fsw-button-start>span{display:inline-block;animation:fsh-nudge 1.9s ease-in-out infinite}
+
+/* Their `gradient-drift`: background-position 0 → 100 → 0 under clipped text. */
+@keyframes fsh-drift{0%,100%{background-position:0% center}50%{background-position:100% center}}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+  .fsh-hero h1 span{background-image:linear-gradient(90deg,#1260eb 0%,#5b93f5 35%,#1260eb 70%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fsh-drift 7s linear infinite}
+}
+
+/* Their `story-pop-in`, scaled back: product shots land rather than fade. */
+@keyframes fsh-pop{0%{opacity:0;transform:scale(.95)}100%{opacity:1;transform:none}}
+[data-reveal="in"] .fsw-performance-art img{animation:fsh-pop .6s cubic-bezier(.16,1,.3,1) both}
+
+/* Their `ga4-initial-sync-bar`: a bar sweeping right past its own box. */
+@keyframes fsh-sweep{0%{transform:translateX(-130%)}100%{transform:translateX(320%)}}
+.fsh-sweep{position:absolute;left:0;right:0;bottom:0;height:2px;overflow:hidden;border-radius:0 0 15px 15px}
+.fsh-sweep i{display:block;width:30%;height:100%;background:linear-gradient(90deg,transparent,var(--fsw-blue),transparent);animation:fsh-sweep 1.9s cubic-bezier(.4,0,.2,1) infinite}
+.fsh-funnel{position:relative}
+
+/* Match their easing on the reveal so the whole page shares one curve. */
+[data-reveal]{transition-timing-function:cubic-bezier(.16,1,.3,1)}
+[data-reveal][data-spot]{transition-timing-function:cubic-bezier(.16,1,.3,1)}
+
+@media(prefers-reduced-motion:reduce){
+  .fsh-funnel,.fsw-button-start>span[aria-hidden],.fsh-hero h1 span,.fsh-sweep i,[data-reveal="in"] .fsw-performance-art img{animation:none}
+  .fsh-hero h1 span{color:var(--fsw-blue)}
+}
