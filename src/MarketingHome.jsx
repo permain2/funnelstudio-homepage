@@ -99,11 +99,8 @@ const REVEAL_MS = 700; // must match the [data-reveal] transition in the CSS
 // arrives as a row rather than four unrelated elements.
 const revealGroups = [
   ".fsw-section-heading",
-  ".fsw-intro-steps > div",
-  ".fsw-benefit",
   ".fsw-integration-grid > article",
   ".fsw-comparison-scroll",
-  ".fsw-capabilities",
   ".fsw-demo > div",
   ".fsw-feature-banner > div",
   ".fsw-faq details",
@@ -180,7 +177,7 @@ export function useReveal(rescanKey) {
 export function useSpotlight() {
   useEffect(() => {
     document
-      .querySelectorAll(".fsw-benefit,.itg-grid article,.fsw-faq details")
+      .querySelectorAll(".itg-grid article,.wyg-card,.fsw-faq details")
       .forEach((el) => el.setAttribute("data-spot", ""));
     if (window.matchMedia("(hover: none)").matches || reducedMotion())
       return undefined;
