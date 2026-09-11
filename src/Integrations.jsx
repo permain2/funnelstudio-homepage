@@ -46,6 +46,7 @@ const groups = [
       ["hyros", "HYROS"],
       ["clickmagick", "ClickMagick"],
       ["triplewhale", "Triple Whale"],
+      ["northbeam", "Northbeam"],
     ],
   },
   {
