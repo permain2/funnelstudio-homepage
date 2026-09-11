@@ -1,0 +1,20 @@
+.vp{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:400;display:flex;align-items:stretch;gap:4px;padding:5px;border-radius:999px;background:rgba(17,24,28,.92);backdrop-filter:blur(12px);box-shadow:0 14px 40px rgba(17,24,28,.3);font-family:'Wix Madefor Text',sans-serif;max-width:calc(100vw - 24px)}
+.vp-label{display:none}
+.vp a{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:8px 15px;border-radius:999px;color:#c3d0e4;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap}
+.vp a b{grid-row:1/3;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;opacity:.6}
+.vp a span{font-size:13.5px;font-weight:500;line-height:1.1}
+.vp a small{font-size:10.5px;opacity:.6;line-height:1.1}
+.vp a:hover{background:rgba(255,255,255,.1);color:#fff}
+.vp a.is-on{background:#fff;color:#11181c}
+.vp a.is-on b{opacity:.45}
+.vp a:focus-visible{outline:2px solid #4d8dff;outline-offset:2px}
+@media(max-width:640px){
+  .vp{bottom:10px;padding:4px}
+  .vp a{padding:7px 11px}
+  .vp a small{display:none}
+  .vp a span{font-size:12.5px}
+}
+@media print{.vp{display:none}}
+/* Keep the switcher clear of page content. */
+.fsw-home{padding-bottom:86px}
+@media(max-width:640px){.fsw-home{padding-bottom:72px}}
