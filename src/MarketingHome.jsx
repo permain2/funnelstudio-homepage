@@ -100,7 +100,6 @@ const REVEAL_MS = 700; // must match the [data-reveal] transition in the CSS
 const revealGroups = [
   ".fsw-section-heading",
   ".fsw-intro-steps > div",
-  ".fsw-performance-card",
   ".fsw-benefit",
   ".fsw-integration-grid > article",
   ".fsw-comparison-scroll",
@@ -181,9 +180,7 @@ export function useReveal(rescanKey) {
 export function useSpotlight() {
   useEffect(() => {
     document
-      .querySelectorAll(
-        ".fsw-performance-card,.fsw-benefit,.fsw-integration-grid > article,.fsw-faq details",
-      )
+      .querySelectorAll(".fsw-benefit,.itg-grid article,.fsw-faq details")
       .forEach((el) => el.setAttribute("data-spot", ""));
     if (window.matchMedia("(hover: none)").matches || reducedMotion())
       return undefined;
@@ -623,135 +620,6 @@ export default function MarketingHome() {
           </div>
           <FunnelFlow />
           <HeroBuild />
-        </section>
-        <section
-          className="fsw-growth-journey fsw-section"
-          id="campaign-toolkit"
-          aria-labelledby="fsw-trust-title"
-        >
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">EVERY STEP HAS A JOB TO DO</span>
-              <h2 id="fsw-trust-title">
-                The Performance
-                <br />
-                E-commerce Platform
-              </h2>
-            </div>
-            <p>
-              Revolutionize your online sales with custom checkouts, full
-              customization, and flexible payment options.
-            </p>
-          </div>
-          <div className="fsw-performance-grid">
-            {[
-              {
-                key: "checkout",
-                shot: "checkout",
-                shotAlt:
-                  "A live FunnelStudio checkout: contact, delivery and order summary on one page",
-                shotW: 1000,
-                shotH: 640,
-                shotCaption: "Live checkout · sale.meonutrition.com",
-                index: 1,
-                title: "Increase Sales with a Focused Checkout",
-                copy: "Online sales are more competitive than ever, and many companies struggle to advance. A clear checkout helps shoppers move from choosing a product to completing an order.",
-                benefits: [
-                  "Single-Step Checkouts",
-                  "Clear Order Summaries",
-                  "Mobile-First Layouts",
-                ],
-                action: "Explore the checkout",
-              },
-              {
-                key: "cart",
-                shot: "bundles",
-                shotAlt:
-                  "Three live bundle tiers with per-bottle pricing and savings badges",
-                shotW: 1000,
-                shotH: 640,
-                shotCaption: "Live offer tiers · sale.meonutrition.com",
-                index: 3,
-                title: "Full Control & Customization",
-                copy: "Customize your checkout and optimize every detail of the buyer’s experience with FunnelStudio. Create your site structure and design, manage content, and test variations to improve the experience at every step.",
-                benefits: [
-                  "Custom Cart Design",
-                  "Influence Purchases",
-                  "Increase Upsells",
-                  "Pricing Tests",
-                  "Explore Revenue Opportunities",
-                ],
-                action: "Explore the shopping bag",
-              },
-              {
-                key: "offer",
-                shot: "bumps",
-                shotAlt:
-                  "Four order bumps included with the bundle, each showing its free value",
-                shotW: 1000,
-                shotH: 640,
-                shotCaption: "Live order bumps · sale.meonutrition.com",
-                index: 2,
-                title:
-                  "Boost Average Order Value with One-Click Upsells & Order Bumps",
-                copy: "Pre-purchase order bumps and one-click upsells are powerful tools to increase your average order value. FunnelStudio lets you build and review these offers as part of your funnel.",
-                benefits: [
-                  "Cart add-ons",
-                  "One-Click Upsells",
-                  "Custom upsell designs",
-                  "Upsell and downsell flows",
-                ],
-                action: "Explore the offer flow",
-              },
-              {
-                key: "payments",
-                shot: "payment",
-                shotAlt:
-                  "The card payment step of a live checkout with accepted card brands",
-                shotW: 1000,
-                shotH: 640,
-                shotCaption: "Live payment step · sale.meonutrition.com",
-                index: 1,
-                title: "Flexible Payment Options for Your Business",
-                copy: "High-volume e-commerce stores need flexibility in payment processing. Connect your payment providers in FunnelStudio and configure the checkout experience around your merchant setup.",
-                benefits: ["Stripe", "PayPal", "NMI"],
-                action: "Explore the payment preview",
-              },
-            ].map((pillar, index) => (
-              <article className="fsw-performance-card" key={pillar.key}>
-                <div className="fsw-performance-copy">
-                  <span className="fsw-performance-number">0{index + 1}</span>
-                  <h3>{pillar.title}</h3>
-                  <p>{pillar.copy}</p>
-                  <ul>
-                    {pillar.benefits.map((benefit) => (
-                      <li key={benefit}>{benefit}</li>
-                    ))}
-                  </ul>
-                  <a className="fsw-performance-cta" href="#what-you-get">
-                    {pillar.action} <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-                <figure
-                  className={`fsw-performance-art fsw-performance-${pillar.key}`}
-                >
-                  <img
-                    src={`${shotRoot}${pillar.shot}.webp`}
-                    alt={pillar.shotAlt}
-                    width={pillar.shotW}
-                    height={pillar.shotH}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <figcaption>{pillar.shotCaption}</figcaption>
-                </figure>
-              </article>
-            ))}
-          </div>
-          <p className="fsw-performance-note">
-            Payment and one-click offer availability depend on your provider and
-            merchant setup. Custom cart behavior may require API integration.
-          </p>
         </section>
         <section
           className="fsw-comparison fsw-section"
