@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import WhatYouGet from "./WhatYouGet";
 import Integrations from "./Integrations";
 import { TrustWall, ProofRail } from "./Proof";
+import FilmHero from "./FilmHero";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
@@ -535,6 +536,7 @@ export default function MarketingHome() {
             </div>
           </div>
         </section>
+        <FilmHero />
         <TrustWall />
         <WhatYouGet />
         <Integrations />

@@ -38,39 +38,39 @@ const features = [
   {
     k: "voice",
     n: "02",
-    title: "Pages that sound like your brand",
-    copy: "Clone a page that already converts, then have the copy rewritten for your angle and your voice — not generic AI filler.",
+    title: "One prompt, ten angles, ten pages",
+    copy: "“Analyse our top 10 creative angles this week and rewrite our PDP for each.” That is the whole prompt. Ten product pages, each in your voice, each sold from the angle that is winning in the ads.",
     Art: ArtVoice,
     clip: "describe",
   },
   {
     k: "offer",
     n: "03",
-    title: "The offer, priced and stacked",
-    copy: "Build the ladder, attach what ships free with the bundle, and put the one-click upsell after the pay button.",
+    title: "Any offer you can describe",
+    copy: "Ladders, bundles, subscriptions, free-plus-shipping, a bump before the pay button, a one-click upsell after it. If you can say the offer, FunnelStudio can price it, stack it and wire it.",
     Art: ArtOffer,
   },
   {
     k: "checkout",
     n: "04",
-    title: "Checkout stays yours",
-    copy: "Stripe, PayPal, NMI, Checkout.com or your Shopify checkout. Your merchant account, your payouts. FunnelStudio never sits in the middle.",
+    title: "Any checkout you want",
+    copy: "One step, three step, six step — any design, any structure, any offer. Runs on Stripe, PayPal, NMI, Checkout.com or your Shopify checkout. Your merchant account, your payouts; FunnelStudio never sits in the middle.",
     Art: ArtCheckout,
     logos: ["stripe", "paypal", "nmi", "checkout", "shopify", "adyen"],
   },
   {
     k: "publish",
     n: "05",
-    title: "Live on your domain in minutes",
-    copy: "Your own domain, SSL issued for you, preflight run, preview link, push. No server, no deploy.",
+    title: "Live on your domain, served next to your customer",
+    copy: "Your own domain, SSL issued for you, preflight run, preview link, push — no server, no deploy. Pages are served from AWS edge nodes near the buyer; a FunnelStudio product page returns its first byte in about 0.27s versus 0.41s for the same product on Shopify.",
     Art: ArtPublish,
     clip: "approve",
   },
   {
     k: "test",
     n: "06",
-    title: "Test without rebuilding",
-    copy: "Split a funnel, send traffic, keep the winner. Per-step analytics, no second build.",
+    title: "A split test in minutes",
+    copy: "Analyse Clarity, PostHog or Google Analytics, brainstorm the next test, prompt it, review it, launch it. Split any step of the funnel and keep the winner — no second build.",
     Art: ArtTest,
   },
 ];
@@ -343,13 +343,61 @@ function TypeLed() {
   );
 }
 
-const variants = { 1: Stacked, 2: Film, 3: Floating, 4: Deep, 5: TypeLed };
+// ── F6 · Film × Stacked — the Film hero's dark screen leads (the real render
+//    of the funnel assembling), then the remaining five stack Apple-style, each
+//    panel pinning as the next slides over it. Where a scene exists as video
+//    the panel plays it; the rest keep their drawn demos.
+function FilmStacked() {
+  const hero = features[0];
+  const rest = features.slice(1);
+  return (
+    <section className="wyg fv fv6" id="what-you-get" aria-labelledby="wyg-title">
+      <Head />
+      <article className="fv2-hero fv6-hero" data-reveal="out">
+        <div className="fv2-hero-copy">
+          <span className="fv6-n">{hero.n}</span>
+          <h3>{hero.title}</h3>
+          <p>{hero.copy}</p>
+        </div>
+        <div className="fv2-screen">
+          <Clip name="assemble" poster />
+        </div>
+      </article>
+      <div className="fv1-stack fv6-stack">
+        {rest.map((f, i) => (
+          <article className="fv1-panel fv6-panel" key={f.k} style={{ "--i": i }}>
+            <div className="fv1-copy">
+              <span className="fv1-n">{f.n}</span>
+              <h3>{f.title}</h3>
+              <p>{f.copy}</p>
+              {f.logos && <Logos names={f.logos} />}
+            </div>
+            <div className="fv1-demo">
+              {f.clip ? (
+                <div className="fv6-screen">
+                  <Clip name={f.clip} poster />
+                </div>
+              ) : (
+                <div className="wyg-art fv1-art">
+                  <f.Art />
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const variants = { 1: Stacked, 2: Film, 3: Floating, 4: Deep, 5: TypeLed, 6: FilmStacked };
 export const featureVariantNames = {
   1: ["Stacked", "Apple product page — one feature per screen"],
   2: ["Film", "Shopify / Squarespace — the section is video"],
   3: ["Floating", "Shopify Checkout — UI cards drift over a field"],
   4: ["Deep panel", "Checkout.com — one ink panel, a rail inside"],
   5: ["Type-led", "Apple — the headline is the feature"],
+  6: ["Film × Stacked", "Film hero, then the rest pin and stack"],
 };
 
 export default function FeatureVariant({ n }) {

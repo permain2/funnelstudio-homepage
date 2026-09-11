@@ -1146,3 +1146,52 @@
    stage auto-places into the narrow first column (what F4/F5 showed). */
 .fv1-forge .ff,.fv4-demo.is-forge .ff,.fv5-glyph.is-forge .ff{display:block}
 .fv4-demo.is-forge{aspect-ratio:auto}
+
+/* ── F6 · Film × Stacked ─────────────────────────────────────────────────── */
+.fv6-hero{margin-bottom:18px;align-items:center}
+.fv6-n{display:block;font-family:var(--fsh-mono);font-size:12px;letter-spacing:.08em;color:#4d8dff;margin-bottom:12px}
+/* the hero is the tallest card in the stack, so the panels behind it start
+   one notch lower than in F1 and stack on the same 14px rhythm */
+.fv6-panel{top:calc(88px + (var(--i) + 1)*14px)}
+.fv6-screen{border:1px solid #e8e8e4;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#fff;box-shadow:0 22px 50px rgba(17,24,28,.10)}
+.fv6-screen .fv-clip{width:100%;height:100%;object-fit:cover}
+@media(max-width:900px){.fv6-panel{position:static}}
+
+/* Checkout demo: 1 → 3 → 6 steps. One 9s loop, three states of 3s; the chip
+   lights, the form re-flows to that many numbered rows, Pay re-seats. */
+.wa-steps{gap:10px;justify-content:center}
+.wa-stepbar{display:flex;gap:6px}
+.wa-stepchip{padding:5px 11px;border-radius:999px;border:1px solid #e6e6e2;background:#fff;font-size:11px;font-weight:500;color:#5a6365;animation:wa-stepchip 9s linear infinite;animation-delay:calc(var(--i)*3s)}
+@keyframes wa-stepchip{0%,1%{border-color:#e6e6e2;background:#fff;color:#5a6365}3%,31%{border-color:var(--fsw-blue);background:#f3f7ff;color:var(--fsw-blue)}34%,100%{border-color:#e6e6e2;background:#fff;color:#5a6365}}
+.wa-form{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border:1px solid #ececea;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(17,24,28,.05)}
+.wa-frow{display:flex;align-items:center;gap:7px;height:14px;overflow:hidden;animation:wa-frow 9s linear infinite}
+.wa-fnum{display:grid;place-items:center;width:14px;height:14px;border-radius:4px;background:#f3f3f1;font-size:8.5px;font-style:normal;color:#5a6365;flex:0 0 14px}
+.wa-fline{display:block;height:6px;border-radius:3px;background:#eceef1;flex:1}
+.wa-fline.is-short{flex:0 0 26%}
+/* rows 2–6 only exist in the 3- and 6-step states; rows 4–6 in 6-step only */
+.wa-frow[style*="--n:1"],.wa-frow[style*="--n:2"]{animation-name:wa-frow-3}
+.wa-frow[style*="--n:3"],.wa-frow[style*="--n:4"],.wa-frow[style*="--n:5"]{animation-name:wa-frow-6}
+@keyframes wa-frow{0%,100%{height:14px;opacity:1}}
+@keyframes wa-frow-3{0%,32%{height:0;opacity:0;margin-top:-5px}36%,100%{height:14px;opacity:1;margin-top:0}}
+@keyframes wa-frow-6{0%,65%{height:0;opacity:0;margin-top:-5px}69%,100%{height:14px;opacity:1;margin-top:0}}
+.wa-fpay{margin-top:4px;height:20px;display:grid;place-items:center;border-radius:6px;background:var(--fsw-blue);color:#fff;font-size:9.5px;font-weight:500}
+.wa-procs{list-style:none;display:flex;gap:6px;margin:0;padding:0;justify-content:center}
+.wa-procs li{display:grid;place-items:center;width:26px;height:26px;border:1px solid #e6e7e5;border-radius:8px;background:#fff}
+.wa-procs img{width:15px;height:15px;border-radius:3px}
+@media(prefers-reduced-motion:reduce){.wa-stepchip,.wa-frow{animation:none}.wa-frow{height:14px;opacity:1;margin-top:0}}
+
+/* ── The film under the hero (Wistia / BLG framing) ─────────────────────── */
+.fh{background:#fff;margin:0 16px;padding:0 clamp(24px,4.5vw,76px) clamp(40px,4vw,64px)}
+.fsw-home .fh{margin-top:-6px}
+.fh-frame{position:relative;margin:0 auto;width:100%;max-width:1144px;aspect-ratio:16/9;border-radius:22px;overflow:hidden;border:1px solid #e4e4e0;background:#0b1120;box-shadow:0 30px 80px rgba(17,24,28,.16)}
+.fh-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.fh-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;width:100%;height:100%;border:none;background:linear-gradient(180deg,rgba(11,17,32,0) 40%,rgba(11,17,32,.28));cursor:pointer;color:#fff;font:inherit;transition:background .25s}
+.fh-play:hover{background:linear-gradient(180deg,rgba(11,17,32,.04) 40%,rgba(11,17,32,.38))}
+.fh-play-ring{display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:var(--fsw-blue);box-shadow:0 18px 44px rgba(18,96,235,.45),0 0 0 10px rgba(255,255,255,.14);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.fh-play:hover .fh-play-ring{transform:scale(1.06)}
+.fh-play-ring svg{width:34px;height:34px;fill:#fff;margin-left:4px}
+.fh-play-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.fh-play-text b{font-size:19px;font-weight:600;letter-spacing:-.02em}
+.fh-play-text small{font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.04em;opacity:.85}
+.fh-play:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+@media(max-width:800px){.fh{margin:0 10px;padding:0 12px 30px}.fh-frame{border-radius:14px}.fh-play{flex-direction:column;gap:12px}.fh-play-ring{width:66px;height:66px}.fh-play-ring svg{width:26px;height:26px}.fh-play-text{align-items:center;text-align:center}.fh-play-text b{font-size:16px}}

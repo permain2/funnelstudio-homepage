@@ -36,12 +36,14 @@ export const languages = [
 // A page of copy rewriting itself: the caret sweeps down and each grey
 // placeholder line is replaced by the branded line underneath it.
 export function ArtVoice() {
+  // The same PDP, rewritten for four of this week's winning ad angles.
   const lines = [
-    ["Stop guessing at your angle", 78],
     ["Built for the 3pm crash, not the gym", 94],
+    ["The sleep stack that doesn’t leave you groggy", 98],
     ["Third-party tested, made in the EU", 86],
-    ["Ships free today", 52],
+    ["For the week your focus falls off a cliff", 96],
   ];
+
   return (
     <div className="wa wa-voice" aria-hidden="true">
       <div className="wa-page">
@@ -117,62 +119,32 @@ export function ArtPublish() {
   );
 }
 
-// The hub, straight out of auto-publish.mp4: rings, dashed spokes, and one
-// charge travelling out to each processor in turn. The stage is a fixed px box
-// so the ring geometry and the chip offsets are the same numbers — percentage
-// positioning would drift against the SVG's letterbox.
-const HUB = { w: 236, h: 168, r: 66, nodes: [["Stripe", -90], ["PayPal", 34], ["NMI", 146]] };
-
+// Any checkout: the same form re-flows between 1, 3 and 6 steps on a loop,
+// with the processors it can run on as a quiet row underneath.
 export function ArtCheckout() {
-  const cx = HUB.w / 2;
-  const cy = HUB.h / 2;
+  const procs = ["stripe", "paypal", "nmi", "checkout", "shopify"];
   return (
-    <div className="wa wa-hub" aria-hidden="true">
-      <div className="wa-stage">
-        <svg className="wa-rings" viewBox={`0 0 ${HUB.w} ${HUB.h}`}>
-          {[30, 48, HUB.r].map((r) => (
-            <circle key={r} cx={cx} cy={cy} r={r} />
-          ))}
-          {HUB.nodes.map(([name, deg], i) => {
-            const rad = (deg * Math.PI) / 180;
-            return (
-              <line
-                key={name}
-                className="wa-spoke"
-                style={{ "--i": i }}
-                x1={cx}
-                y1={cy}
-                x2={cx + Math.cos(rad) * HUB.r}
-                y2={cy + Math.sin(rad) * HUB.r}
-              />
-            );
-          })}
-        </svg>
-        <span className="wa-core">
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M18.67 4.78 13.83 2a4.9 4.9 0 0 0-5.11 0L3.86 4.78A4.6 4.6 0 0 0 1.31 9.19v5.6a4.6 4.6 0 0 0 2.55 4.4l4.84 2.81a4.9 4.9 0 0 0 5.1 0l4.85-2.81a4.6 4.6 0 0 0 2.54-4.4v-5.6a4.6 4.6 0 0 0-2.52-4.41ZM11.26 16.97A4.97 4.97 0 1 1 16.26 12a4.97 4.97 0 0 1-5 4.97Z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
-        {HUB.nodes.map(([name, deg], i) => {
-          const rad = (deg * Math.PI) / 180;
-          return (
-            <span
-              className="wa-node"
-              key={name}
-              style={{
-                "--i": i,
-                left: `${((cx + Math.cos(rad) * HUB.r) / HUB.w) * 100}%`,
-                top: `${((cy + Math.sin(rad) * HUB.r) / HUB.h) * 100}%`,
-              }}
-            >
-              {name}
-            </span>
-          );
-        })}
+    <div className="wa wa-steps" aria-hidden="true">
+      <div className="wa-stepbar">
+        {["1 step", "3 step", "6 step"].map((l, i) => (
+          <span className="wa-stepchip" key={l} style={{ "--i": i }}>{l}</span>
+        ))}
       </div>
+      <div className="wa-form">
+        {[0, 1, 2, 3, 4, 5].map((n) => (
+          <span className="wa-frow" key={n} style={{ "--n": n }}>
+            <i className="wa-fnum">{n + 1}</i>
+            <i className="wa-fline" />
+            <i className="wa-fline is-short" />
+          </span>
+        ))}
+        <span className="wa-fpay">Pay</span>
+      </div>
+      <ul className="wa-procs">
+        {procs.map((n) => (
+          <li key={n}><img src={`${import.meta.env.BASE_URL}icons/${n}.webp`} alt="" width="18" height="18" /></li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -206,36 +178,36 @@ const cards = [
   {
     k: "voice",
     wide: true,
-    title: "Pages that sound like your brand",
-    copy: "Clone a page that already converts, then have the copy rewritten for your angle and your voice — not generic AI filler.",
+    title: "One prompt, ten angles, ten pages",
+    copy: "“Analyse our top 10 creative angles this week and rewrite our PDP for each.” That is the whole prompt. Ten product pages, each in your voice, each sold from the angle that is winning in the ads.",
     Art: ArtVoice,
   },
   {
     k: "offer",
     wide: true,
-    title: "The offer, priced and stacked",
-    copy: "Build the ladder, attach what ships free with the bundle, and put the one-click upsell after the pay button.",
+    title: "Any offer you can describe",
+    copy: "Ladders, bundles, subscriptions, free-plus-shipping, a bump before the pay button, a one-click upsell after it. If you can say the offer, FunnelStudio can price it, stack it and wire it.",
     Art: ArtOffer,
   },
   {
     k: "publish",
-    title: "Publish without touching a server",
-    copy: "Your own domain, SSL issued for you, live in minutes.",
-    chips: ["Custom domain", "Auto SSL"],
+    title: "Live on your domain, served next to your customer",
+    copy: "Your own domain, SSL issued for you, preflight run, preview link, push — no server, no deploy. Pages are served from AWS edge nodes near the buyer; a FunnelStudio product page returns its first byte in about 0.27s versus 0.41s for the same product on Shopify.",
+    chips: ["Custom domain", "Auto SSL", "AWS edge"],
     Art: ArtPublish,
   },
   {
     k: "checkout",
-    title: "Checkout stays yours",
-    copy: "Your merchant account, your payouts. FunnelStudio never sits in the middle.",
+    title: "Any checkout you want",
+    copy: "One step, three step, six step — any design, any structure, any offer. Runs on Stripe, PayPal, NMI, Checkout.com or your Shopify checkout. Your merchant account, your payouts; FunnelStudio never sits in the middle.",
     chips: ["Stripe", "PayPal", "NMI"],
     Art: ArtCheckout,
   },
   {
     k: "test",
-    title: "Test without rebuilding",
-    copy: "Split a funnel, send traffic, keep the winner. No second build.",
-    chips: ["A/B tests", "Per-step analytics"],
+    title: "A split test in minutes",
+    copy: "Analyse Clarity, PostHog or Google Analytics, brainstorm the next test, prompt it, review it, launch it. Split any step of the funnel and keep the winner — no second build.",
+    chips: ["Clarity", "PostHog", "Google Analytics", "A/B tests"],
     Art: ArtTest,
   },
 ];
@@ -244,7 +216,7 @@ export default function WhatYouGet() {
   // ?f=1..5 swaps the feature section body; the head stays so the variations
   // are compared like for like.
   const f = new URLSearchParams(location.search).get("f");
-  if (f && /^[1-5]$/.test(f)) return <FeatureVariant n={Number(f)} />;
+  if (f && /^[1-6]$/.test(f)) return <FeatureVariant n={Number(f)} />;
   return (
     <section className="wyg" id="what-you-get" aria-labelledby="wyg-title">
       <div className="wyg-head" data-reveal="out">
