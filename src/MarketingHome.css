@@ -269,3 +269,27 @@
   .fsh-funnel,.fsw-button-start>span[aria-hidden],.fsh-hero h1 span,.fsh-sweep i,[data-reveal="in"] .fsw-performance-art img{animation:none}
   .fsh-hero h1 span{color:var(--fsw-blue)}
 }
+
+/* Showreel — their move: a real looping product clip directly under the hero. */
+.fsh-showreel{background:#fff;margin:0 16px;padding:clamp(46px,5vw,78px) clamp(24px,4.5vw,76px) clamp(40px,4vw,64px);display:grid;gap:clamp(28px,3vw,44px);justify-items:center}
+.fsh-showreel-head{text-align:center;max-width:760px}
+.fsh-showreel h2{margin-top:20px;font-size:clamp(30px,3.5vw,50px);letter-spacing:-.04em;line-height:1.06}
+.fsh-showreel h2 span{color:#6b7280}
+.fsh-showreel-frame{position:relative;margin:0;width:100%;max-width:1000px;border-radius:18px;overflow:hidden;border:1px solid #e4e4e0;background:#f2f2f0;box-shadow:0 26px 60px rgba(17,24,28,.13)}
+.fsh-showreel-frame video{display:block;width:100%;height:auto}
+.fsh-showreel-frame figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 11px;font-family:var(--fsh-mono);font-size:11px;letter-spacing:.03em;color:#fff;background:linear-gradient(transparent,rgba(11,17,32,.72));text-align:center}
+.fsh-showreel-toggle{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(11,17,32,.55);color:#fff;font-size:10px;line-height:1;backdrop-filter:blur(6px)}
+.fsh-showreel-toggle:hover{background:rgba(11,17,32,.8)}
+@media(max-width:800px){.fsh-showreel{margin:0 10px;padding:36px 20px 30px}.fsh-showreel-frame{border-radius:14px}}
+
+/* Logo wall — their band: one all-caps lead line, then a bordered grid of marks. */
+.fsh-wall{background:#fff;margin:0 16px;padding:0 clamp(24px,4.5vw,76px) clamp(44px,4.5vw,70px)}
+.fsh-wall-lead{text-align:center;font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#8a919a;margin-bottom:22px}
+.fsh-wall-lead b{font-weight:500;color:var(--fsw-ink)}
+.fsh-wall-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid #ededea;border-radius:14px;overflow:hidden}
+.fsh-wall-grid li{display:flex;align-items:center;justify-content:center;gap:9px;padding:22px 10px;font-size:15px;font-weight:500;color:#5a6365;letter-spacing:-.01em;border-right:1px solid #ededea;transition:background .25s,color .25s}
+.fsh-wall-grid li:last-child{border-right:none}
+.fsh-wall-grid li:hover{background:#fafafa;color:var(--fsw-ink)}
+.fsh-wall-grid .fsh-mark{width:19px;height:19px;opacity:.8}
+@media(max-width:1100px){.fsh-wall-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.fsh-wall-grid li:nth-child(4n){border-right:none}.fsh-wall-grid li{border-bottom:1px solid #ededea}}
+@media(max-width:640px){.fsh-wall{margin:0 10px;padding:0 16px 34px}.fsh-wall-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fsh-wall-grid li:nth-child(4n){border-right:1px solid #ededea}.fsh-wall-grid li:nth-child(2n){border-right:none}.fsh-wall-grid li{padding:18px 8px;font-size:14px}}

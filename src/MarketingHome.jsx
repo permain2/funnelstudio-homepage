@@ -1032,6 +1032,65 @@ function StackMark({ name }) {
   );
 }
 
+const videoRoot = `${import.meta.env.BASE_URL}video/`;
+function FunnelVideo() {
+  const ref = useRef(null);
+  const [playing, setPlaying] = useState(true);
+  function toggle() {
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
+  }
+  return (
+    <section className="fsh-showreel" aria-labelledby="fsh-showreel-title">
+      <div className="fsh-showreel-head">
+        <span className="fsh-eyebrow">
+          <i aria-hidden="true" /> A funnel built on FunnelStudio
+        </span>
+        <h2 id="fsh-showreel-title">
+          Offer tiers, order bumps, checkout.
+          <br />
+          <span>One journey, live right now.</span>
+        </h2>
+      </div>
+      <figure className="fsh-showreel-frame">
+        <video
+          ref={ref}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={`${videoRoot}funnel-poster.webp`}
+          width="986"
+          height="624"
+          aria-label="Screen recording of a live FunnelStudio funnel: bundle tiers, the order bumps included with the bundle, and the add-to-cart step"
+        >
+          <source src={`${videoRoot}funnel.webm`} type="video/webm" />
+          <source src={`${videoRoot}funnel.mp4`} type="video/mp4" />
+        </video>
+        <button
+          type="button"
+          className="fsh-showreel-toggle"
+          onClick={toggle}
+          aria-label={playing ? "Pause the recording" : "Play the recording"}
+        >
+          <span aria-hidden="true">{playing ? "\u275a\u275a" : "\u25b6"}</span>
+        </button>
+        <figcaption>
+          Recorded on sale.meonutrition.com &middot; a live funnel, not a mockup
+        </figcaption>
+      </figure>
+    </section>
+  );
+}
+
 const stackLogos = [
   "Stripe",
   "PayPal",
@@ -1204,14 +1263,18 @@ export default function MarketingHome() {
             </div>
             <HeroBuild />
           </div>
-          <div className="fsh-stack">
-            <span>Connects to the stack you already run</span>
-            <ul>
-              {stackLogos.map((name) => (
-                <StackMark key={name} name={name} />
-              ))}
-            </ul>
-          </div>
+        </section>
+        <FunnelVideo />
+        <section className="fsh-wall" aria-labelledby="fsh-wall-title">
+          <p className="fsh-wall-lead" id="fsh-wall-title">
+            <b>Runs on the stack you already pay for</b> — bring your own
+            accounts, keep your processor
+          </p>
+          <ul className="fsh-wall-grid">
+            {stackLogos.map((name) => (
+              <StackMark key={name} name={name} />
+            ))}
+          </ul>
         </section>
         <section className="fsw-intro fsw-section" id="how">
           <span className="fsw-eyebrow">
