@@ -442,7 +442,7 @@ export function FunnelVideo() {
           poster={`${videoRoot}funnel-poster.webp`}
           width="986"
           height="624"
-          aria-label="Screen recording of a live FunnelStudio funnel: bundle tiers, the order bumps included with the bundle, and the add-to-cart step"
+          aria-label="Animated walkthrough: describe the funnel in a terminal, watch the landing page, checkout, upsell and thank-you step assemble, approve the preview, and see it go live on your domain — ending on the 90-day guarantee"
         >
           <source src={`${videoRoot}funnel.webm`} type="video/webm" />
           <source src={`${videoRoot}funnel.mp4`} type="video/mp4" />
@@ -456,7 +456,7 @@ export function FunnelVideo() {
           <span aria-hidden="true">{playing ? "\u275a\u275a" : "\u25b6"}</span>
         </button>
         <figcaption>
-          Recorded on sale.meonutrition.com &middot; a live funnel, not a mockup
+          Describe the change &middot; the whole funnel assembles &middot; approve, then it&rsquo;s live
         </figcaption>
       </figure>
     </section>
