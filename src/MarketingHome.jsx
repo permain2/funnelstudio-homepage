@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import HowItWorks from "./HowItWorks";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
-const shotRoot = `${import.meta.env.BASE_URL}shots/`;
+export const shotRoot = `${import.meta.env.BASE_URL}shots/`;
 const logoPath =
   "M18.6656 4.78218L13.8255 1.99752C12.2418 1.08416 10.3013 1.08416 8.71768 1.99752L3.85524 4.78218C2.29391 5.69554 1.3125 7.38861 1.3125 9.19307V14.7847C1.3125 16.6114 2.29391 18.2822 3.85524 19.1955L8.69538 22.0025C10.279 22.9158 12.2195 22.9158 13.8032 22.0025L18.6433 19.1955C20.2269 18.2822 21.186 16.6114 21.186 14.7847V9.19307C21.2307 7.38861 20.2492 5.69554 18.6656 4.78218ZM11.2604 16.9678C8.51694 16.9678 6.28646 14.7401 6.28646 12C6.28646 9.2599 8.51694 7.03218 11.2604 7.03218C14.0039 7.03218 16.2567 9.2599 16.2567 12C16.2567 14.7401 14.0262 16.9678 11.2604 16.9678Z";
 const buildExamples = [
@@ -78,7 +79,7 @@ const questions = [
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
 }
-function Logo() {
+export function Logo() {
   return (
     <Link className="fsw-logo" to="/" aria-label="FunnelStudio home">
       <span className="fsw-logo-mark">
@@ -90,7 +91,7 @@ function Logo() {
     </Link>
   );
 }
-function StartLink({ children = "Start free", light = false }) {
+export function StartLink({ children = "Start free", light = false }) {
   return (
     <Link
       className={`fsw-button fsw-button-start${light ? " fsw-button-light" : ""}`}
@@ -101,7 +102,7 @@ function StartLink({ children = "Start free", light = false }) {
     </Link>
   );
 }
-function Preview({
+export function Preview({
   image,
   className = "",
   eager = false,
@@ -747,7 +748,7 @@ function StoreDemo({ view, onNavigate }) {
   );
 }
 
-const reducedMotion = () =>
+export const reducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -771,7 +772,7 @@ const revealGroups = [
 
 // Reveal-on-scroll. Marked from JS rather than in the markup so a 1,800-line
 // page opts in by selector instead of by threading a prop through every node.
-function useReveal(rescanKey) {
+export function useReveal(rescanKey) {
   useEffect(() => {
     revealGroups.forEach((selector) => {
       // Stagger counts per parent, so five section headings in five different
@@ -836,7 +837,7 @@ function useReveal(rescanKey) {
 }
 
 // Pointer-tracked highlight for [data-spot] cards, via one passive listener.
-function useSpotlight() {
+export function useSpotlight() {
   useEffect(() => {
     document
       .querySelectorAll(
@@ -912,7 +913,7 @@ function useBuildTimeline(running, showEnd) {
   return state;
 }
 
-function HeroBuild() {
+export function HeroBuild() {
   const stage = useRef(null);
   const [inView, setInView] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -1018,7 +1019,7 @@ const brandGlyphs = {
   Shopify:
     "M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z",
 };
-function StackMark({ name }) {
+export function StackMark({ name }) {
   const path = brandGlyphs[name];
   return (
     <li>
@@ -1033,7 +1034,7 @@ function StackMark({ name }) {
 }
 
 const buildSurfaces = ["Claude Code", "Codex", "Cursor", "your terminal"];
-function Rotator() {
+export function Rotator() {
   const [i, setI] = useState(0);
   useEffect(() => {
     if (reducedMotion()) return undefined;
@@ -1056,8 +1057,8 @@ function Rotator() {
   );
 }
 
-const videoRoot = `${import.meta.env.BASE_URL}video/`;
-function FunnelVideo() {
+export const videoRoot = `${import.meta.env.BASE_URL}video/`;
+export function FunnelVideo() {
   const ref = useRef(null);
   const [playing, setPlaying] = useState(true);
   function toggle() {
@@ -1108,7 +1109,7 @@ function FunnelVideo() {
   );
 }
 
-const stackLogos = [
+export const stackLogos = [
   "Stripe",
   "PayPal",
   "NMI",
@@ -1282,12 +1283,25 @@ export default function MarketingHome() {
             <b>Runs on the stack you already pay for</b> — bring your own
             accounts, keep your processor
           </p>
+          <ul className="fsh-wall-pills">
+            {[
+              "Supplements",
+              "Skincare",
+              "Devices",
+              "Pet",
+              "Apparel",
+              "Digital",
+            ].map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ul>
           <ul className="fsh-wall-grid">
             {stackLogos.map((name) => (
               <StackMark key={name} name={name} />
             ))}
           </ul>
         </section>
+        <HowItWorks />
         <section
           className="fsh-terminal-section"
           aria-labelledby="fsh-term-title"

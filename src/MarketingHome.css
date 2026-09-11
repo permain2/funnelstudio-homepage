@@ -335,3 +335,37 @@
 .fsw-home .fsh-hero-inner{padding-bottom:clamp(26px,3vw,44px)}
 /* Pattern a shade more present, closer to their tiled ground. */
 .fsw-home .fsh-hero::after{background-image:linear-gradient(#11181c0a 1px,transparent 1px),linear-gradient(90deg,#11181c0a 1px,transparent 1px),radial-gradient(circle at 12px 12px,#1260eb14 3px,transparent 3.5px)}
+
+/* ── How it works: their one-card-at-a-time carousel ─────────────────────── */
+.hiw{background:#fff;margin:0 16px;padding:clamp(50px,5.5vw,92px) clamp(24px,4.5vw,72px) clamp(46px,5vw,80px)}
+.hiw-head{margin-bottom:clamp(24px,3vw,40px)}
+.hiw-head h2{margin-top:16px;font-size:clamp(28px,3.4vw,48px);letter-spacing:-.042em;line-height:1.06}
+.hiw-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:clamp(22px,3vw,48px);align-items:stretch;border:1px solid #e8e8e4;border-radius:20px;overflow:hidden;background:#fff}
+.hiw-card:focus-visible{outline:3px solid var(--fsw-blue);outline-offset:3px}
+.hiw-copy{padding:clamp(26px,3vw,44px);display:flex;flex-direction:column}
+.hiw-n{font-family:var(--fsh-mono);font-size:12.5px;font-weight:500;color:var(--fsw-blue);letter-spacing:.05em}
+.hiw-copy h3{margin-top:14px;font-size:clamp(21px,1.9vw,28px);letter-spacing:-.03em;line-height:1.16;font-weight:500}
+.hiw-copy>p{margin-top:13px;color:#5a6365;font-size:15.5px;line-height:1.62;max-width:44ch}
+.hiw-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;padding:0}
+.hiw-chips li{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid #e2e6ec;border-radius:999px;font-size:13px;color:#3c4551;background:#fafafa}
+.hiw-chips span{color:var(--fsw-blue);font-size:11px}
+.hiw-controls{margin-top:auto;padding-top:28px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.hiw-bars{display:flex;gap:7px;flex:1}
+.hiw-bars button{flex:1;max-width:78px;height:4px;padding:0;border:none;border-radius:999px;background:#e6e6e2;cursor:pointer;transition:background .3s}
+.hiw-bars button.is-on{background:var(--fsw-ink)}
+.hiw-bars button:hover{background:#c9c9c4}
+.hiw-bars button.is-on:hover{background:var(--fsw-ink)}
+.hiw-arrows{display:flex;gap:8px}
+.hiw-arrows button{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1px solid #e2e6ec;background:#fff;color:#5a6365;font-size:17px;line-height:1;transition:border-color .2s,color .2s,background .2s}
+.hiw-arrows button:hover{border-color:var(--fsw-ink);color:var(--fsw-ink);background:#fafafa}
+.hiw-art{position:relative;background:#f5f7fb;min-height:300px;border-left:1px solid #f0f0ed}
+.hiw-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.015);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+.hiw-art img.is-on{opacity:1;transform:none}
+@media(max-width:860px){.hiw-card{grid-template-columns:1fr}.hiw-art{min-height:230px;border-left:none;border-top:1px solid #f0f0ed;order:-1}}
+@media(max-width:540px){.hiw{margin:0 10px;padding:38px 18px 34px}.hiw-copy{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){.hiw-art img{transition:none}}
+
+/* Industry pills above the logo grid, as on their band. */
+.fsh-wall-pills{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 18px;padding:0}
+.fsh-wall-pills li{padding:7px 15px;border:1px solid #e6e6e2;border-radius:999px;font-size:13px;color:#5a6365;background:#fff;transition:border-color .2s,color .2s}
+.fsh-wall-pills li:hover{border-color:#c9c9c4;color:var(--fsw-ink)}
