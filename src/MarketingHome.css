@@ -1195,3 +1195,25 @@
 .fh-play-text small{font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.04em;opacity:.85}
 .fh-play:focus-visible{outline:3px solid #fff;outline-offset:-6px}
 @media(max-width:800px){.fh{margin:0 10px;padding:0 12px 30px}.fh-frame{border-radius:14px}.fh-play{flex-direction:column;gap:12px}.fh-play-ring{width:66px;height:66px}.fh-play-ring svg{width:26px;height:26px}.fh-play-text{align-items:center;text-align:center}.fh-play-text b{font-size:16px}}
+/* The film's poster is a light UI frame, so the play overlay's dark gradient
+   read as a grey smear over it. Keep the frame light, let the button carry it. */
+.fh-frame{background:#fff}
+.fh-play{background:rgba(255,255,255,0);color:#11181c}
+.fh-play:hover{background:rgba(255,255,255,.06)}
+.fh-play-text{text-shadow:none}
+.fh-play-text small{color:#5a6365;opacity:1}
+.fh-play-ring{box-shadow:0 18px 44px rgba(18,96,235,.35),0 0 0 10px rgba(18,96,235,.10)}
+/* The 6-step state overflowed the small art box (chips clipped top, processor
+   row clipped bottom). Tighten the demo so the tallest state fits. */
+.wa-steps{padding:10px 14px;gap:7px;justify-content:center}
+.wa-stepchip{padding:3px 9px;font-size:10px}
+.wa-form{gap:3px;padding:7px 9px}
+.wa-frow{height:12px}
+@keyframes wa-frow{0%,100%{height:12px;opacity:1}}
+@keyframes wa-frow-3{0%,32%{height:0;opacity:0;margin-top:-3px}36%,100%{height:12px;opacity:1;margin-top:0}}
+@keyframes wa-frow-6{0%,65%{height:0;opacity:0;margin-top:-3px}69%,100%{height:12px;opacity:1;margin-top:0}}
+.wa-fnum{width:12px;height:12px;font-size:7.5px;flex-basis:12px}
+.wa-fline{height:5px}
+.wa-fpay{height:16px;font-size:9px;margin-top:2px}
+.wa-procs li{width:22px;height:22px;border-radius:7px}
+.wa-procs img{width:13px;height:13px}
