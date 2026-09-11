@@ -386,3 +386,37 @@
 .fsw-home .fsw-build-showcase{background:#f7f8fb}
 /* The explicit <br> sets the two lines; the ch cap was forcing a third. */
 .fsw-home .fsh-hero h1{max-width:22ch}
+
+/* Rotating tail carries the tool's own mark, as their "✦ Gemini" does. */
+.fsh-rot-live,.fsh-rot-ghost{display:inline-flex;align-items:center;gap:.28em}
+.fsh-rot-live .fsh-mark,.fsh-rot-ghost .fsh-mark{width:.72em;height:.72em;border-radius:.16em;opacity:1;flex-shrink:0}
+/* Real vendor icons, one treatment everywhere they appear. */
+.fsh-mark{width:20px;height:20px;object-fit:contain;border-radius:4px}
+.fsh-wall-grid .fsh-mark{width:22px;height:22px}
+.fsw-integration-names span{display:inline-flex;align-items:center;gap:8px}
+
+/* ── "What you get" bento, after their "Grow visibility without manual work" */
+.wyg{background:#fff;padding:clamp(52px,5.6vw,96px) clamp(22px,4.5vw,72px)}
+.wyg-head{max-width:760px;margin-bottom:clamp(26px,3vw,44px)}
+.wyg-head h2{margin-top:16px;font-size:clamp(28px,3.4vw,48px);letter-spacing:-.04em;line-height:1.07;font-weight:600}
+.wyg-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(14px,1.5vw,20px)}
+.wyg-card{grid-column:span 2;display:flex;flex-direction:column;padding:clamp(22px,2.2vw,30px);border:1px solid #e8e8e4;border-radius:16px;background:#fff;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s cubic-bezier(.16,1,.3,1)}
+.wyg-card:hover{border-color:#d8dde6;box-shadow:0 14px 36px rgba(17,24,28,.08);transform:translateY(-2px)}
+.wyg-card.is-wide{grid-column:span 3}
+.wyg-card h3{font-size:clamp(17px,1.45vw,21px);font-weight:600;letter-spacing:-.02em;line-height:1.22}
+.wyg-card>p{margin-top:11px;color:#5a6365;font-size:14.5px;line-height:1.6}
+.wyg-chips{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 0;padding:0}
+.wyg-chips li{padding:6px 11px;border:1px solid #e6e6e2;border-radius:999px;font-size:12.5px;color:#3c4551;background:#fafafa}
+.wyg-art{margin:18px -30px -30px;border-top:1px solid #f0f0ed;background:#f7f8fb}
+.wyg-art img{display:block;width:100%;height:auto;aspect-ratio:25/13;object-fit:cover;object-position:top center}
+
+/* Markets card — their languages grid. */
+.wyg-lang{grid-column:span 6}
+.wyg-flags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;padding:0}
+.wyg-flags li{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid #eceae6;border-radius:10px;background:#fafafa;font-size:13px;color:#3c4551;transition:border-color .2s,background .2s}
+.wyg-flags li:hover{border-color:#d8dde6;background:#fff}
+.wyg-flags span{font-size:15px;line-height:1}
+.wyg-lang-note{margin-top:16px;font-size:13px;color:#98a0aa}
+
+@media(max-width:1000px){.wyg-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wyg-card,.wyg-card.is-wide{grid-column:span 2}.wyg-lang{grid-column:span 4}}
+@media(max-width:680px){.wyg{padding:42px 18px}.wyg-grid{grid-template-columns:1fr}.wyg-card,.wyg-card.is-wide,.wyg-lang{grid-column:span 1}.wyg-art{margin:16px -22px -22px}}

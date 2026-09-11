@@ -2,50 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import HowItWorks from "./HowItWorks";
+import WhatYouGet from "./WhatYouGet";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
 export const shotRoot = `${import.meta.env.BASE_URL}shots/`;
 const logoPath =
   "M18.6656 4.78218L13.8255 1.99752C12.2418 1.08416 10.3013 1.08416 8.71768 1.99752L3.85524 4.78218C2.29391 5.69554 1.3125 7.38861 1.3125 9.19307V14.7847C1.3125 16.6114 2.29391 18.2822 3.85524 19.1955L8.69538 22.0025C10.279 22.9158 12.2195 22.9158 13.8032 22.0025L18.6433 19.1955C20.2269 18.2822 21.186 16.6114 21.186 14.7847V9.19307C21.2307 7.38861 20.2492 5.69554 18.6656 4.78218ZM11.2604 16.9678C8.51694 16.9678 6.28646 14.7401 6.28646 12C6.28646 9.2599 8.51694 7.03218 11.2604 7.03218C14.0039 7.03218 16.2567 9.2599 16.2567 12C16.2567 14.7401 14.0262 16.9678 11.2604 16.9678Z";
-const buildExamples = [
-  {
-    key: "landing",
-    label: "Landing page",
-    heading: "Match the page to the ad that earned the click.",
-    description:
-      "Give each offer and audience a focused destination. Use AI to build the variation, then review and test it.",
-    prompt:
-      "Using my connected FunnelStudio account, create a draft landing page variation for [product URL]. Match this winning ad angle: [angle]. Keep our brand styling, lead with the same promise as the ad, and make the offer clear. Return a preview link for review before publishing.",
-  },
-  {
-    key: "checkout",
-    label: "Checkout",
-    heading: "Make the buying journey feel like your brand.",
-    description:
-      "Shape the checkout layout around your offer. Keep payment processing with your configured checkout provider.",
-    prompt:
-      "Help me improve the checkout experience for [funnel]. Review the available FunnelStudio checkout controls and propose a branded layout with clear order details and concise reassurance copy. Keep the configured payment integration intact. Show me the supported changes for review.",
-  },
-  {
-    key: "upsell",
-    label: "Upsell flow",
-    heading: "Build the next offer into the journey.",
-    description:
-      "Connect upsells and downsells to a thank-you page that completes the purchase journey. Review every offer and next step before launch.",
-    prompt:
-      "Using FunnelStudio, draft an upsell and downsell flow for [product]. After checkout, offer [complementary product]. If declined, offer [alternative]. Connect the accept and decline paths to a thank-you page, use my existing pages where possible, and show me the flow for review.",
-  },
-  {
-    key: "cart",
-    label: "Slideout cart",
-    heading: "Design your cart experience.",
-    description:
-      "Give shoppers clear quantities, a relevant add-on, and a path to checkout. Custom cart behavior may require API integration.",
-    prompt:
-      "Design a branded slide-out cart with clear quantities, a relevant add-on, and a checkout CTA for [store]. Review the cart and checkout integration before publishing.",
-  },
-];
 const questions = [
   [
     "What can I build with FunnelStudio?",
@@ -123,631 +86,6 @@ export function Preview({
     />
   );
 }
-const demoMagnesium =
-  "https://cdn.shopify.com/s/files/1/0694/3840/6879/files/Magnesium_Glycinate.webp?v=1733915016&width=700";
-const demoBerberine =
-  "https://cdn.shopify.com/s/files/1/0694/3840/6879/files/Berberine.webp?v=1733914580&width=700";
-function StoreDemo({ view, onNavigate }) {
-  const [pack, setPack] = useState(1);
-  const [quantity, setQuantity] = useState(1);
-  const [addOn, setAddOn] = useState(false);
-  const [payment, setPayment] = useState("card");
-  const [offer, setOffer] = useState("upsell");
-  const [accepted, setAccepted] = useState(null);
-  const [detail, setDetail] = useState(false);
-  useEffect(() => {
-    setOffer("upsell");
-    setAccepted(null);
-  }, [pack, quantity, addOn]);
-  const unitPrice = pack === 1 ? 29 : 49;
-  const subtotal = unitPrice * quantity + (addOn ? 19 : 0);
-  const money = (value) => `$${value.toFixed(2)}`;
-  const finish = (item) => {
-    setAccepted(item);
-    setOffer("thanks");
-  };
-  const goToCheckout = () => {
-    setOffer("upsell");
-    setAccepted(null);
-    onNavigate(1);
-  };
-  const summary = (
-    <>
-      <div className="fsd-order-product">
-        <img
-          src={demoMagnesium}
-          alt="Meo Nutrition Magnesium Glycinate bottle"
-          loading="lazy"
-          decoding="async"
-        />
-        <div>
-          <strong>Magnesium Glycinate</strong>
-          <span>
-            {pack === 1 ? "Single bottle" : "Two-bottle set"} · Qty {quantity}
-          </span>
-        </div>
-        <b>{money(unitPrice * quantity)}</b>
-      </div>
-      {addOn && (
-        <div className="fsd-order-product">
-          <img
-            src={demoBerberine}
-            alt="Meo Nutrition Berberine bottle"
-            loading="lazy"
-            decoding="async"
-          />
-          <div>
-            <strong>Berberine</strong>
-            <span>Added to your routine</span>
-          </div>
-          <b>$19.00</b>
-        </div>
-      )}
-      <div className="fsd-total-row">
-        <span>Subtotal</span>
-        <span>{money(subtotal)}</span>
-      </div>
-      <div className="fsd-total-row">
-        <span>Demo delivery</span>
-        <span>Included</span>
-      </div>
-      <div className="fsd-total-row fsd-total">
-        <strong>Total</strong>
-        <strong>{money(subtotal)}</strong>
-      </div>
-    </>
-  );
-  return (
-    <figure className={`fsw-build-art fsd-art fsd-art-${view}`}>
-      <figcaption>
-        Interactive store demo · Sample products &amp; prices
-      </figcaption>
-      <div className="fsd-store">
-        <header className="fsd-header">
-          <span className="fsd-brand">
-            meo<span>nutrition</span>
-          </span>
-          <span>THE DAILY COLLECTION</span>
-          <button
-            type="button"
-            onClick={() => onNavigate(3)}
-            aria-label="Open demo shopping bag"
-          >
-            Bag <b>{quantity + (addOn ? 1 : 0)}</b>
-          </button>
-        </header>
-        {view === "landing" && (
-          <div className="fsd-product-page">
-            <div className="fsd-announcement">
-              THE DAILY COLLECTION · ONE-TIME PURCHASES · SAMPLE USD PRICING
-            </div>
-            <div className="fsd-product-layout">
-              <div className="fsd-product-gallery">
-                <span className="fsd-photo-tag">
-                  MAGNESIUM GLYCINATE / THE DAILY COLLECTION
-                </span>
-                <img
-                  className={detail ? "fsd-photo-detail" : ""}
-                  src={demoMagnesium}
-                  alt="Meo Nutrition Magnesium Glycinate product bottle"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="fsd-photo-controls">
-                  <button
-                    type="button"
-                    aria-pressed={!detail}
-                    onClick={() => setDetail(false)}
-                  >
-                    Product
-                  </button>
-                  <button
-                    type="button"
-                    aria-pressed={detail}
-                    onClick={() => setDetail(true)}
-                  >
-                    Detail
-                  </button>
-                </div>
-              </div>
-              <div className="fsd-product-copy">
-                <span className="fsd-kicker">MAKE SPACE FOR YOUR ROUTINE</span>
-                <h4>
-                  Magnesium
-                  <br />
-                  Glycinate.
-                </h4>
-                <p>
-                  Meo Nutrition Magnesium Glycinate. Choose one bottle or build
-                  a two-bottle set, with clear one-time pricing.
-                </p>
-                <div className="fsd-price">
-                  {money(unitPrice)}
-                  {pack === 2 && <del>$58.00</del>}
-                </div>
-                <div className="fsd-purchase-type">
-                  <span aria-hidden="true">✓</span> One-time purchase{" "}
-                  <small>No subscription in this demo</small>
-                </div>
-                <span className="fsd-field-title">CHOOSE YOUR SET</span>
-                <div className="fsd-pack-options">
-                  <button
-                    type="button"
-                    aria-pressed={pack === 1}
-                    onClick={() => setPack(1)}
-                  >
-                    <span className="fsd-bundle-photos">
-                      <img
-                        src={demoMagnesium}
-                        width="2000"
-                        height="2000"
-                        alt="One bottle"
-                        loading="lazy"
-                      />
-                    </span>
-                    <span className="fsd-bundle-description">
-                      <b>One bottle</b>
-                      <small>A single addition to your collection</small>
-                    </span>
-                    <span className="fsd-bundle-price">
-                      <strong>$29</strong>
-                      <small>$29.00 / bottle</small>
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    aria-pressed={pack === 2}
-                    onClick={() => setPack(2)}
-                  >
-                    <span className="fsd-bundle-photos">
-                      <img
-                        src={demoMagnesium}
-                        width="2000"
-                        height="2000"
-                        alt="Two-bottle set"
-                        loading="lazy"
-                      />
-                      <img
-                        src={demoMagnesium}
-                        width="2000"
-                        height="2000"
-                        alt=""
-                        loading="lazy"
-                      />
-                    </span>
-                    <span className="fsd-bundle-description">
-                      <b>Two-bottle set</b>
-                      <small>Save $9 compared with two singles</small>
-                    </span>
-                    <span className="fsd-bundle-price">
-                      <strong>$49</strong>
-                      <small>$24.50 / bottle</small>
-                    </span>
-                  </button>
-                </div>
-                <button
-                  className="fsd-primary"
-                  type="button"
-                  onClick={() => {
-                    setQuantity(Math.max(1, quantity));
-                    onNavigate(3);
-                  }}
-                >
-                  Add to bag — {money(unitPrice)} <span>→</span>
-                </button>
-                <p className="fsd-small-note">
-                  Sample offer · No purchase will be made
-                </p>
-                <details className="fsd-product-details">
-                  <summary>What’s in the set?</summary>
-                  <p>
-                    {pack} bottle{pack === 2 ? "s" : ""} of Meo Nutrition
-                    Magnesium Glycinate. Product details and pricing shown here
-                    are for this interactive demo.
-                  </p>
-                </details>
-                <details className="fsd-product-details">
-                  <summary>Compare the options</summary>
-                  <p>
-                    One bottle is $29. Two bottles are $49 in this sample offer,
-                    or $24.50 each. Select a set above, then adjust the number
-                    of sets in your bag.
-                  </p>
-                </details>
-                <details className="fsd-product-details">
-                  <summary>About this product preview</summary>
-                  <p>
-                    Real Meo Nutrition product photography. The prices and
-                    delivery details are examples for this demo. No real order
-                    is placed.
-                  </p>
-                </details>
-              </div>
-            </div>
-            <div className="fsd-product-footer">
-              <span>ONE-TIME PURCHASE</span>
-              <span>CHOOSE YOUR BUNDLE</span>
-              <span>REVIEW BEFORE CHECKOUT</span>
-            </div>
-          </div>
-        )}
-        {view === "checkout" && (
-          <form
-            className="fsd-checkout"
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (quantity < 1) return;
-              setOffer("upsell");
-              setAccepted(null);
-              onNavigate(2);
-            }}
-          >
-            <div className="fsd-checkout-heading">
-              <span className="fsd-kicker">BAG / INFORMATION / PAYMENT</span>
-              <h4>Complete your routine.</h4>
-              <p>Try the checkout. All details are sample data.</p>
-            </div>
-            <div className="fsd-checkout-grid">
-              <div className="fsd-checkout-fields">
-                <h5>
-                  <span className="fsd-step-number">1</span> Contact
-                </h5>
-                <label>
-                  Email address
-                  <input readOnly value="alex@example.com" />
-                </label>
-                <h5>
-                  <span className="fsd-step-number">2</span> Delivery
-                </h5>
-                <label>
-                  Country / region
-                  <input readOnly value="United States (sample)" />
-                </label>
-                <div className="fsd-field-pair">
-                  <label>
-                    First name
-                    <input readOnly value="Alex" />
-                  </label>
-                  <label>
-                    Last name
-                    <input readOnly value="Taylor" />
-                  </label>
-                </div>
-                <label>
-                  Delivery address
-                  <input readOnly value="123 Example Lane" />
-                </label>
-                <div className="fsd-field-pair">
-                  <label>
-                    City
-                    <input readOnly value="Sample City" />
-                  </label>
-                  <label>
-                    Postal code
-                    <input readOnly value="10001" />
-                  </label>
-                </div>
-                <div className="fsd-shipping-method">
-                  <span>Sample delivery</span>
-                  <strong>Included</strong>
-                  <small>For illustration only. No shipment is created.</small>
-                </div>
-                <h5>
-                  <span className="fsd-step-number">3</span> Payment method
-                </h5>
-                <div className="fsd-payment-options">
-                  <label>
-                    <input
-                      type="radio"
-                      name="demo-payment"
-                      checked={payment === "card"}
-                      onChange={() => setPayment("card")}
-                    />{" "}
-                    Card demo
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="demo-payment"
-                      checked={payment === "wallet"}
-                      onChange={() => setPayment("wallet")}
-                    />{" "}
-                    Wallet demo
-                  </label>
-                </div>
-                <div className="fsd-payment-note">
-                  {payment === "card"
-                    ? "Test card •••• 4242 · No card details needed"
-                    : "Demo wallet selected · No account connection"}
-                </div>
-              </div>
-              <aside className="fsd-order-summary">
-                <h5>Your order summary</h5>
-                {summary}
-                <button
-                  className="fsd-primary"
-                  type="submit"
-                  disabled={quantity < 1}
-                >
-                  Place demo order →
-                </button>
-                {quantity < 1 && (
-                  <button
-                    type="button"
-                    className="fsd-text-button"
-                    onClick={() => onNavigate(0)}
-                  >
-                    Add a product to continue
-                  </button>
-                )}
-                <p className="fsd-small-note">
-                  Nothing is charged. Continue to the offer preview.
-                </p>
-              </aside>
-            </div>
-          </form>
-        )}
-        {view === "upsell" && quantity === 0 && (
-          <div className="fsd-empty" style={{ padding: 28 }}>
-            <h5>Add a product to try the offer flow.</h5>
-            <button
-              type="button"
-              className="fsd-primary"
-              onClick={() => onNavigate(0)}
-            >
-              Explore the product →
-            </button>
-          </div>
-        )}
-        {view === "upsell" &&
-          quantity > 0 &&
-          (offer === "thanks" ? (
-            <div className="fsd-thanks">
-              <span className="fsd-checkmark" aria-hidden="true">
-                ✓
-              </span>
-              <span className="fsd-kicker">DEMO ORDER COMPLETE</span>
-              <h4>Thank you, Alex.</h4>
-              <p>
-                {accepted
-                  ? `${accepted.name} was added to your sample order.`
-                  : "Your original sample order is ready."}
-              </p>
-              <div className="fsd-thanks-order">
-                {summary}
-                {accepted && (
-                  <div className="fsd-total-row">
-                    <span>{accepted.name}</span>
-                    <b>{money(accepted.price)}</b>
-                  </div>
-                )}
-                {accepted && (
-                  <div className="fsd-total-row fsd-total">
-                    <strong>Updated total</strong>
-                    <strong>{money(subtotal + accepted.price)}</strong>
-                  </div>
-                )}
-              </div>
-              <button
-                type="button"
-                className="fsd-primary"
-                onClick={() => {
-                  setOffer("upsell");
-                  setAccepted(null);
-                }}
-              >
-                Try the offer again →
-              </button>
-              <button
-                type="button"
-                className="fsd-text-button"
-                onClick={() => onNavigate(0)}
-              >
-                Back to the product
-              </button>
-            </div>
-          ) : (
-            <div className="fsd-offer">
-              <div className="fsd-offer-status">
-                <span>✓ Demo checkout complete</span>
-                <span>One more thing for your routine</span>
-              </div>
-              <span className="fsd-kicker">
-                {offer === "upsell"
-                  ? "COMPLETE YOUR COLLECTION"
-                  : "A SMALLER NEXT STEP"}
-              </span>
-              <h4>
-                {offer === "upsell"
-                  ? "Make room for one more."
-                  : "One extra. Just for your routine."}
-              </h4>
-              <p>
-                {offer === "upsell"
-                  ? "Add Berberine to this sample order with a single click."
-                  : "Prefer to keep it simple? Add one extra Magnesium Glycinate bottle."}
-              </p>
-              <div className="fsd-offer-product">
-                <img
-                  src={offer === "upsell" ? demoBerberine : demoMagnesium}
-                  alt={
-                    offer === "upsell"
-                      ? "Meo Nutrition Berberine bottle"
-                      : "Meo Nutrition Magnesium Glycinate bottle"
-                  }
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div>
-                  <h5>
-                    {offer === "upsell" ? "Berberine" : "Magnesium Glycinate"}
-                  </h5>
-                  <span className="fsd-offer-price">
-                    <del>$29.00</del> {offer === "upsell" ? "$19.00" : "$15.00"}
-                  </span>
-                  <p>One bottle · Sample offer</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="fsd-primary"
-                onClick={() =>
-                  finish(
-                    offer === "upsell"
-                      ? { name: "Berberine", price: 19 }
-                      : { name: "Extra Magnesium Glycinate", price: 15 },
-                  )
-                }
-              >
-                Yes, add it to my demo order →
-              </button>
-              <button
-                type="button"
-                className="fsd-text-button"
-                onClick={() =>
-                  offer === "upsell" ? setOffer("downsell") : finish(null)
-                }
-              >
-                {offer === "upsell"
-                  ? "No thanks, show another option"
-                  : "No thanks, finish without adding"}
-              </button>
-            </div>
-          ))}
-        {view === "cart" && (
-          <div className="fsd-cart-scene">
-            <div className="fsd-cart-backdrop">
-              <span>THE DAILY COLLECTION</span>
-              <img src={demoMagnesium} alt="" loading="lazy" decoding="async" />
-              <h4>
-                Your routine,
-                <br />
-                thoughtfully chosen.
-              </h4>
-            </div>
-            <section className="fsd-cart-drawer" aria-label="Demo shopping bag">
-              <div className="fsd-cart-title">
-                <h4>
-                  Your bag <span>({quantity + (addOn ? 1 : 0)})</span>
-                </h4>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(0)}
-                  aria-label="Close demo shopping bag"
-                >
-                  ×
-                </button>
-              </div>
-              {quantity > 0 ? (
-                <>
-                  <div className="fsd-cart-line">
-                    <img
-                      src={demoMagnesium}
-                      alt="Meo Nutrition Magnesium Glycinate bottle"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div>
-                      <h5>Magnesium Glycinate</h5>
-                      <p>{pack === 1 ? "Single bottle" : "Two-bottle set"}</p>
-                      <div className="fsd-quantity">
-                        <button
-                          type="button"
-                          aria-label="Decrease demo quantity"
-                          disabled={quantity <= 1}
-                          onClick={() => setQuantity(quantity - 1)}
-                        >
-                          −
-                        </button>
-                        <span aria-live="polite">{quantity}</span>
-                        <button
-                          type="button"
-                          aria-label="Increase demo quantity"
-                          disabled={quantity >= 9}
-                          onClick={() => setQuantity(quantity + 1)}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button
-                        type="button"
-                        className="fsd-remove"
-                        onClick={() => {
-                          setQuantity(0);
-                          setAddOn(false);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                    <b>{money(unitPrice * quantity)}</b>
-                  </div>
-                  <div className="fsd-cart-addon">
-                    <img
-                      src={demoBerberine}
-                      alt="Meo Nutrition Berberine bottle"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div>
-                      <span>COMPLETE THE COLLECTION</span>
-                      <h5>Berberine</h5>
-                      <p>$19.00 sample add-on</p>
-                    </div>
-                    <button
-                      type="button"
-                      aria-pressed={addOn}
-                      onClick={() => setAddOn(!addOn)}
-                    >
-                      {addOn ? "Added ✓" : "+ Add"}
-                    </button>
-                  </div>
-                  <div className="fsd-cart-bottom">
-                    <div className="fsd-total-row fsd-total">
-                      <strong>Subtotal</strong>
-                      <strong aria-live="polite">{money(subtotal)}</strong>
-                    </div>
-                    <p>Sample prices. No shipping or payment is processed.</p>
-                    <button
-                      type="button"
-                      className="fsd-primary"
-                      onClick={goToCheckout}
-                    >
-                      Continue to checkout →
-                    </button>
-                    <button
-                      type="button"
-                      className="fsd-text-button"
-                      onClick={() => onNavigate(0)}
-                    >
-                      Continue shopping
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="fsd-empty">
-                  <h5>Your demo bag is empty.</h5>
-                  <p>Choose a set to try the buying journey.</p>
-                  <button
-                    type="button"
-                    className="fsd-primary"
-                    onClick={() => onNavigate(0)}
-                  >
-                    Explore the product →
-                  </button>
-                </div>
-              )}
-            </section>
-          </div>
-        )}
-      </div>
-      <p className="fsd-demo-note">
-        Local preview only. Nothing is ordered or charged.
-      </p>
-    </figure>
-  );
-}
-
 export const reducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1009,25 +347,39 @@ export function HeroBuild() {
   );
 }
 
-// Official brand glyphs (Simple Icons, CC0). Marks remain their owners'
-// trademarks; shown here only to name the services a funnel connects to.
-const brandGlyphs = {
-  Stripe:
-    "M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z",
-  PayPal:
-    "M7.016 19.198h-4.2a.562.562 0 0 1-.555-.65L5.093.584A.692.692 0 0 1 5.776 0h7.222c3.417 0 5.904 2.488 5.846 5.5-.006.25-.027.5-.066.747A6.794 6.794 0 0 1 12.071 12H8.743a.69.69 0 0 0-.682.583l-.325 2.056-.013.083-.692 4.39-.015.087zM19.79 6.142c-.01.087-.01.175-.023.261a7.76 7.76 0 0 1-7.695 6.598H9.007l-.283 1.795-.013.083-.692 4.39-.134.843-.014.088H6.86l-.497 3.15a.562.562 0 0 0 .555.65h3.612c.34 0 .63-.249.683-.585l.952-6.031a.692.692 0 0 1 .683-.584h2.126a6.793 6.793 0 0 0 6.707-5.752c.306-1.95-.466-3.744-1.89-4.906z",
-  Shopify:
-    "M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z",
+// Each vendor's own icon, vendored locally rather than hotlinked. Marks remain
+// their owners' trademarks; shown here only to name what a funnel connects to.
+export const iconRoot = `${import.meta.env.BASE_URL}icons/`;
+const iconSlug = {
+  "Claude Code": "claude",
+  Codex: "openai",
+  Cursor: "cursor",
+  Stripe: "stripe",
+  PayPal: "paypal",
+  NMI: "nmi",
+  Shopify: "shopify",
+  Klaviyo: "klaviyo",
+  Zamp: "zamp",
 };
+export function BrandIcon({ name, size = 20 }) {
+  const slug = iconSlug[name];
+  if (!slug) return null;
+  return (
+    <img
+      className="fsh-mark"
+      src={`${iconRoot}${slug}.webp`}
+      alt=""
+      width={size}
+      height={size}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
 export function StackMark({ name }) {
-  const path = brandGlyphs[name];
   return (
     <li>
-      {path ? (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="fsh-mark">
-          <path d={path} fill="currentColor" />
-        </svg>
-      ) : null}
+      <BrandIcon name={name} />
       {name}
     </li>
   );
@@ -1048,9 +400,11 @@ export function Rotator() {
     <span className="fsh-rot">
       {/* The widest option holds the box so the line never reflows mid-swap. */}
       <span className="fsh-rot-ghost" aria-hidden="true">
+        <BrandIcon name="Claude Code" size={44} />
         {buildSurfaces.reduce((a, b) => (b.length > a.length ? b : a))}
       </span>
       <span key={i} className="fsh-rot-live">
+        <BrandIcon name={buildSurfaces[i]} size={44} />
         {buildSurfaces[i]}
       </span>
     </span>
@@ -1121,35 +475,9 @@ export const stackLogos = [
 
 export default function MarketingHome() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [exampleIndex, setExampleIndex] = useState(0);
-  const [promptCopied, setPromptCopied] = useState(false);
-  const [manualCopy, setManualCopy] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const exampleTabs = useRef(null);
   const menuButton = useRef(null);
-  const [indicator, setIndicator] = useState({ opacity: 0 });
-  // The selected tab's pill is measured rather than styled per-tab, so it slides
-  // between tabs and still lands correctly on the 2x2 mobile grid.
-  useEffect(() => {
-    const move = () => {
-      const tab = exampleTabs.current?.querySelector(
-        '[role="tab"][aria-selected="true"]',
-      );
-      if (!tab) return;
-      setIndicator({
-        opacity: 1,
-        transform: `translate(${tab.offsetLeft}px, ${tab.offsetTop}px)`,
-        width: tab.offsetWidth,
-        height: tab.offsetHeight,
-      });
-    };
-    move();
-    window.addEventListener("resize", move);
-    // Tab widths change when the webfont swaps in, which fires no resize event.
-    document.fonts?.ready.then(move).catch(() => {});
-    return () => window.removeEventListener("resize", move);
-  }, [exampleIndex]);
-  useReveal(exampleIndex);
+  useReveal(0);
   useSpotlight();
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -1162,36 +490,6 @@ export default function MarketingHome() {
     document.addEventListener("keydown", close);
     return () => document.removeEventListener("keydown", close);
   }, [menuOpen]);
-  const example = buildExamples[exampleIndex];
-  function selectExample(index) {
-    setExampleIndex(index);
-    setPromptCopied(false);
-    setManualCopy(false);
-  }
-  async function copyExample() {
-    try {
-      await navigator.clipboard.writeText(example.prompt);
-      setPromptCopied(true);
-    } catch {
-      setManualCopy(true);
-    }
-  }
-  function navigateExamples(event) {
-    const offsets = { ArrowRight: 1, ArrowLeft: -1 };
-    let next;
-    if (event.key in offsets)
-      next =
-        (exampleIndex + offsets[event.key] + buildExamples.length) %
-        buildExamples.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = buildExamples.length - 1;
-    else return;
-    event.preventDefault();
-    selectExample(next);
-    // Query the tabs rather than indexing children: the tablist also contains
-    // the sliding indicator, which is not a tab.
-    exampleTabs.current?.querySelectorAll('[role="tab"]')[next]?.focus();
-  }
   return (
     <div className="fsw-home">
       <Helmet>
@@ -1266,7 +564,8 @@ export default function MarketingHome() {
                 <StartLink />
               </div>
               <p className="fsh-hero-note">
-                Free to start. <b>Your processor, your payouts.</b>
+                If revenue per visitor doesn’t rise 20% in 90 days,{" "}
+                <b>we refund you in full.</b>
                 <span className="fsh-check" aria-hidden="true">
                   ✓
                 </span>
@@ -1299,6 +598,7 @@ export default function MarketingHome() {
           </ul>
         </section>
         <HowItWorks />
+        <WhatYouGet />
         <section
           className="fsh-terminal-section"
           aria-labelledby="fsh-term-title"
@@ -1455,22 +755,9 @@ export default function MarketingHome() {
                       <li key={benefit}>{benefit}</li>
                     ))}
                   </ul>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      selectExample(pillar.index);
-                      document.getElementById("templates")?.scrollIntoView({
-                        behavior: window.matchMedia(
-                          "(prefers-reduced-motion: reduce)",
-                        ).matches
-                          ? "instant"
-                          : "smooth",
-                        block: "start",
-                      });
-                    }}
-                  >
+                  <a className="fsw-performance-cta" href="#what-you-get">
                     {pillar.action} <span aria-hidden="true">↗</span>
-                  </button>
+                  </a>
                 </div>
                 <figure
                   className={`fsw-performance-art fsw-performance-${pillar.key}`}
@@ -1492,250 +779,6 @@ export default function MarketingHome() {
             Payment and one-click offer availability depend on your provider and
             merchant setup. Custom cart behavior may require API integration.
           </p>
-        </section>
-        <section
-          className="fsw-build-showcase fsw-section"
-          id="templates"
-          aria-labelledby="build-next-title"
-        >
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">
-                ONE CONNECTION. MORE ROOM TO EXPERIMENT.
-              </span>
-              <h2 id="build-next-title">
-                Shop the experience.
-                <br />
-                Then make it yours.
-              </h2>
-            </div>
-            <p>
-              Try a complete product journey, from the first choice to the next
-              offer. Then copy a starting prompt and build your own.
-            </p>
-          </div>
-          <div
-            className="fsw-build-tabs"
-            role="tablist"
-            aria-label="Build examples"
-            ref={exampleTabs}
-            onKeyDown={navigateExamples}
-          >
-            <span
-              className="fsw-tab-indicator"
-              style={indicator}
-              aria-hidden="true"
-            />
-            {buildExamples.map((item, index) => (
-              <button
-                key={item.key}
-                type="button"
-                id={`build-tab-${item.key}`}
-                role="tab"
-                aria-selected={exampleIndex === index}
-                aria-controls={`build-panel-${item.key}`}
-                tabIndex={exampleIndex === index ? 0 : -1}
-                onClick={() => selectExample(index)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div
-            className={`fsw-build-panel fsw-build-${example.key}`}
-            id={`build-panel-${example.key}`}
-            role="tabpanel"
-            aria-labelledby={`build-tab-${example.key}`}
-            tabIndex={0}
-          >
-            <div className="fsw-build-brief">
-              <span className="fsw-eyebrow">
-                EXAMPLE PROMPT / {example.label.toUpperCase()}
-              </span>
-              <h3>{example.heading}</h3>
-              <p>{example.description}</p>
-              <div className="fsw-build-prompt">{example.prompt}</div>
-              <div className="fsw-build-actions">
-                <button
-                  type="button"
-                  className="fsw-button fsw-button-start"
-                  onClick={copyExample}
-                >
-                  {promptCopied ? "Prompt copied ✓" : "Copy prompt"}
-                </button>
-                <Link to="/api-docs" className="fsw-text-link">
-                  Connect your AI <Arrow />
-                </Link>
-              </div>
-              <span className="fsw-build-status" aria-live="polite">
-                {promptCopied
-                  ? "Paste this into your connected AI assistant."
-                  : "Connect with an API key and the documentation in your account."}
-              </span>
-              {manualCopy && (
-                <label className="fsw-manual-prompt">
-                  Clipboard unavailable. Select and copy this prompt.
-                  <textarea
-                    readOnly
-                    value={example.prompt}
-                    onFocus={(event) => event.target.select()}
-                    rows={5}
-                  />
-                </label>
-              )}
-            </div>
-            <StoreDemo view={example.key} onNavigate={selectExample} />
-          </div>
-        </section>
-        <section className="fsw-benefits fsw-section" id="canvas">
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">
-                FROM YOUR TERMINAL TO YOUR STORE
-              </span>
-              <h2>
-                Brief the change.
-                <br />
-                Keep control of the result.
-              </h2>
-            </div>
-            <p>
-              Give your AI assistant a clear brief. Review the result, refine
-              it, and publish when you’re ready.
-            </p>
-          </div>
-          <div className="fsw-bento">
-            {[
-              {
-                kind: "variation",
-                tag: "CAMPAIGN VARIATIONS",
-                title: "A new angle. A new page.",
-                copy: "Describe the change in your terminal. Preview a page that picks up exactly where your ad left off.",
-                prompt:
-                  "Create a landing page variation for our travel campaign. Lead with the two-bottle pack and keep our existing brand style.",
-                result: "Campaign page preview",
-                headline: "Your routine. Ready to go.",
-                detail: "A focused offer. A matching message.",
-                wide: true,
-              },
-              {
-                kind: "translation",
-                tag: "TRANSLATION",
-                title: "New markets. One prompt.",
-                copy: "Ask AI to translate your page content. Review the language and local offer before you publish.",
-                prompt:
-                  "Translate this page into French. Keep the product names and adapt the headline for a French-speaking audience.",
-                result: "French content preview",
-                headline: "Votre routine, partout avec vous.",
-                detail: "Découvrez votre nouvelle routine.",
-              },
-              {
-                kind: "journey",
-                tag: "CHECKOUT & OFFERS",
-                title: "Prompt the next step.",
-                copy: "Describe your checkout layout and post-purchase offer flow. Preview the journey before connecting and testing payments.",
-                prompt:
-                  "Simplify the checkout layout. Add an upsell after purchase, a downsell if declined, and a clear thank-you page.",
-                result: "Buying journey preview",
-                wide: true,
-              },
-              {
-                kind: "brand",
-                tag: "BRAND & MOBILE",
-                title: "Your brand. Every screen.",
-                copy: "Ask for your colors, typography, and mobile layout in one brief. Review the details at every size.",
-                prompt:
-                  "Apply our blue palette and typography. Stack the product details on mobile and make the main CTA easy to reach.",
-                result: "Mobile design preview",
-                headline: "Made for your everyday.",
-                detail: "Explore the collection",
-              },
-            ].map((item) => (
-              <article
-                key={item.kind}
-                className={`fsw-benefit fsw-prompt-benefit ${item.wide ? "fsw-benefit-wide" : ""}`}
-              >
-                <div className="fsw-benefit-copy">
-                  <span>{item.tag}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </div>
-                <div className="fsw-workflow-example">
-                  <div className="fsw-terminal-example">
-                    <div>
-                      <span aria-hidden="true">›_</span> YOUR TERMINAL{" "}
-                      <small>Example prompt</small>
-                    </div>
-                    <p>{item.prompt}</p>
-                  </div>
-                  <div className="fsw-workflow-transition" aria-hidden="true">
-                    ↓
-                  </div>
-                  <div className={`fsw-prompt-result fsw-result-${item.kind}`}>
-                    <div className="fsw-result-label">
-                      <span>{item.result}</span>
-                      <span>Illustrative</span>
-                    </div>
-                    {item.kind === "journey" ? (
-                      <div className="fsw-journey-result">
-                        <div>
-                          <span>01</span>
-                          <strong>Checkout</strong>
-                          <small>Focused layout</small>
-                        </div>
-                        <i aria-hidden="true">→</i>
-                        <div>
-                          <span>02</span>
-                          <strong>Upsell offer</strong>
-                          <small>Accept or decline</small>
-                        </div>
-                        <i aria-hidden="true">→</i>
-                        <div>
-                          <span>03</span>
-                          <strong>Thank you</strong>
-                          <small>Order details</small>
-                        </div>
-                        <p>Declined offer → Downsell → Thank you</p>
-                      </div>
-                    ) : (
-                      <div className="fsw-result-store">
-                        <div className="fsw-result-store-copy">
-                          <small>
-                            {item.kind === "translation"
-                              ? "FR / FRANÇAIS"
-                              : "MEO NUTRITION"}
-                          </small>
-                          <strong>{item.headline}</strong>
-                          <p>{item.detail}</p>
-                          <span className="fsw-result-cta">
-                            {item.kind === "translation"
-                              ? "Découvrir"
-                              : "Explore the collection"}{" "}
-                            <span aria-hidden="true">↗</span>
-                          </span>
-                        </div>
-                        <img
-                          src={demoMagnesium}
-                          width="2000"
-                          height="2000"
-                          alt="Meo Nutrition magnesium bottle in an illustrative page preview"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="fsw-capabilities">
-            <span>AI-assisted copy</span>
-            <span>Prompt to build</span>
-            <span>Shopify products</span>
-            <span>Custom domains</span>
-            <span>A/B testing</span>
-          </div>
         </section>
         <section
           className="fsw-comparison fsw-section"
@@ -1887,9 +930,18 @@ export default function MarketingHome() {
                 funnel.
               </p>
               <div className="fsw-integration-names">
-                <span>Stripe</span>
-                <span>PayPal</span>
-                <span>NMI</span>
+                <span>
+                  <BrandIcon name="Stripe" size={18} />
+                  Stripe
+                </span>
+                <span>
+                  <BrandIcon name="PayPal" size={18} />
+                  PayPal
+                </span>
+                <span>
+                  <BrandIcon name="NMI" size={18} />
+                  NMI
+                </span>
               </div>
             </article>
             <article>
@@ -1900,7 +952,10 @@ export default function MarketingHome() {
                 your checkout configuration before launch.
               </p>
               <div className="fsw-integration-names">
-                <span>Zamp</span>
+                <span>
+                  <BrandIcon name="Zamp" size={18} />
+                  Zamp
+                </span>
               </div>
             </article>
             <article>
@@ -1911,8 +966,14 @@ export default function MarketingHome() {
                 the funnel experience you’re building.
               </p>
               <div className="fsw-integration-names">
-                <span>Shopify</span>
-                <span>Klaviyo</span>
+                <span>
+                  <BrandIcon name="Shopify" size={18} />
+                  Shopify
+                </span>
+                <span>
+                  <BrandIcon name="Klaviyo" size={18} />
+                  Klaviyo
+                </span>
               </div>
             </article>
           </div>
