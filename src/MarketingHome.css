@@ -62,20 +62,20 @@
 [data-reveal="in"]{opacity:1;transform:none}
 
 /* Hero — the one dark band on the page. */
-.fsh-hero{background:var(--fsh-console);color:#fff;border-radius:26px;margin:14px 16px 0;padding:0;overflow:hidden;position:relative;isolation:isolate}
-.fsh-hero::before{content:"";position:absolute;inset:-40% -10% auto;height:150%;z-index:-1;background:radial-gradient(60% 55% at 22% 0%,rgba(18,96,235,.42),transparent 62%),radial-gradient(45% 45% at 88% 18%,rgba(18,96,235,.2),transparent 65%)}
-.fsh-hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:linear-gradient(var(--fsh-line) 1px,transparent 1px),linear-gradient(90deg,var(--fsh-line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(72% 60% at 50% 12%,#000,transparent 78%)}
+.fsh-hero{background:#fff;color:var(--fsw-ink);border-radius:24px 24px 0 0;margin:14px 16px 0;padding:0;overflow:hidden;position:relative;isolation:isolate}
+.fsh-hero::before{content:"";position:absolute;inset:-30% -10% auto;height:130%;z-index:-1;background:radial-gradient(52% 48% at 78% 4%,rgba(18,96,235,.09),transparent 66%)}
+.fsh-hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;background-image:linear-gradient(#11181c0d 1px,transparent 1px),linear-gradient(90deg,#11181c0d 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(68% 58% at 72% 8%,#000,transparent 76%)}
 .fsh-hero-inner{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(32px,4vw,72px);align-items:center;padding:clamp(56px,6vw,96px) clamp(28px,4.5vw,76px) clamp(40px,4vw,64px)}
 .fsh-hero-copy{max-width:620px}
-.fsh-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--fsh-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fsh-slate);border:1px solid var(--fsh-line);background:rgba(255,255,255,.04);padding:7px 14px;border-radius:999px}
-.fsh-eyebrow i{width:7px;height:7px;border-radius:50%;background:#4d8dff;box-shadow:0 0 0 4px rgba(77,141,255,.18)}
-.fsh-hero h1{margin:26px 0 0;font-size:clamp(40px,5.1vw,74px);letter-spacing:-.045em;line-height:1.02;color:#fff}
-.fsh-hero h1 span{color:#7fa9ff}
-.fsh-hero-copy>p{margin-top:22px;max-width:53ch;font-size:clamp(15px,1.15vw,18px);color:#b9c7dc;line-height:1.6}
+.fsh-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--fsh-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#5a6365;border:1px solid #e4e4e0;background:#fafafa;padding:7px 14px;border-radius:999px}
+.fsh-eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--fsw-blue);box-shadow:0 0 0 4px rgba(18,96,235,.14)}
+.fsh-hero h1{margin:26px 0 0;font-size:clamp(40px,5.1vw,74px);letter-spacing:-.045em;line-height:1.02;color:var(--fsw-ink)}
+.fsh-hero h1 span{color:var(--fsw-blue)}
+.fsh-hero-copy>p{margin-top:22px;max-width:53ch;font-size:clamp(15px,1.15vw,18px);color:#5a6365;line-height:1.6}
 .fsh-hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .fsh-hero-note{margin-top:20px;font-family:var(--fsh-mono);font-size:12.5px;color:var(--fsh-slate)}
-.fsw-home .fsh-button-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:14px 26px}
-.fsw-home .fsh-button-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
+.fsw-home .fsh-button-ghost{background:#fff;color:var(--fsw-ink)!important;border:1px solid #dcdcd8;border-radius:999px;padding:14px 26px;gap:0}
+.fsw-home .fsh-button-ghost:hover{background:#f5f5f3;border-color:#c4c4bf}
 
 /* Hero stage: the terminal drives the funnel graph beside it. */
 .fsh-stage{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
@@ -89,40 +89,35 @@
 .fsh-caret.is-idle{opacity:.35}
 @keyframes fsh-blink{50%{opacity:0}}
 .fsh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.fsh-funnel{background:rgba(255,255,255,.045);border:1px solid var(--fsh-line);border-radius:15px;padding:16px}
-.fsh-funnel-label{display:flex;align-items:center;justify-content:space-between;font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--fsh-slate)}
-.fsh-funnel-label b{font-weight:500;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:#93a7c4;transition:background .4s,color .4s}
-.fsh-funnel-label b.is-live{background:rgba(18,96,235,.24);color:#8fb6ff}
+.fsh-funnel{background:#fbfbfa;border:1px solid #e4e4e0;border-radius:15px;padding:16px}
+.fsh-funnel-label{display:flex;align-items:center;justify-content:space-between;font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#78808a}
+.fsh-funnel-label b{font-weight:500;padding:4px 10px;border-radius:999px;background:#eeeeec;color:#6b7280;transition:background .4s,color .4s}
+.fsh-funnel-label b.is-live{background:#e2ecff;color:#0f4dc7}
 .fsh-steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
-.fsh-steps li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;padding:11px 13px;border-radius:10px;border:1px solid transparent;background:rgba(255,255,255,.03);opacity:.42;transform:translateX(-6px);transition:opacity .45s,transform .45s,background .45s,border-color .45s}
+.fsh-steps li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;padding:11px 13px;border-radius:10px;border:1px solid transparent;background:#fff;border-color:#ececea;opacity:.45;transform:translateX(-6px);transition:opacity .45s,transform .45s,background .45s,border-color .45s}
 .fsh-steps li.is-active,.fsh-steps li.is-done{opacity:1;transform:none}
-.fsh-steps li.is-active{background:rgba(18,96,235,.16);border-color:rgba(77,141,255,.42)}
-.fsh-step-dot{width:8px;height:8px;border-radius:50%;background:#3a4a66;transition:background .4s,box-shadow .4s}
-.fsh-steps li.is-active .fsh-step-dot{background:#4d8dff;box-shadow:0 0 0 4px rgba(77,141,255,.2)}
-.fsh-steps li.is-done .fsh-step-dot{background:#5ad6a0}
-.fsh-step-name{font-size:13.5px;color:#e6edf9}
-.fsh-step-meta{font-family:var(--fsh-mono);font-size:11px;color:var(--fsh-slate)}
-.fsh-render{margin-top:13px;border-radius:11px;overflow:hidden;border:1px solid var(--fsh-line);background:#0e1626;height:168px;opacity:.2;filter:blur(7px) saturate(.5);transition:opacity .7s ease,filter .7s ease}
+.fsh-steps li.is-active{background:#eef4ff;border-color:#bcd3fb}
+.fsh-step-dot{width:8px;height:8px;border-radius:50%;background:#d3d3cf;transition:background .4s,box-shadow .4s}
+.fsh-steps li.is-active .fsh-step-dot{background:var(--fsw-blue);box-shadow:0 0 0 4px rgba(18,96,235,.16)}
+.fsh-steps li.is-done .fsh-step-dot{background:#159201}
+.fsh-step-name{font-size:13.5px;color:var(--fsw-ink)}
+.fsh-step-meta{font-family:var(--fsh-mono);font-size:11px;color:#8a919a}
+.fsh-render{margin-top:13px;border-radius:11px;overflow:hidden;border:1px solid #e4e4e0;background:#f2f2f0;height:168px;opacity:.2;filter:blur(7px) saturate(.5);transition:opacity .7s ease,filter .7s ease}
 .fsh-render.is-built{opacity:1;filter:none}
 .fsh-render img{width:100%;height:100%;object-fit:cover;object-position:top center}
-.fsh-stack{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;padding:20px clamp(28px,4.5vw,76px) 26px;border-top:1px solid var(--fsh-line)}
-.fsh-stack>span{font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#6b7f9c}
+.fsh-stack{display:flex;flex-wrap:wrap;align-items:center;gap:16px 30px;padding:20px clamp(28px,4.5vw,76px) 26px;border-top:1px solid #ededea}
+.fsh-stack>span{font-family:var(--fsh-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#8a919a}
 .fsh-stack ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px 24px;margin:0;padding:0}
-.fsh-stack li{font-size:14.5px;font-weight:500;color:#93a7c4;letter-spacing:-.01em}
+.fsh-stack li{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:#5a6365;letter-spacing:-.01em}
 
 @media(max-width:980px){.fsh-hero-inner{grid-template-columns:1fr;padding-top:clamp(44px,7vw,64px)}.fsh-hero-copy{max-width:none}}
-@media(max-width:540px){.fsh-hero{margin:10px 10px 0;border-radius:20px}.fsh-hero-inner{padding:38px 20px 30px;gap:26px}.fsh-hero h1{font-size:clamp(32px,9vw,42px)}.fsh-hero-actions{gap:10px}.fsh-hero-actions>a{flex:1 1 100%;justify-content:center}.fsh-terminal-body{font-size:12px;min-height:120px}.fsh-stack{padding:18px 20px 22px}.fsh-render{height:132px}}
+@media(max-width:540px){.fsh-hero{margin:10px 10px 0;border-radius:17px 17px 0 0}.fsh-hero-inner{padding:38px 20px 30px;gap:26px}.fsh-hero h1{font-size:clamp(32px,9vw,42px)}.fsh-hero-actions{gap:10px}.fsh-hero-actions>a{flex:1 1 100%;justify-content:center}.fsh-terminal-body{font-size:12px;min-height:120px}.fsh-stack{padding:18px 20px 22px}.fsh-render{height:132px}}
 @media(prefers-reduced-motion:reduce){[data-reveal]{transition:none}[data-reveal="out"]{opacity:1;transform:none}.fsh-caret{animation:none}.fsh-render{opacity:1;filter:none}.fsh-steps li{opacity:1;transform:none}}
 
 /* Header adapts to the band it is sitting on. */
-.fsw-home .fsh-header-dark{background:var(--fsh-console);border-bottom-color:transparent;color:#fff}
-.fsw-home .fsh-header-dark .fsw-logo-mark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16);box-shadow:none;color:#fff}
-@media(min-width:801px){.fsw-home .fsh-header-dark .fsw-navigation>a,.fsw-home .fsh-header-dark .fsw-nav-auth>a:not(.fsw-nav-demo):not(.fsw-nav-start){color:#c3d0e4}.fsw-home .fsh-header-dark .fsw-navigation>a:hover,.fsw-home .fsh-header-dark .fsw-nav-auth>a:not(.fsw-nav-demo):not(.fsw-nav-start):hover{color:#fff}}
 .fsw-home .fsw-header{transition:background .35s ease,color .35s ease,border-color .35s ease}
 
 /* Hero primary CTA carries the accent; the page's only bright surface here. */
-.fsh-hero .fsw-button-start{background:var(--fsw-blue);color:#fff;border:none;box-shadow:0 8px 26px rgba(18,96,235,.4)}
-.fsh-hero .fsw-button-start:hover{background:#0f4dc7;box-shadow:0 12px 32px rgba(18,96,235,.5)}
 .fsw-home .fsw-button-start,.fsw-home .fsh-button-ghost{transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s,box-shadow .22s}
 .fsw-home .fsw-button-start:hover,.fsw-home .fsh-button-ghost:hover{transform:translateY(-2px)}
 
@@ -152,9 +147,6 @@
 .fsw-build-prompt{font-size:12.5px;line-height:1.7}
 
 /* On the dark header the solid-dark CTA disappears; invert it. */
-.fsw-home .fsh-header-dark .fsw-nav-start{background:#fff;color:#0b1120!important}
-.fsw-home .fsh-header-dark .fsw-nav-start:hover{background:#e7ecf5}
-.fsw-home .fsh-header-dark .fsw-menu-toggle{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
 /* The hero is its own card now, so the section under it closes its own shape. */
 .fsw-intro{border-radius:24px;margin-top:14px}
 
@@ -162,7 +154,7 @@
    max-width, colour and size meant for the old centred hero. Scope past it. */
 .fsh-hero .fsh-terminal-body{margin:0;max-width:none;font-size:13px;line-height:1.72;color:#dfe8f6;text-align:left}
 .fsh-hero .fsh-hero-note{margin:20px 0 0;max-width:none;font-size:12.5px;color:var(--fsh-slate)}
-.fsh-hero .fsh-stack>span{color:#6b7f9c}
+.fsh-hero .fsh-stack>span{color:#8a919a}
 @media(max-width:540px){.fsh-hero .fsh-terminal-body{font-size:12px}}
 .fsh-hero .fsh-sr{position:absolute;width:1px;height:1px;margin:0;max-width:none;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
@@ -213,9 +205,26 @@
    into the ≤800px dropdown, whose panel is still light — white on #f5f5f3.
    Take the panel dark with the header rather than re-colouring its links. */
 @media(max-width:800px){
-  .fsw-home .fsh-header-dark .fsw-navigation{background:var(--fsh-console);border-bottom-color:rgba(255,255,255,.12);box-shadow:0 20px 25px rgba(0,0,0,.3)}
-  .fsw-home .fsh-header-dark .fsw-navigation>a,
-  .fsw-home .fsh-header-dark .fsw-nav-auth>a:not(.fsw-nav-demo):not(.fsw-nav-start){color:#c3d0e4}
-  .fsw-home .fsh-header-dark .fsw-navigation>a:hover,
-  .fsw-home .fsh-header-dark .fsw-nav-auth>a:not(.fsw-nav-demo):not(.fsw-nav-start):hover{color:#fff}
 }
+
+/* Hero and intro are one white card again, so the section seam disappears. */
+.fsw-intro{border-radius:0 0 24px 24px;margin-top:0}
+@media(max-width:800px){.fsw-intro{border-radius:0 0 17px 17px;margin-top:0}}
+
+/* Real screenshots replace the drawn mockups in the pillar cards. */
+.fsw-performance-art{margin:0;display:flex;flex-direction:column;gap:9px;min-width:0}
+.fsw-performance-art img{width:100%;height:auto;border-radius:10px;border:1px solid #e4e4e0;background:#fff;box-shadow:0 10px 26px rgba(17,24,28,.07)}
+.fsw-performance-art figcaption{font-family:var(--fsh-mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#8a919a;text-align:right}
+.fsh-mark{width:17px;height:17px;flex-shrink:0;opacity:.75}
+.fsh-stack li:hover .fsh-mark{opacity:1}
+
+/* The screenshots are the evidence, so they get the room: copy on top, the real
+   UI full-bleed across the foot of the card. Beats a 140px-wide thumbnail. */
+.fsw-home .fsw-performance-card{grid-template-columns:1fr;gap:0;padding:0;align-content:start}
+.fsw-home .fsw-performance-copy{padding:29px 27px 24px}
+.fsw-home .fsw-performance-art{padding:0 27px 24px;gap:10px}
+.fsw-home .fsw-performance-art img{width:100%;border-radius:12px;box-shadow:0 14px 34px rgba(17,24,28,.1)}
+.fsw-home .fsw-performance-art figcaption{text-align:left;font-size:10px;color:#98a0aa}
+/* The card's own CTA belongs under the copy, not stranded below the image. */
+.fsw-home .fsw-performance-copy button{margin-top:20px}
+@media(max-width:800px){.fsw-home .fsw-performance-copy{padding:25px 20px 20px}.fsw-home .fsw-performance-art{padding:0 20px 20px}}

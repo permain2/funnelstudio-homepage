@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
+const shotRoot = `${import.meta.env.BASE_URL}shots/`;
 const logoPath =
   "M18.6656 4.78218L13.8255 1.99752C12.2418 1.08416 10.3013 1.08416 8.71768 1.99752L3.85524 4.78218C2.29391 5.69554 1.3125 7.38861 1.3125 9.19307V14.7847C1.3125 16.6114 2.29391 18.2822 3.85524 19.1955L8.69538 22.0025C10.279 22.9158 12.2195 22.9158 13.8032 22.0025L18.6433 19.1955C20.2269 18.2822 21.186 16.6114 21.186 14.7847V9.19307C21.2307 7.38861 20.2492 5.69554 18.6656 4.78218ZM11.2604 16.9678C8.51694 16.9678 6.28646 14.7401 6.28646 12C6.28646 9.2599 8.51694 7.03218 11.2604 7.03218C14.0039 7.03218 16.2567 9.2599 16.2567 12C16.2567 14.7401 14.0262 16.9678 11.2604 16.9678Z";
 const buildExamples = [
@@ -1002,6 +1003,30 @@ function HeroBuild() {
   );
 }
 
+// Official brand glyphs (Simple Icons, CC0). Marks remain their owners'
+// trademarks; shown here only to name the services a funnel connects to.
+const brandGlyphs = {
+  Stripe:
+    "M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z",
+  PayPal:
+    "M7.016 19.198h-4.2a.562.562 0 0 1-.555-.65L5.093.584A.692.692 0 0 1 5.776 0h7.222c3.417 0 5.904 2.488 5.846 5.5-.006.25-.027.5-.066.747A6.794 6.794 0 0 1 12.071 12H8.743a.69.69 0 0 0-.682.583l-.325 2.056-.013.083-.692 4.39-.015.087zM19.79 6.142c-.01.087-.01.175-.023.261a7.76 7.76 0 0 1-7.695 6.598H9.007l-.283 1.795-.013.083-.692 4.39-.134.843-.014.088H6.86l-.497 3.15a.562.562 0 0 0 .555.65h3.612c.34 0 .63-.249.683-.585l.952-6.031a.692.692 0 0 1 .683-.584h2.126a6.793 6.793 0 0 0 6.707-5.752c.306-1.95-.466-3.744-1.89-4.906z",
+  Shopify:
+    "M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z",
+};
+function StackMark({ name }) {
+  const path = brandGlyphs[name];
+  return (
+    <li>
+      {path ? (
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="fsh-mark">
+          <path d={path} fill="currentColor" />
+        </svg>
+      ) : null}
+      {name}
+    </li>
+  );
+}
+
 const stackLogos = [
   "Stripe",
   "PayPal",
@@ -1020,8 +1045,6 @@ export default function MarketingHome() {
   const [playing, setPlaying] = useState(false);
   const exampleTabs = useRef(null);
   const menuButton = useRef(null);
-  const heroRef = useRef(null);
-  const [overHero, setOverHero] = useState(true);
   const [indicator, setIndicator] = useState({ opacity: 0 });
   // The selected tab's pill is measured rather than styled per-tab, so it slides
   // between tabs and still lands correctly on the 2x2 mobile grid.
@@ -1046,21 +1069,6 @@ export default function MarketingHome() {
   }, [exampleIndex]);
   useReveal(exampleIndex);
   useSpotlight();
-  // The header sits on the dark hero at rest and on paper once past it.
-  useEffect(() => {
-    const node = heroRef.current;
-    if (!node || !("IntersectionObserver" in window)) return undefined;
-    // Measured, not hardcoded: the header is 88px on desktop and 72px at ≤800px,
-    // and a fixed inset flips the colour with hero still behind the bar.
-    const headerHeight =
-      document.querySelector(".fsw-header")?.offsetHeight || 88;
-    const io = new IntersectionObserver(
-      ([entry]) => setOverHero(entry.isIntersecting),
-      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 },
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, []);
   useEffect(() => {
     if (!menuOpen) return undefined;
     const close = (event) => {
@@ -1118,7 +1126,7 @@ export default function MarketingHome() {
       <a className="fsw-skip" href="#main-content">
         Skip to content
       </a>
-      <header className={`fsw-header${overHero ? " fsh-header-dark" : ""}`}>
+      <header className="fsw-header">
         <Logo />
         <button
           className="fsw-menu-toggle"
@@ -1158,7 +1166,7 @@ export default function MarketingHome() {
         </nav>
       </header>
       <main id="main-content">
-        <section className="fsw-hero fsh-hero" ref={heroRef}>
+        <section className="fsw-hero fsh-hero">
           <div className="fsh-hero-inner">
             <div className="fsh-hero-copy">
               <span className="fsh-eyebrow">
@@ -1195,7 +1203,7 @@ export default function MarketingHome() {
             <span>Connects to the stack you already run</span>
             <ul>
               {stackLogos.map((name) => (
-                <li key={name}>{name}</li>
+                <StackMark key={name} name={name} />
               ))}
             </ul>
           </div>
@@ -1259,6 +1267,12 @@ export default function MarketingHome() {
             {[
               {
                 key: "checkout",
+                shot: "checkout",
+                shotAlt:
+                  "A live FunnelStudio checkout: contact, delivery and order summary on one page",
+                shotW: 1100,
+                shotH: 730,
+                shotCaption: "Live checkout · sale.meonutrition.com",
                 index: 1,
                 title: "Increase Sales with a Focused Checkout",
                 copy: "Online sales are more competitive than ever, and many companies struggle to advance. A clear checkout helps shoppers move from choosing a product to completing an order.",
@@ -1271,6 +1285,12 @@ export default function MarketingHome() {
               },
               {
                 key: "cart",
+                shot: "bundles",
+                shotAlt:
+                  "Three live bundle tiers with per-bottle pricing and savings badges",
+                shotW: 1100,
+                shotH: 591,
+                shotCaption: "Live offer tiers · sale.meonutrition.com",
                 index: 3,
                 title: "Full Control & Customization",
                 copy: "Customize your checkout and optimize every detail of the buyer’s experience with FunnelStudio. Create your site structure and design, manage content, and test variations to improve the experience at every step.",
@@ -1285,6 +1305,12 @@ export default function MarketingHome() {
               },
               {
                 key: "offer",
+                shot: "bumps",
+                shotAlt:
+                  "Four order bumps included with the bundle, each showing its free value",
+                shotW: 1100,
+                shotH: 571,
+                shotCaption: "Live order bumps · sale.meonutrition.com",
                 index: 2,
                 title:
                   "Boost Average Order Value with One-Click Upsells & Order Bumps",
@@ -1299,6 +1325,12 @@ export default function MarketingHome() {
               },
               {
                 key: "payments",
+                shot: "payment",
+                shotAlt:
+                  "The card payment step of a live checkout with accepted card brands",
+                shotW: 1000,
+                shotH: 329,
+                shotCaption: "Live payment step · sale.meonutrition.com",
                 index: 1,
                 title: "Flexible Payment Options for Your Business",
                 copy: "High-volume e-commerce stores need flexibility in payment processing. Connect your payment providers in FunnelStudio and configure the checkout experience around your merchant setup.",
@@ -1333,77 +1365,19 @@ export default function MarketingHome() {
                     {pillar.action} <span aria-hidden="true">↗</span>
                   </button>
                 </div>
-                <div
+                <figure
                   className={`fsw-performance-art fsw-performance-${pillar.key}`}
-                  aria-label={`${pillar.key} layout illustration`}
                 >
-                  <span className="fsw-performance-art-label">
-                    LAYOUT EXAMPLE
-                  </span>
-                  {pillar.key === "checkout" && (
-                    <div className="fsw-mini-checkout">
-                      <strong>Your checkout</strong>
-                      <span>Contact</span>
-                      <div>name@example.com</div>
-                      <span>Delivery</span>
-                      <div>Shipping address</div>
-                      <footer>
-                        <span>Order summary</span>
-                        <b>→</b>
-                      </footer>
-                    </div>
-                  )}
-                  {pillar.key === "cart" && (
-                    <div className="fsw-mini-cart">
-                      <header>
-                        <strong>Your bag</strong>
-                        <span>2</span>
-                      </header>
-                      <div className="fsw-mini-cart-item">
-                        <i aria-hidden="true">01</i>
-                        <span>
-                          Product bundle<small>Two-bottle set</small>
-                        </span>
-                      </div>
-                      <div className="fsw-mini-quantity">
-                        <span>−</span>
-                        <b>1</b>
-                        <span>+</span>
-                      </div>
-                      <div className="fsw-mini-cart-addon">
-                        <span>Optional add-on</span>
-                        <b>+</b>
-                      </div>
-                      <footer>
-                        Review checkout <span>→</span>
-                      </footer>
-                    </div>
-                  )}
-                  {pillar.key === "offer" && (
-                    <div className="fsw-mini-offer">
-                      <strong>After checkout</strong>
-                      <div>Relevant upsell</div>
-                      <span className="fsw-mini-offer-branches">
-                        <span>Accept → Thank you</span>
-                        <span>Decline → Alternative</span>
-                      </span>
-                      <div className="fsw-mini-downsell">Alternative offer</div>
-                      <footer>Thank-you page</footer>
-                    </div>
-                  )}
-                  {pillar.key === "payments" && (
-                    <div className="fsw-mini-payments">
-                      <strong>Your connections</strong>
-                      {["Stripe", "PayPal", "NMI"].map((provider) => (
-                        <div key={provider}>
-                          <span>{provider}</span>
-                          <i aria-hidden="true">↗</i>
-                        </div>
-                      ))}
-                      <small>Configure for your funnel</small>
-                    </div>
-                  )}
-                </div>
+                  <img
+                    src={`${shotRoot}${pillar.shot}.webp`}
+                    alt={pillar.shotAlt}
+                    width={pillar.shotW}
+                    height={pillar.shotH}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>{pillar.shotCaption}</figcaption>
+                </figure>
               </article>
             ))}
           </div>
