@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import HowItWorks from "./HowItWorks";
 import WhatYouGet from "./WhatYouGet";
 import Integrations from "./Integrations";
-import OwnStores from "./OwnStores";
-import FunnelFlow from "./FunnelFlow";
+import { TrustWall, ProofRail } from "./Proof";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
@@ -101,7 +99,6 @@ const revealGroups = [
   ".fsw-section-heading",
   ".fsw-integration-grid > article",
   ".fsw-comparison-scroll",
-  ".fsw-demo > div",
   ".fsw-feature-banner > div",
   ".fsw-faq details",
   ".fsw-final > *",
@@ -388,14 +385,31 @@ export function StackMark({ name }) {
 const buildSurfaces = ["Claude Code", "Codex", "Cursor", "your terminal"];
 export function Rotator() {
   const [i, setI] = useState(0);
+  const [text, setText] = useState(buildSurfaces[0]);
+  const [typing, setTyping] = useState(true);
+  // Typewriter: type the surface, hold it long enough to read, backspace, next.
+  // The icon swaps while the word is empty, so it never changes mid-word.
   useEffect(() => {
     if (reducedMotion()) return undefined;
-    const id = setInterval(
-      () => setI((n) => (n + 1) % buildSurfaces.length),
-      2400,
-    );
-    return () => clearInterval(id);
-  }, []);
+    const word = buildSurfaces[i];
+    if (typing) {
+      if (text.length < word.length) {
+        const t = setTimeout(() => setText(word.slice(0, text.length + 1)), 58);
+        return () => clearTimeout(t);
+      }
+      const t = setTimeout(() => setTyping(false), 1750);
+      return () => clearTimeout(t);
+    }
+    if (text.length) {
+      const t = setTimeout(() => setText(word.slice(0, text.length - 1)), 28);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => {
+      setI((n) => (n + 1) % buildSurfaces.length);
+      setTyping(true);
+    }, 260);
+    return () => clearTimeout(t);
+  }, [text, typing, i]);
   return (
     <span className="fsh-rot">
       {/* The widest option holds the box so the line never reflows mid-swap. */}
@@ -403,65 +417,16 @@ export function Rotator() {
         <BrandIcon name="Claude Code" size={44} />
         {buildSurfaces.reduce((a, b) => (b.length > a.length ? b : a))}
       </span>
-      <span key={i} className="fsh-rot-live">
+      <span className="fsh-rot-live">
         <BrandIcon name={buildSurfaces[i]} size={44} />
-        {buildSurfaces[i]}
+        <span className="fsh-rot-text">{text}</span>
+        <i className="fsh-rot-caret" aria-hidden="true" />
       </span>
+      <span className="fsh-sr">{buildSurfaces[i]}</span>
     </span>
   );
 }
 
-export const videoRoot = `${import.meta.env.BASE_URL}video/`;
-export function FunnelVideo() {
-  const ref = useRef(null);
-  const [playing, setPlaying] = useState(true);
-  function toggle() {
-    const v = ref.current;
-    if (!v) return;
-    if (v.paused) {
-      v.play();
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
-  }
-  return (
-    <section
-      className="fsh-showreel"
-      aria-label="A funnel built on FunnelStudio"
-    >
-      <figure className="fsh-showreel-frame">
-        <video
-          ref={ref}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={`${videoRoot}funnel-poster.webp`}
-          width="986"
-          height="624"
-          aria-label="Animated walkthrough: describe the funnel in a terminal, watch the landing page, checkout, upsell and thank-you step assemble, approve the preview, and see it go live on your domain — ending on the 90-day guarantee"
-        >
-          <source src={`${videoRoot}funnel.webm`} type="video/webm" />
-          <source src={`${videoRoot}funnel.mp4`} type="video/mp4" />
-        </video>
-        <button
-          type="button"
-          className="fsh-showreel-toggle"
-          onClick={toggle}
-          aria-label={playing ? "Pause the recording" : "Play the recording"}
-        >
-          <span aria-hidden="true">{playing ? "\u275a\u275a" : "\u25b6"}</span>
-        </button>
-        <figcaption>
-          Describe the change &middot; the whole funnel assembles &middot; approve, then it&rsquo;s live
-        </figcaption>
-      </figure>
-    </section>
-  );
-}
 
 export const stackLogos = [
   "Stripe",
@@ -475,7 +440,6 @@ export const stackLogos = [
 
 export default function MarketingHome() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const menuButton = useRef(null);
   useReveal(0);
   useSpotlight();
@@ -550,15 +514,13 @@ export default function MarketingHome() {
           <div className="fsh-hero-inner">
             <div className="fsh-hero-copy">
               <h1>
-                Build the whole funnel
+                Build your ecommerce store
                 <br />
                 <span>from</span> <Rotator />
               </h1>
               <p>
-                Landing page, checkout, upsell and thank-you — connected,
-                branded and live on your domain.
-                <br />
-                Your Stripe, PayPal or NMI account. Your payouts.
+                Build advertorials, checkout pages, upsell flows and split
+                tests entirely from your terminal in minutes.
               </p>
               <div className="fsh-hero-actions">
                 <StartLink />
@@ -573,51 +535,9 @@ export default function MarketingHome() {
             </div>
           </div>
         </section>
-        <FunnelVideo />
-        <section className="fsh-wall" aria-labelledby="fsh-wall-title">
-          <p className="fsh-wall-lead" id="fsh-wall-title">
-            <b>Runs on the stack you already pay for</b> — bring your own
-            accounts, keep your processor
-          </p>
-          <ul className="fsh-wall-pills">
-            {[
-              "Supplements",
-              "Skincare",
-              "Devices",
-              "Pet",
-              "Apparel",
-              "Digital",
-            ].map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-          <ul className="fsh-wall-grid">
-            {stackLogos.map((name) => (
-              <StackMark key={name} name={name} />
-            ))}
-          </ul>
-        </section>
-        <HowItWorks />
-        <OwnStores />
+        <TrustWall />
         <WhatYouGet />
         <Integrations />
-        <section
-          className="fsh-terminal-section"
-          aria-labelledby="fsh-term-title"
-        >
-          <div className="fsh-terminal-head">
-            <span className="fsh-eyebrow">
-              <i aria-hidden="true" /> From your terminal to your store
-            </span>
-            <h2 id="fsh-term-title">
-              One funnel.
-              <br />
-              <span>Every branch already wired.</span>
-            </h2>
-          </div>
-          <FunnelFlow />
-          <HeroBuild />
-        </section>
         <section
           className="fsw-comparison fsw-section"
           id="compare"
@@ -738,53 +658,6 @@ export default function MarketingHome() {
             </p>
           </div>
         </section>
-        <section className="fsw-demo fsw-section" id="demo">
-          <div>
-            <span className="fsw-eyebrow">A LOOK INSIDE THE STUDIO</span>
-            <h2>
-              Less explaining. <br />
-              More “oh, I can do that.”
-            </h2>
-            <p>See how a page comes together in FunnelStudio.</p>
-            <a
-              className="fsw-demo-link"
-              href="https://www.youtube.com/watch?v=I-rXTyKySsY"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "inline-flex", marginTop: 20, minHeight: 44 }}
-            >
-              Watch on YouTube ↗
-            </a>
-          </div>
-          <div className="fsw-demo-video">
-            {playing ? (
-              <iframe
-                src="https://www.youtube.com/embed/I-rXTyKySsY?autoplay=1&rel=0"
-                title="FunnelStudio product demo"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => setPlaying(true)}
-                aria-label="Play FunnelStudio product demo"
-              >
-                <img
-                  src="https://img.youtube.com/vi/I-rXTyKySsY/maxresdefault.jpg"
-                  alt="FunnelStudio product demo preview"
-                  loading="lazy"
-                  decoding="async"
-                  width="1280"
-                  height="720"
-                />
-                <span className="fsw-play">
-                  <span aria-hidden="true">▶</span> Watch the demo
-                </span>
-              </button>
-            )}
-          </div>
-        </section>
         <section className="fsw-feature-banner">
           <div>
             <span className="fsw-eyebrow">BUILT WITH YOU</span>
@@ -819,6 +692,7 @@ export default function MarketingHome() {
             </span>
           </div>
         </section>
+        <ProofRail />
         <section className="fsw-faq fsw-section">
           <div>
             <span className="fsw-eyebrow">
@@ -891,7 +765,6 @@ export default function MarketingHome() {
           </div>
           <div>
             <h3>Resources</h3>
-            <a href="#demo">Watch demo</a>
             <Link to="/docs">Documentation</Link>
             <Link to="/support">Support</Link>
           </div>

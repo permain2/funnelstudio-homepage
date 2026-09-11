@@ -18,3 +18,11 @@
 /* Keep the switcher clear of page content. */
 .fsw-home{padding-bottom:86px}
 @media(max-width:640px){.fsw-home{padding-bottom:72px}}
+/* two groups: page variation, then the feature-section treatment */
+.vp{gap:0;padding:5px 6px}
+.vp-group{display:flex;align-items:stretch;gap:3px}
+.vp-sep{width:1px;margin:6px 8px;background:rgba(255,255,255,.18)}
+.vp-cap{align-self:center;padding:0 6px 0 2px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#8a97ab;white-space:nowrap}
+.vp-feat a{grid-template-rows:auto;padding:8px 12px}
+.vp-feat a span{font-size:12.5px}
+@media(max-width:900px){.vp{flex-wrap:wrap;justify-content:center;border-radius:22px;max-width:calc(100vw - 20px)}.vp-sep{display:none}.vp-cap{width:100%;padding:4px 8px 2px}.vp a small{display:none}}
