@@ -2,11 +2,18 @@
 // Ecommerce's own brands, and the funnel in the showreel above is a live page
 // anyone can open. No invented metrics, no borrowed logos, no testimonials.
 const brands = [
-  { name: "Cosara", note: "adult wellness" },
-  { name: "Meo Nutrition", note: "supplements" },
-  { name: "VitaNord", note: "Nordic supplements" },
-  { name: "NomoBark", note: "pet" },
-  { name: "Linjer", note: "accessories" },
+  { name: "Cosara" },
+  { name: "Meo Nutrition" },
+  { name: "VitaNord" },
+  { name: "NomoBark" },
+  { name: "Linjer" },
+  { name: "Dermao" },
+  { name: "Gamo" },
+  { name: "BuyCosari" },
+  { name: "Meoburn" },
+  { name: "Millory" },
+  { name: "Tillskottfakta" },
+  { name: "Rosabella" },
 ];
 
 export default function OwnStores() {
@@ -29,25 +36,38 @@ export default function OwnStores() {
         </p>
       </div>
 
+      <ul className="own-pills" data-reveal="out">
+        {[
+          "Supplements",
+          "Skincare",
+          "Devices",
+          "Pet",
+          "Accessories",
+          "Digital",
+        ].map((c) => (
+          <li key={c}>{c}</li>
+        ))}
+      </ul>
+
       <ul className="own-wall" data-reveal="out">
-        {brands.map((b, i) => (
-          <li key={b.name} style={{ "--i": i }}>
-            <strong>{b.name}</strong>
-            <span>{b.note}</span>
+        {brands.map((b) => (
+          <li key={b.name}>
+            <span>{b.name}</span>
           </li>
         ))}
       </ul>
 
       <p className="own-proof" data-reveal="out">
         <span className="own-live" aria-hidden="true" />
-        The funnel in the clip above isn’t a mockup —{" "}
+        {"The funnel in the clip above isn’t a mockup — "}
         <a
           href="https://sale.meonutrition.com/berberine-pdp-a"
           target="_blank"
           rel="noopener noreferrer"
         >
           open it yourself
-        </a>, it takes real orders today.
+        </a>
+        {", it takes real orders today."}
       </p>
     </section>
   );

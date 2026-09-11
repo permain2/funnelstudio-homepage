@@ -5,6 +5,7 @@ import HowItWorks from "./HowItWorks";
 import WhatYouGet from "./WhatYouGet";
 import Integrations from "./Integrations";
 import OwnStores from "./OwnStores";
+import FunnelFlow from "./FunnelFlow";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
@@ -615,11 +616,12 @@ export default function MarketingHome() {
               <i aria-hidden="true" /> From your terminal to your store
             </span>
             <h2 id="fsh-term-title">
-              Describe the change.
+              One funnel.
               <br />
-              <span>Watch the funnel assemble.</span>
+              <span>Every branch already wired.</span>
             </h2>
           </div>
+          <FunnelFlow />
           <HeroBuild />
         </section>
         <section
