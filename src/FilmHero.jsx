@@ -16,7 +16,7 @@ export default function FilmHero() {
     v.play().catch(() => {});
   };
   return (
-    <section className="fh" aria-label="FunnelStudio in 38 seconds">
+    <section className="fh" aria-label="FunnelStudio in 58 seconds">
       <figure className={`fh-frame${on ? " is-on" : ""}`}>
         <video
           ref={ref}
@@ -40,7 +40,7 @@ export default function FilmHero() {
             </span>
             <span className="fh-play-text">
               <b>Watch the film</b>
-              <small>0:38 · with sound</small>
+              <small>0:58 · with sound</small>
             </span>
           </button>
         )}
