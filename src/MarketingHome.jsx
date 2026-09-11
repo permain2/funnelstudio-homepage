@@ -600,6 +600,97 @@ export default function MarketingHome() {
         <HowItWorks />
         <WhatYouGet />
         <section
+          className="fsw-integrations fsw-section"
+          id="integrations"
+          aria-labelledby="fsw-integrations-title"
+        >
+          <div className="fsw-section-heading">
+            <div>
+              <span className="fsw-eyebrow">CONNECTED TO HOW YOU SELL</span>
+              <h2 id="fsw-integrations-title">
+                Your processors.
+                <br />
+                Your tax stack. Your rules.
+              </h2>
+            </div>
+            <p>
+              Connect supported payment providers, tax services, and commerce
+              tools. Configure your accounts and choose the setup that fits your
+              funnel.
+            </p>
+          </div>
+          <div className="fsw-integration-grid">
+            <article>
+              <span className="fsw-integration-number">PAYMENTS</span>
+              <h3>Keep your payment connections.</h3>
+              <p>
+                Connect supported processors to your checkout. Configure your
+                merchant account and choose the payment options that fit your
+                funnel.
+              </p>
+              <div className="fsw-integration-names">
+                <span>
+                  <BrandIcon name="Stripe" size={18} />
+                  Stripe
+                </span>
+                <span>
+                  <BrandIcon name="PayPal" size={18} />
+                  PayPal
+                </span>
+                <span>
+                  <BrandIcon name="NMI" size={18} />
+                  NMI
+                </span>
+              </div>
+            </article>
+            <article>
+              <span className="fsw-integration-number">TAX</span>
+              <h3>Make tax part of the checkout.</h3>
+              <p>
+                Connect Zamp for tax calculation. Set up the service and review
+                your checkout configuration before launch.
+              </p>
+              <div className="fsw-integration-names">
+                <span>
+                  <BrandIcon name="Zamp" size={18} />
+                  Zamp
+                </span>
+              </div>
+            </article>
+            <article>
+              <span className="fsw-integration-number">COMMERCE</span>
+              <h3>Bring the rest of your stack.</h3>
+              <p>
+                Connect your Shopify catalog and Klaviyo customer marketing to
+                the funnel experience you’re building.
+              </p>
+              <div className="fsw-integration-names">
+                <span>
+                  <BrandIcon name="Shopify" size={18} />
+                  Shopify
+                </span>
+                <span>
+                  <BrandIcon name="Klaviyo" size={18} />
+                  Klaviyo
+                </span>
+              </div>
+            </article>
+          </div>
+          <div className="fsw-integrations-footer">
+            <span>
+              Availability depends on provider and merchant configuration.
+            </span>
+            <Link
+              className="fsw-text-link"
+              to="https://calendly.com/markusa/markus-call-ecom"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Talk through your integrations <Arrow />
+            </Link>
+          </div>
+        </section>
+        <section
           className="fsh-terminal-section"
           aria-labelledby="fsh-term-title"
         >
@@ -614,42 +705,6 @@ export default function MarketingHome() {
             </h2>
           </div>
           <HeroBuild />
-        </section>
-        <section className="fsw-intro fsw-section" id="how">
-          <span className="fsw-eyebrow">
-            YOUR NEXT VARIATION STARTS WITH A PROMPT
-          </span>
-          <h2>
-            Move from insight
-            <br />
-            to your next split test.
-          </h2>
-          <div className="fsw-intro-steps">
-            <div>
-              <span>01 / DATA</span>
-              <h3>Review your data.</h3>
-              <p>
-                Find the next opportunity in your campaign and store data. Use
-                the insight to brief AI on a focused variation.
-              </p>
-            </div>
-            <div>
-              <span>02 / PREVIEW</span>
-              <h3>Build it. Preview it.</h3>
-              <p>
-                Create a new page or buying journey from your brief. Preview the
-                checkout, upsell, and thank-you experience before it goes live.
-              </p>
-            </div>
-            <div>
-              <span>03 / LAUNCH</span>
-              <h3>Launch your split test.</h3>
-              <p>
-                Compare your variation with the original. Measure the result,
-                learn what connects, and choose what to test next.
-              </p>
-            </div>
-          </div>
         </section>
         <section
           className="fsw-growth-journey fsw-section"
@@ -898,97 +953,6 @@ export default function MarketingHome() {
               </a>{" "}
               · <Link to="/api-docs">FunnelStudio API</Link>
             </p>
-          </div>
-        </section>
-        <section
-          className="fsw-integrations fsw-section"
-          id="integrations"
-          aria-labelledby="fsw-integrations-title"
-        >
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">CONNECTED TO HOW YOU SELL</span>
-              <h2 id="fsw-integrations-title">
-                Your processors.
-                <br />
-                Your tax stack. Your rules.
-              </h2>
-            </div>
-            <p>
-              Connect supported payment providers, tax services, and commerce
-              tools. Configure your accounts and choose the setup that fits your
-              funnel.
-            </p>
-          </div>
-          <div className="fsw-integration-grid">
-            <article>
-              <span className="fsw-integration-number">PAYMENTS</span>
-              <h3>Keep your payment connections.</h3>
-              <p>
-                Connect supported processors to your checkout. Configure your
-                merchant account and choose the payment options that fit your
-                funnel.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Stripe" size={18} />
-                  Stripe
-                </span>
-                <span>
-                  <BrandIcon name="PayPal" size={18} />
-                  PayPal
-                </span>
-                <span>
-                  <BrandIcon name="NMI" size={18} />
-                  NMI
-                </span>
-              </div>
-            </article>
-            <article>
-              <span className="fsw-integration-number">TAX</span>
-              <h3>Make tax part of the checkout.</h3>
-              <p>
-                Connect Zamp for tax calculation. Set up the service and review
-                your checkout configuration before launch.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Zamp" size={18} />
-                  Zamp
-                </span>
-              </div>
-            </article>
-            <article>
-              <span className="fsw-integration-number">COMMERCE</span>
-              <h3>Bring the rest of your stack.</h3>
-              <p>
-                Connect your Shopify catalog and Klaviyo customer marketing to
-                the funnel experience you’re building.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Shopify" size={18} />
-                  Shopify
-                </span>
-                <span>
-                  <BrandIcon name="Klaviyo" size={18} />
-                  Klaviyo
-                </span>
-              </div>
-            </article>
-          </div>
-          <div className="fsw-integrations-footer">
-            <span>
-              Availability depends on provider and merchant configuration.
-            </span>
-            <Link
-              className="fsw-text-link"
-              to="https://calendly.com/markusa/markus-call-ecom"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Talk through your integrations <Arrow />
-            </Link>
           </div>
         </section>
         <section className="fsw-demo fsw-section" id="demo">

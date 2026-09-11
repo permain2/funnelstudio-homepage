@@ -420,3 +420,24 @@
 
 @media(max-width:1000px){.wyg-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wyg-card,.wyg-card.is-wide{grid-column:span 2}.wyg-lang{grid-column:span 4}}
 @media(max-width:680px){.wyg{padding:42px 18px}.wyg-grid{grid-template-columns:1fr}.wyg-card,.wyg-card.is-wide,.wyg-lang{grid-column:span 1}.wyg-art{margin:16px -22px -22px}}
+
+/* ── Integrations restyled to their band: centred lead, even cards, the real
+   marks carrying the row rather than text doing it. ────────────────────── */
+.fsw-home .fsw-integrations{background:#fff;margin:0 16px;padding:clamp(50px,5.4vw,92px) clamp(22px,4.5vw,72px) clamp(46px,5vw,78px);border-radius:0}
+.fsw-home .fsw-integrations .fsw-section-heading{display:block;text-align:center;max-width:760px;margin:0 auto clamp(28px,3.2vw,46px)}
+.fsw-home .fsw-integrations .fsw-section-heading h2{font-size:clamp(28px,3.4vw,48px);letter-spacing:-.04em;line-height:1.07;font-weight:600}
+.fsw-home .fsw-integrations .fsw-section-heading>p{margin:16px auto 0;max-width:58ch;color:#5a6365;font-size:15.5px}
+.fsw-home .fsw-integration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.6vw,20px)}
+.fsw-home .fsw-integration-grid>article{display:flex;flex-direction:column;padding:clamp(22px,2.2vw,30px);border:1px solid #e8e8e4;border-radius:16px;background:#fff;transition:border-color .25s,box-shadow .25s,transform .25s cubic-bezier(.16,1,.3,1)}
+.fsw-home .fsw-integration-grid>article:hover{border-color:#d8dde6;box-shadow:0 14px 36px rgba(17,24,28,.08);transform:translateY(-2px)}
+.fsw-home .fsw-integration-number{font-family:var(--fsh-mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:#98a0aa}
+.fsw-home .fsw-integration-grid h3{margin-top:12px;font-size:clamp(16.5px,1.35vw,19px);font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.fsw-home .fsw-integration-grid p{margin-top:10px;color:#5a6365;font-size:14.5px;line-height:1.6}
+/* The marks sit on their own row, sized up so they read as logos not bullets. */
+.fsw-home .fsw-integration-names{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:22px;border:none}
+.fsw-home .fsw-integration-names span{display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border:1px solid #eceae6;border-radius:10px;background:#fafafa;font-size:13.5px;font-weight:500;color:#3c4551;transition:border-color .2s,background .2s}
+.fsw-home .fsw-integration-names span:hover{border-color:#d8dde6;background:#fff}
+.fsw-home .fsw-integration-names .fsh-mark{width:20px;height:20px}
+.fsw-home .fsw-integrations-footer{margin-top:clamp(24px,2.6vw,36px);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:13px;color:#98a0aa}
+@media(max-width:900px){.fsw-home .fsw-integration-grid{grid-template-columns:1fr}}
+@media(max-width:540px){.fsw-home .fsw-integrations{margin:0 10px;padding:40px 18px 34px}}
