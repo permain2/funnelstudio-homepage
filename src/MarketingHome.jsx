@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import HowItWorks from "./HowItWorks";
 import WhatYouGet from "./WhatYouGet";
 import Integrations from "./Integrations";
+import OwnStores from "./OwnStores";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
@@ -602,6 +603,7 @@ export default function MarketingHome() {
           </ul>
         </section>
         <HowItWorks />
+        <OwnStores />
         <WhatYouGet />
         <Integrations />
         <section

@@ -478,3 +478,21 @@
 
 @media(max-width:1000px){.itg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.itg-any{grid-template-columns:1fr}}
 @media(max-width:620px){.itg{padding:42px 18px}.itg-grid{grid-template-columns:1fr}}
+
+/* ── First-party proof: the brands the platform was built for ───────────── */
+.own{background:#fafafa;border-block:1px solid #f0f0ed;padding:clamp(52px,5.6vw,94px) clamp(22px,4.5vw,72px)}
+.own-head{max-width:760px;margin:0 auto clamp(28px,3.2vw,46px);text-align:center}
+.own-head h2{margin-top:16px;font-size:clamp(28px,3.4vw,48px);letter-spacing:-.042em;line-height:1.06;font-weight:600}
+.own-head h2 span{color:var(--fsw-blue)}
+.own-head>p{margin:18px auto 0;max-width:62ch;color:#5a6365;font-size:15.5px;line-height:1.64}
+.own-wall{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:0 auto;padding:0;max-width:1080px;border:1px solid #e8e8e4;border-radius:16px;background:#fff;overflow:hidden}
+.own-wall li{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:26px 12px;border-right:1px solid #f0f0ed;text-align:center;transition:background .25s}
+.own-wall li:last-child{border-right:none}
+.own-wall li:hover{background:#fafafa}
+.own-wall strong{font-family:'Wix Madefor Display',sans-serif;font-size:clamp(15px,1.3vw,18px);font-weight:600;letter-spacing:-.025em;color:var(--fsw-ink)}
+.own-wall span{font-family:var(--fsh-mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#98a0aa}
+.own-proof{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin:clamp(22px,2.4vw,32px) auto 0;font-size:14px;color:#5a6365;text-align:center}
+.own-proof a{color:var(--fsw-blue);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.own-live{width:8px;height:8px;border-radius:50%;background:#159201;box-shadow:0 0 0 4px rgba(21,146,1,.14);flex-shrink:0}
+@media(max-width:900px){.own-wall{grid-template-columns:repeat(3,minmax(0,1fr))}.own-wall li:nth-child(3n){border-right:none}.own-wall li{border-bottom:1px solid #f0f0ed}}
+@media(max-width:560px){.own{padding:42px 18px}.own-wall{grid-template-columns:repeat(2,minmax(0,1fr))}.own-wall li:nth-child(3n){border-right:1px solid #f0f0ed}.own-wall li:nth-child(2n){border-right:none}}
