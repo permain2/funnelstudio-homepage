@@ -369,3 +369,20 @@
 .fsh-wall-pills{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 18px;padding:0}
 .fsh-wall-pills li{padding:7px 15px;border:1px solid #e6e6e2;border-radius:999px;font-size:13px;color:#5a6365;background:#fff;transition:border-color .2s,color .2s}
 .fsh-wall-pills li:hover{border-color:#c9c9c4;color:var(--fsw-ink)}
+
+/* ── Measured against their hero at 1440 and matched ─────────────────────
+   theirs: 68px/80px, weight 600, tracking normal, block ~567px wide,
+   video 1144px, body #fff. Mine was 70px/72.8px at weight 400 and −3.36px
+   tracking on a #f5f5f3 ground — which is why it never read as similar. */
+.fsw-home.fsw-home{background:#fff}
+.fsw-home .fsh-hero h1{font-size:clamp(38px,4.72vw,68px);line-height:1.18;font-weight:600;letter-spacing:-.018em;margin-top:0;max-width:15ch;margin-inline:auto}
+.fsw-home .fsh-hero-copy>p{font-size:clamp(15px,1.15vw,17px);line-height:1.55;max-width:56ch}
+.fsw-home .fsh-hero-inner{padding-top:clamp(46px,5.4vw,84px)}
+.fsw-home .fsh-showreel-frame{max-width:1144px}
+/* The page was reading as cards on paper; theirs is continuous white with a
+   single tinted band, so keep one and drop the rest. */
+.fsw-home .fsw-intro,.fsw-home .fsw-benefits,.fsw-home .fsw-comparison,.fsw-home .fsh-terminal-section,.fsw-home .hiw{background:#fff}
+.fsw-home .fsw-demo{background:#fafafa}
+.fsw-home .fsw-build-showcase{background:#f7f8fb}
+/* The explicit <br> sets the two lines; the ch cap was forcing a third. */
+.fsw-home .fsh-hero h1{max-width:22ch}

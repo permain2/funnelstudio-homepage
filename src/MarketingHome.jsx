@@ -1251,19 +1251,16 @@ export default function MarketingHome() {
         <section className="fsw-hero fsh-hero">
           <div className="fsh-hero-inner">
             <div className="fsh-hero-copy">
-              <span className="fsh-eyebrow">
-                <i aria-hidden="true" /> Ecommerce funnels, built by prompt
-              </span>
               <h1>
                 Build the whole funnel
                 <br />
                 <span>from</span> <Rotator />
               </h1>
               <p>
-                Landing page, checkout, upsell and thank-you, connected and
-                branded.
+                Landing page, checkout, upsell and thank-you — connected,
+                branded and live on your domain.
                 <br />
-                Bring your own Stripe, PayPal or NMI account.
+                Your Stripe, PayPal or NMI account. Your payouts.
               </p>
               <div className="fsh-hero-actions">
                 <StartLink />
