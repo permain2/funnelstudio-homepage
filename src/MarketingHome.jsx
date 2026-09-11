@@ -1032,6 +1032,30 @@ function StackMark({ name }) {
   );
 }
 
+const buildSurfaces = ["Claude Code", "Codex", "Cursor", "your terminal"];
+function Rotator() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (reducedMotion()) return undefined;
+    const id = setInterval(
+      () => setI((n) => (n + 1) % buildSurfaces.length),
+      2400,
+    );
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="fsh-rot">
+      {/* The widest option holds the box so the line never reflows mid-swap. */}
+      <span className="fsh-rot-ghost" aria-hidden="true">
+        {buildSurfaces.reduce((a, b) => (b.length > a.length ? b : a))}
+      </span>
+      <span key={i} className="fsh-rot-live">
+        {buildSurfaces[i]}
+      </span>
+    </span>
+  );
+}
+
 const videoRoot = `${import.meta.env.BASE_URL}video/`;
 function FunnelVideo() {
   const ref = useRef(null);
@@ -1048,17 +1072,10 @@ function FunnelVideo() {
     }
   }
   return (
-    <section className="fsh-showreel" aria-labelledby="fsh-showreel-title">
-      <div className="fsh-showreel-head">
-        <span className="fsh-eyebrow">
-          <i aria-hidden="true" /> A funnel built on FunnelStudio
-        </span>
-        <h2 id="fsh-showreel-title">
-          Offer tiers, order bumps, checkout.
-          <br />
-          <span>One journey, live right now.</span>
-        </h2>
-      </div>
+    <section
+      className="fsh-showreel"
+      aria-label="A funnel built on FunnelStudio"
+    >
       <figure className="fsh-showreel-frame">
         <video
           ref={ref}
@@ -1237,31 +1254,26 @@ export default function MarketingHome() {
                 <i aria-hidden="true" /> Ecommerce funnels, built by prompt
               </span>
               <h1>
-                Ship the next variation
+                Build the whole funnel
                 <br />
-                <span>before the ad fatigues.</span>
+                <span>from</span> <Rotator />
               </h1>
               <p>
-                Describe the page you want. FunnelStudio builds the landing
-                page, checkout, upsell and thank-you step, connects them, and
-                hands back a preview link you approve before it goes live.
+                Landing page, checkout, upsell and thank-you, connected and
+                branded.
+                <br />
+                Bring your own Stripe, PayPal or NMI account.
               </p>
               <div className="fsh-hero-actions">
                 <StartLink />
-                <Link
-                  className="fsw-button fsh-button-ghost"
-                  to="https://calendly.com/markusa/markus-call-ecom"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Schedule a demo
-                </Link>
               </div>
               <p className="fsh-hero-note">
-                Free to start · Bring your own Stripe, PayPal or NMI account
+                Free to start. <b>Your processor, your payouts.</b>
+                <span className="fsh-check" aria-hidden="true">
+                  ✓
+                </span>
               </p>
             </div>
-            <HeroBuild />
           </div>
         </section>
         <FunnelVideo />
@@ -1275,6 +1287,22 @@ export default function MarketingHome() {
               <StackMark key={name} name={name} />
             ))}
           </ul>
+        </section>
+        <section
+          className="fsh-terminal-section"
+          aria-labelledby="fsh-term-title"
+        >
+          <div className="fsh-terminal-head">
+            <span className="fsh-eyebrow">
+              <i aria-hidden="true" /> From your terminal to your store
+            </span>
+            <h2 id="fsh-term-title">
+              Describe the change.
+              <br />
+              <span>Watch the funnel assemble.</span>
+            </h2>
+          </div>
+          <HeroBuild />
         </section>
         <section className="fsw-intro fsw-section" id="how">
           <span className="fsw-eyebrow">
@@ -1338,8 +1366,8 @@ export default function MarketingHome() {
                 shot: "checkout",
                 shotAlt:
                   "A live FunnelStudio checkout: contact, delivery and order summary on one page",
-                shotW: 1100,
-                shotH: 730,
+                shotW: 1000,
+                shotH: 640,
                 shotCaption: "Live checkout · sale.meonutrition.com",
                 index: 1,
                 title: "Increase Sales with a Focused Checkout",
@@ -1356,8 +1384,8 @@ export default function MarketingHome() {
                 shot: "bundles",
                 shotAlt:
                   "Three live bundle tiers with per-bottle pricing and savings badges",
-                shotW: 1100,
-                shotH: 591,
+                shotW: 1000,
+                shotH: 640,
                 shotCaption: "Live offer tiers · sale.meonutrition.com",
                 index: 3,
                 title: "Full Control & Customization",
@@ -1376,8 +1404,8 @@ export default function MarketingHome() {
                 shot: "bumps",
                 shotAlt:
                   "Four order bumps included with the bundle, each showing its free value",
-                shotW: 1100,
-                shotH: 571,
+                shotW: 1000,
+                shotH: 640,
                 shotCaption: "Live order bumps · sale.meonutrition.com",
                 index: 2,
                 title:
@@ -1397,7 +1425,7 @@ export default function MarketingHome() {
                 shotAlt:
                   "The card payment step of a live checkout with accepted card brands",
                 shotW: 1000,
-                shotH: 329,
+                shotH: 640,
                 shotCaption: "Live payment step · sale.meonutrition.com",
                 index: 1,
                 title: "Flexible Payment Options for Your Business",
