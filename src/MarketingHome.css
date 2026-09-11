@@ -441,3 +441,40 @@
 .fsw-home .fsw-integrations-footer{margin-top:clamp(24px,2.6vw,36px);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:13px;color:#98a0aa}
 @media(max-width:900px){.fsw-home .fsw-integration-grid{grid-template-columns:1fr}}
 @media(max-width:540px){.fsw-home .fsw-integrations{margin:0 10px;padding:40px 18px 34px}}
+
+/* ── Integrations: what ships, then everything the API reaches ──────────── */
+.itg{background:#fff;padding:clamp(52px,5.6vw,96px) clamp(22px,4.5vw,72px)}
+.itg-head{max-width:760px;margin:0 auto clamp(30px,3.4vw,50px);text-align:center}
+.itg-head h2{margin-top:16px;font-size:clamp(28px,3.4vw,48px);letter-spacing:-.04em;line-height:1.07;font-weight:600}
+.itg-head h2 span{color:#6b7280}
+.itg-head>p{margin:16px auto 0;max-width:56ch;color:#5a6365;font-size:15.5px;line-height:1.6}
+.itg-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(13px,1.4vw,18px)}
+.itg-grid article{display:flex;flex-direction:column;padding:clamp(20px,2vw,26px);border:1px solid #e8e8e4;border-radius:15px;background:#fff;transition:border-color .25s,box-shadow .25s,transform .25s cubic-bezier(.16,1,.3,1)}
+.itg-grid article:hover{border-color:#d8dde6;box-shadow:0 14px 34px rgba(17,24,28,.08);transform:translateY(-2px)}
+.itg-label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+.itg-label b{font-family:var(--fsh-mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#159201;background:#eaf6e7;border-radius:999px;padding:4px 8px}
+.itg-grid p{margin-top:10px;color:#5a6365;font-size:13.5px;line-height:1.58}
+.itg-grid ul{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin:auto 0 0;padding-top:18px}
+.itg-grid li{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #eceae6;border-radius:9px;background:#fafafa;font-size:13px;font-weight:500;color:#3c4551}
+
+.itg-any{margin-top:clamp(16px,1.6vw,20px);display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(24px,3vw,46px);align-items:start;padding:clamp(24px,2.6vw,38px);border:1px solid #e8e8e4;border-radius:16px;background:#fafafa}
+.itg-any h3{font-size:clamp(19px,1.7vw,24px);font-weight:600;letter-spacing:-.025em;line-height:1.2}
+.itg-any-copy p{margin-top:12px;color:#5a6365;font-size:14.5px;line-height:1.6}
+.itg-any-copy .fsw-text-link{display:inline-flex;gap:7px;margin-top:16px;color:var(--fsw-blue);font-size:14px;font-weight:500}
+.itg-any-grid{display:grid;gap:16px}
+.itg-any-grid>div>span{font-family:var(--fsh-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#98a0aa}
+.itg-any-grid ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0}
+.itg-any-grid li{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid #eceae6;border-radius:8px;background:#fff;font-size:12.5px;color:#5a6365}
+.itg-any-grid .fsh-mark{width:17px;height:17px}
+.itg-note{margin-top:22px;text-align:center;font-size:12.5px;color:#98a0aa}
+
+/* A bento card's art must not be a grey void while its image decodes. */
+.wyg-art{background:#f7f8fb;position:relative}
+.wyg-art::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#f2f4f8 8%,#e9edf4 18%,#f2f4f8 33%);background-size:280% 100%;animation:wyg-shimmer 1.5s linear infinite}
+.wyg-art img{position:relative}
+.wyg-art img[src]{background:#f7f8fb}
+@keyframes wyg-shimmer{to{background-position:-180% 0}}
+@media(prefers-reduced-motion:reduce){.wyg-art::before{animation:none}}
+
+@media(max-width:1000px){.itg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.itg-any{grid-template-columns:1fr}}
+@media(max-width:620px){.itg{padding:42px 18px}.itg-grid{grid-template-columns:1fr}}

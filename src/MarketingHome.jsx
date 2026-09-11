@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import HowItWorks from "./HowItWorks";
 import WhatYouGet from "./WhatYouGet";
+import Integrations from "./Integrations";
 import "./MarketingHome.css";
 
 const previewRoot = `${import.meta.env.BASE_URL}cards/`;
@@ -360,6 +361,10 @@ const iconSlug = {
   Shopify: "shopify",
   Klaviyo: "klaviyo",
   Zamp: "zamp",
+  Meta: "facebook",
+  Google: "google",
+  HYROS: "hyros",
+  ClickMagick: "clickmagick",
 };
 export function BrandIcon({ name, size = 20 }) {
   const slug = iconSlug[name];
@@ -371,7 +376,6 @@ export function BrandIcon({ name, size = 20 }) {
       alt=""
       width={size}
       height={size}
-      loading="lazy"
       decoding="async"
     />
   );
@@ -599,97 +603,7 @@ export default function MarketingHome() {
         </section>
         <HowItWorks />
         <WhatYouGet />
-        <section
-          className="fsw-integrations fsw-section"
-          id="integrations"
-          aria-labelledby="fsw-integrations-title"
-        >
-          <div className="fsw-section-heading">
-            <div>
-              <span className="fsw-eyebrow">CONNECTED TO HOW YOU SELL</span>
-              <h2 id="fsw-integrations-title">
-                Your processors.
-                <br />
-                Your tax stack. Your rules.
-              </h2>
-            </div>
-            <p>
-              Connect supported payment providers, tax services, and commerce
-              tools. Configure your accounts and choose the setup that fits your
-              funnel.
-            </p>
-          </div>
-          <div className="fsw-integration-grid">
-            <article>
-              <span className="fsw-integration-number">PAYMENTS</span>
-              <h3>Keep your payment connections.</h3>
-              <p>
-                Connect supported processors to your checkout. Configure your
-                merchant account and choose the payment options that fit your
-                funnel.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Stripe" size={18} />
-                  Stripe
-                </span>
-                <span>
-                  <BrandIcon name="PayPal" size={18} />
-                  PayPal
-                </span>
-                <span>
-                  <BrandIcon name="NMI" size={18} />
-                  NMI
-                </span>
-              </div>
-            </article>
-            <article>
-              <span className="fsw-integration-number">TAX</span>
-              <h3>Make tax part of the checkout.</h3>
-              <p>
-                Connect Zamp for tax calculation. Set up the service and review
-                your checkout configuration before launch.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Zamp" size={18} />
-                  Zamp
-                </span>
-              </div>
-            </article>
-            <article>
-              <span className="fsw-integration-number">COMMERCE</span>
-              <h3>Bring the rest of your stack.</h3>
-              <p>
-                Connect your Shopify catalog and Klaviyo customer marketing to
-                the funnel experience you’re building.
-              </p>
-              <div className="fsw-integration-names">
-                <span>
-                  <BrandIcon name="Shopify" size={18} />
-                  Shopify
-                </span>
-                <span>
-                  <BrandIcon name="Klaviyo" size={18} />
-                  Klaviyo
-                </span>
-              </div>
-            </article>
-          </div>
-          <div className="fsw-integrations-footer">
-            <span>
-              Availability depends on provider and merchant configuration.
-            </span>
-            <Link
-              className="fsw-text-link"
-              to="https://calendly.com/markusa/markus-call-ecom"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Talk through your integrations <Arrow />
-            </Link>
-          </div>
-        </section>
+        <Integrations />
         <section
           className="fsh-terminal-section"
           aria-labelledby="fsh-term-title"
